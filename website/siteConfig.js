@@ -90,7 +90,7 @@ const siteConfig = {
 
 	// Add custom scripts here that would be placed in <script> tags.
 	scripts: [
-		'https://buttons.github.io/buttons.js',
+		'/js/buttons.js',
 		'/js/clipboard.min.js',
 		'/js/code-block-buttons.js',
 		'/js/load.js',
@@ -126,7 +126,7 @@ const siteConfig = {
 
 	// You may provide arbitrary config keys to be used as needed by your
 	// template. For example, if you need your repo's URL...
-	repoUrl: 'https://github.com/substrate-developer-hub/substrate-developer-hub.github.io',
+	repoUrl: 'https://github.com/lbc-team/substrate-dev-docs',
 
 	// Directories inside which any CSS files will not be processed and
 	// concatenated to Docusaurus' styles. This is to support static HTML pages
@@ -137,13 +137,13 @@ const siteConfig = {
 	usePrism: true,
 
 	// Edit this page button
-	editUrl: 'https://github.com/substrate-developer-hub/substrate-developer-hub.github.io/edit/source/docs/',
+	editUrl: 'https://github.com/lbc-team/substrate-dev-docs/edit/source/docs/',
 
 	// Scroll to top button at the bottom
 	scrollToTop: true,
 
 	// Style sheets to import
-	stylesheets: [ 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' ],
+	stylesheets: [ 'https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css' ],
 
 	// Translation recruitment link, appears in the language drop down as "Help Translate"
 	translationRecruitingLink: 'https://crowdin.com/project/substrate-developer-hub',
