@@ -1,273 +1,272 @@
 ---
 id: getting-started
-title: Getting Started
+title: 开始入门
 ---
 
-This page has everything you need to get started building with Substrate.
+# 开始入门
 
-## Get Help
+这一页有你开始构建 Substrate 的一切信息。
 
-Substrate is a bleeding edge blockchain development framework, and as a result, you may encounter some breaking changes or issues along the way.
+## 寻求帮助
 
-Know that we are very happy to help you get started building with Substrate, so if you encounter any issues, simply reach out to us by:
+Substrate 是一个尚未稳定的区块链开发框架，结果就是，你可能在使用的过程中会遇到一些不兼容的更改或者bug。
 
-* [Opening an issue on GitHub](https://github.com/substrate-developer-hub/substrate-developer-hub.github.io/issues/new)
-* [Chatting with us on Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)
+知道这些之后（若你还想要继续下去，）我们很高心帮助你开构建 Substrate，若有遇到问题，可通过下面的方式联系我们：
 
-## Prerequisites
+* [在 Github 上开一个issue](https://github.com/substrate-developer-hub/substrate-developer-hub.github.io/issues/new)
+* [在 Riot 上和我们交流](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)
 
-To develop in the Substrate ecosystem, you must set up your developer environment. Depending on your operating system, these instructions may be different.
 
-## Fast Installation 
+## 预备知识
+为了在 Substrate 生态中进行开发，你必须设置你的开发环境。根据你操作系统，这些指令可能略有不同。
 
-### Unix Based Operating Systems
+## 快速安装
 
-Mac OS, Arch, or a Debian-based OS like Ubuntu:
+### 基于 Unix 的操作系统
 
-```bash
+Mac OS, Arch 或者基于 Debian 的操作系统，比如 Ubuntu：
+
+```
 curl https://getsubstrate.io -sSf | bash -s -- --fast
 ```
 
-## Manual Installation
+## 手动安装
 
 ### Debian
 
-Run:
+运行：
 
-```bash
+```
 sudo apt install -y cmake pkg-config libssl-dev git gcc build-essential clang libclang-dev
 ```
 
 ### MacOS
 
-Install the [Homebrew package manager](https://brew.sh/), then run:
+先安装 Homebrew 包管理器，然后运行:
 
-```bash
+```
 brew install openssl cmake llvm
 ```
 
 ### Windows
 
-Because Windows installation instructions vary widely from standard unix-like operating systems, we have separated the setup instructions to their own comprehensive section at the bottom of this page.
+因为 window 的安装指令与标准的类 unix 操作系统大不相同，（所以）我们把这部分的安装指令单独列出来放在了本页的底部。
 
-Go to: [Getting Started on Windows](#getting-started-on-windows)
+前往：[在 Window 上开始](https://substrate.dev/docs/en/overview/getting-started#getting-started-on-windows)
 
-## Rust Developer Environment
+## Rust 开发环境
 
-Substrate uses the Rust programming language. You should [install Rust](https://www.rust-lang.org/tools/install) using `rustup`:
+Substrate 使用 rust 编程语言（开发）。你应该使用 `rustup` 来安装 ：
 
 ```
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-Then make sure that you are using the latest Rust stable by default:
+然后（运行下面的命令）确保你使用的是 rust 最新的稳定版本：
 
 ```
 rustup default stable
 ```
 
-### Wasm Compilation
+### Wasm 编译
 
-Substrate uses WebAssembly (Wasm), and you will need to configure your Rust compiler to use `nightly` to support this build target.
+Substrate 使用 webassembly(Wasm)，并且你需要配置 rust 编译器使用 nightly 来支持这个编译目标（译注：指Wasm）。
 
-Run the following:
+使用下面的命令：
 
-```bash
+```
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
 ```
 
-### Rustup Update
+### 更新 rustup
 
-Substrate always uses the latest version of Rust stable and nightly for compilation. To ensure your Rust compiler is always up to date, you should run:
+Substrate 总是使用 rust 最新的稳定版以及 nightly 版编译。为了确保你的 rust 编译器总是最新的，你应该运行（下面的命令）：
 
 ```
 rustup update
 ```
 
-This may even solve compilation issues you face when working with Substrate.
+这甚至可能解决你在使用 Substrate 时遇到的一些编译问题。
 
-## Front-End Developer Environment
+## 前端开发环境
 
-Substrate uses Yarn for all of it's front-end development needs. Visit the [install instructions](https://yarnpkg.com/en/docs/install) for Yarn to set up your computer.
+Substrate 使用 Yarn 来管理所有的前端开发需求。访问 [Yarn 的安装说明](https://yarnpkg.com/en/docs/install)来设置你的计算机。
 
-Make sure you have the latest stable version of Node.js (`>= 10.16.3`) and Yarn (`>= 1.19.0`).
+确保你（安装了）最新稳定版的 Node.js(`>=10.16.3`) 以及 Yarn(`>=1.19.0`)。
 
-## Get the Source
+## 获取源码
 
-Depending on what you are looking to build, there are some different starting points for Substrate development.
+根据你要构建的内容，这里有一些不同的 Substrate 开发的起始点
 
-> **Note:** You can add the `--help` flag to any command to see additional options.
+> **注意:** 任何命令你都可以添加 `--help` 标签来查看一些额外的帮助信息。
 
 ### Substrate
+Substrate 的主项目包含了所有为基于 Substrate 的链提供动力的核心库，（包括）一个运行 Substrate 测试网络的预编译节点，一个用于生成密钥的被叫做 Subkey 的工具。
 
-The main Substrate project contains all core libraries which power Substrate-based chains, a pre-built node for running the Substrate testnet, and a key generation utility called Subkey.
+如果你计划给 Substrate 项目做贡献或者如果你想要运行 Substrate 测试网络或 Subkey的话，从这里开始是比较合理的。
 
-This starting point makes sense if you plan to contribute to the Substrate project or if you want to run the Substrate testnet or Subkey.
-
-Get the project:
+使用下面的命令获取项目（源码）：
 
 ```
 git clone https://github.com/paritytech/substrate
 ```
 
-Build the project with:
+使用下面的命令编译项目（源码）：
 
-```bash
+```
 cargo build --release
 ```
 
-Test the project with:
+使用下面的命令测试项目：
 
 ```
 cargo test --all
 ```
 
-Start the Substrate node with:
+使用下面的命令启动 Substrate 的节点：
 
-```bash
+```
 ./target/release/substrate
 ```
 
-#### Install the Substrate Node Locally
+### 在本地安装 Substrate 的节点
 
-You can install the Substrate node binary locally for easy access to running a node.
+你可以在本地安装 Substrate 节点的二进制程序，以便简单的运行一个节点。
 
-In the Substrate project folder, run:
+在 Substrate 项目的目录下，运行下面的命令：
 
 ```
 cargo install --force --path ./bin/node/cli/
 ```
 
-You can then run this generated binary with:
+然后你就可以运行（刚才）生成的这个二进制程序了：
 
-```bash
+```
 substrate
 ```
 
-#### Install Subkey Locally
+### 在本地安装 Subkey
 
-You can install the Subkey binary locally for easy access to this utility.
+你可以在本地安装 Subkey 二进制程序，以便简单的使用这个工具。
 
-In the Substrate project folder, run:
+在 Substrate 项目的目录下，运行下面的命令：
 
-```bash
+```
 cargo install --force --path ./bin/utils/subkey subkey
 ```
 
-You can then run this generated binary with:
+然后你就可以运行（刚才）生成的这个二进制程序了：
 
-```bash
+```
 subkey
 ```
 
-## Interact with Substrate
+## 与 Substrate 的交互
 
-The fastest way to interact with any local or public Substrate network is to visit Polkadot-JS Apps:
+与任何本地或公共的 Substrate 网络进行交互的最快的方式就是访问 Polkadot-JS Apps:
 
-[https://polkadot.js.org/apps/](https://polkadot.js.org/apps/)
+https://polkadot.js.org/apps/
 
-You can find the docs for the Polkadot-JS ecosystem at:
+你可以在（下面链接中）找到 Polkadot-JS 生态的相关文档：
 
-[https://polkadot.js.org/](https://polkadot.js.org/)
+https://polkadot.js.org/
 
+## Substrate 节点模板
 
-### Substrate Node Template
+我们提供了一个最小可用的 Substrate 节点，旨在用于新的 Substrate 区块链开发。
 
-We provide a minimal working Substrate node meant for the development of new Substrate blockchains.
-
-Get the project at:
+获取这个项目：
 
 ```
 https://github.com/substrate-developer-hub/substrate-node-template
 ```
 
-Build the project with:
+使用下面的命令编译这个项目：
 
-```bash
+```
 cargo build --release
 ```
 
-Purge any existing developer node state with:
+使用下面的命令清除所有存在的开发者节点状态：
 
-```bash
-# You will be prompted to type `y` to delete the database
+```
+# 系统会提示你按 `y` 来确定要删除数据库
 ./target/release/node-template purge-chain --dev
 ```
 
-Start a developer node with:
+使用下面的命令启动一个开发者节点：
 
-```bash
+```
 ./target/release/node-template --dev
 ```
 
-### Substrate Front-End Template
+## Substrate 前端模板
 
-We provide a minimal working Substrate front-end, built with ReactJS and the Polkadot-JS API. This project is meant for quick and easy development of custom user interfaces.
+我们使用 RectJs 以及 Polkadot-JS API 提供了一个最小可用的 Substrate 前端。此项目旨在简单，快速的开发一个自定义的用户页面。
 
-Get the project at:
+获取这个项目：
 
 ```
 https://github.com/substrate-developer-hub/substrate-front-end-template
 ```
 
-Install the node dependencies with:
+使用下面的命令安装节点依赖：
 
-```bash
+```
 yarn install
 ```
 
-Run the front end with:
+使用下面的命令运行这个前端：
 
-```bash
+```
 yarn start
 ```
 
-Connect to the front-end at [`localhost:8000`](http://localhost:8000).
+在 `localhost:8000` 中连接前端。
 
-> **Note:** You need to have a local Substrate node running to interact with this UI.
+>**注意:** 你需要本地运行一个 Substrate 节点来与这个UI交互。
 
-## Getting Started On Windows
+## 在 window 上开始
 
-If you are trying to set up a Windows computer to build Substrate, do the following:
+若你尝试在 window 计算机上构建 Substrate，按下面的步骤：
+1. 下载并安装 "Build Tools for Visual Studio":
 
-1. Download and install "Build Tools for Visual Studio:"
+    * 从这个链接获取它: https://aka.ms/buildtools
+    * 运行安装文件：vs_buildtools.exe
+    * 当安装 Visual C++ Build Tools 的时候，确保 “Window 10 SDK” 组件被选中
+    * 重启你的计算机
 
-    * You can get it at this link: https://aka.ms/buildtools.
-    * Run the installation file: `vs_buildtools.exe`.
-    * Ensure the "Windows 10 SDK" component is included when installing the Visual C++ Build Tools.
-    * Restart your computer.
+2. 安装 Rust：
 
-2. Install Rust:
+    * 详细的指令在 [Rust书](https://doc.rust-lang.org/book/ch01-01-installation.html#installing-rustup-on-windows)中有提供。
+        * 下载：https://www.rust-lang.org/tools/install
+        * 运行安装文件：rustup-init.exe.
 
-    * Detailed instructions are provided by the [Rust Book](https://doc.rust-lang.org/book/ch01-01-installation.html#installing-rustup-on-windows).
-        * Download from: https://www.rust-lang.org/tools/install.
-        * Run the installation file: `rustup-init.exe`.
+            > **注意:** 因为你在第一步中已经安装了 vs_buildtools，所以它**不**应该提示你去安装 vs_buildtools。
 
-            > Note that it should **not** prompt you to install `vs_buildtools` since you did it in step 1.
+        * 选择 “默认安装”
+        * 首先，你需要在 PATH 环境变量中添加 cargo 的 bin 目录（%USERPROFILE%\.cargo\bin）。未来应用程序将会自动设置环境变量，但你可能需要重启你当前的shell。
 
-        * Choose "Default Installation."
-        * To get started, you need Cargo's bin directory (`%USERPROFILE%\.cargo\bin`) in your PATH environment variable. Future applications will automatically have the correct environment, but you may need to restart your current shell.
+3. 在命令提示窗中运行下面的命令来设置你的 wasm 编译环境：
 
-3. Run these commands in Command Prompt (`CMD`) to set up your Wasm Build Environment:
-
-    ```bash
+    ```
     rustup update nightly
     rustup update stable
     rustup target add wasm32-unknown-unknown --toolchain nightly
     ```
 
-4. Install `wasm-gc`, which is used to slim down Wasm files:
+4. 安装 wasm-gc，它可用于减少 wasm 文件的大小：
 
-    ```bash
-    cargo install --git https://github.com/alexcrichton/wasm-gc --force
+```
+cargo install --git https://github.com/alexcrichton/wasm-gc --force
+```
+
+5. 安装 LLVM：https://releases.llvm.org/download.html
+
+6. 使用 vcpkg 安装 OpenSSL：
+
     ```
-
-5. Install LLVM: https://releases.llvm.org/download.html
-
-6. Install OpenSSL with `vcpkg`:
-
-    ```bash
     mkdir C:\Tools
     cd C:\Tools
     git clone https://github.com/Microsoft/vcpkg.git
@@ -276,15 +275,15 @@ If you are trying to set up a Windows computer to build Substrate, do the follow
     .\vcpkg.exe install openssl:x64-windows-static
     ```
 
-7. Add OpenSSL to your System Variables using PowerShell:
+7. 使用 PowerShell 添加 OpenSSL 到你的系统环境中：
 
-    ```powershell
+    ```
     $env:OPENSSL_DIR = 'C:\Tools\vcpkg\installed\x64-windows-static'
     $env:OPENSSL_STATIC = 'Yes'
     [System.Environment]::SetEnvironmentVariable('OPENSSL_DIR', $env:OPENSSL_DIR, [System.EnvironmentVariableTarget]::User)
     [System.Environment]::SetEnvironmentVariable('OPENSSL_STATIC', $env:OPENSSL_STATIC, [System.EnvironmentVariableTarget]::User)
     ```
 
-8. Finally, install `cmake`: https://cmake.org/download/
+8. 最后，安装 cmake：https://cmake.org/download/
 
-You can now jump back to [Get the Source](#get-the-source) to learn how to download and compile Substrate!
+现在你可以跳转到[获取源码](https://substrate.dev/docs/en/overview/getting-started#get-the-source)那节去学习如何下载以及编译 Substrate!
