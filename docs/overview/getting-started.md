@@ -9,9 +9,9 @@ title: 开始入门
 
 ## 寻求帮助
 
-Substrate 是一个尚未稳定的区块链开发框架，结果就是，你可能在使用的过程中会遇到一些不兼容的更改或者bug。
+Substrate 是一个尚崭新的区块链开发框架，结果就是，你可能在使用的过程中会遇到一些突发的更改或者bug。
 
-知道这些之后（若你还想要继续下去，）我们很高心帮助你开构建 Substrate，若有遇到问题，可通过下面的方式联系我们：
+要知道我们很高心帮助你开始构建 Substrate，若有遇到问题，可通过下面的方式联系我们：
 
 * [在 Github 上开一个issue](https://github.com/substrate-developer-hub/substrate-developer-hub.github.io/issues/new)
 * [在 Riot 上和我们交流](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)
