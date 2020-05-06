@@ -1,165 +1,131 @@
 ---
-title: SCALE Codec
+title: SCALE编解码器
 ---
 
-The SCALE (Simple Concatenated Aggregate Little-Endian) Codec is a lightweight,
-efficient, binary serialization and deserialization codec.
+SCALE (简单串行聚合小端 Simple Concatenated Aggregate Little-Endian) 编解码器是一个轻量级,
+高效, 二进制序列化和反序列化的编解码器.
 
-It is designed for high-performance, copy-free encoding and decoding of data in
-resource-constrained execution contexts, like the [Substrate
-runtime](conceptual/runtime/index.md). It is not self-describing in any way and
-assumes the decoding context has all type knowledge about the encoded data.
+它是为了在资源约束的执行环境中实现数据高效、免拷贝编解码而设计的。例如： [Substrate
+runtime](conceptual/runtime/index.md)。 它不是任何方式的自我描述并且前提条件是解码环境包含了所有类型的编码数据知识。
 
-## SCALE for Substrate
+## substrate的SCALE编解码器
 
-Substrate uses the
-[`parity-scale-codec`](https://github.com/paritytech/parity-scale-codec), a Rust
-implementation of the SCALE Codec. This library and the SCALE codec are
-advantageous for Substrate and blockchain systems because:
+Substrate使用了[`parity-scale-codec`](https://github.com/paritytech/parity-scale-codec)：一种rust实现的SCALE编解码器。 这个库和SCALE编解码器对Substrate和区块链系统是有利的因为：
 
-* It is lightweight relative to generic serialization frameworks like
-  [serde](https://serde.rs/), which add significant boilerplate that can bloat
-  the size of the binary.
-* It does not use Rust STD, and thus can compile to Wasm for the Substrate
-  runtime.
-* It is built to have great support in Rust for deriving codec logic for new
-  types:
+* 它相对于一般的序列化框架例如[serde](https://serde.rs/)来说，是轻量级的。而一般的框架显著增加了样板使得二进制的大小膨胀。
+* 它不使用Rust标准库，因此能够为Substrate runtime编译成Wasm。
+* 它更好地支持Rust表达出对新类型的编解码器逻辑：
   ```
   #[derive(Encode, Decode)]
   ```
+确认Substrate使用的编码规范而不是重新使用已有的Rust编解码器库是很重要的。因为这个新的编解码器需要被其他想要支持互操作性的平台和语言重新实现。
 
-It is important to define the encoding scheme used on Substrate rather than
-reuse an existing Rust codec library because this codec needs to be
-re-implemented on other platforms and languages that want to support
-interoperability.
 
-## Codec Definition
+## 编解码器定义
 
-Here you will find how the SCALE codec encodes different types.
+这里你能找到SCALE编解码器怎样为不同类型的数据编码的。
 
-### Fixed-width Integers
+### 固定宽度的整数
 
-Basic integers are encoded using a fixed-width little-endian (LE) format.
+基础整数（integers）类型被编码成固定宽度的小端（little-endian）格式。
 
-#### Example
+#### 例子
 
-- `signed 8-bit integer 69`: `0x45`
-- `unsigned 16-bit integer 42`: `0x2a00`
-- `unsigned 32-bit integer 16777215`: `0xffffff00`
+- `有符号8位整数69`: `0x45`
+- `无符号16位整数42`: `0x2a00`
+- `无符号32位整数16777215`: `0xffffff00`
 
-### Compact/General Integers
+### 紧凑/一般的整数类型
 
-A "compact" or general integer encoding is sufficient for encoding large
-integers (up to 2**536) and is more efficient at encoding most values than the
-fixed-width version. (Though for single-byte values, the fixed-width integer is
-never worse.)
+“紧凑”（"compact"）的或者一般的整数编码足够编码大整数（最大到2**536）而且比起固定宽度的值能更高效的编码大多数值。 (然而对于单字节值，固定宽度的整数重来不更坏)
 
-It is encoded with the two least significant bits denoting the mode:
+最小的两位表示模式：
 
-- `0b00`: single-byte mode; upper six bits are the LE encoding of the value
-  (valid only for values of 0-63).
-- `0b01`: two-byte mode: upper six bits and the following byte is the LE
-  encoding of the value (valid only for values `64-(2**14-1)`).
-- `0b10`: four-byte mode: upper six bits and the following three bytes are the
-  LE encoding of the value (valid only for values `(2**14-1)-(2**30-1)`).
-- `0b11`: Big-integer mode: The upper six bits are the number of bytes
-  following, less four. The value is contained, LE encoded, in the bytes
-  following. The final (most significant) byte must be non-zero. Valid only for
-  values `(2**30-1)-(2**536-1)`.
+- `0b00`: 单字节模式：高六位是值的LE编码（合法的取值范围0-63）。
+- `0b01`: 双字节模式：高六位和紧接着的一个字节是LE编码（合法的取值范围`64-(2**14-1)`）。
+- `0b10`: 四字节模式：高六位和紧接着的三个字节是LE编码（合法的取值范围`(2**14-1)-(2**30-1)`）。
+- `0b11`: 大整数模式：高六位是代表下面的字节数，小于四个。接下来的字节包括了值，为LE编码。最高位必须不为0。合法的取值范围是`(2**30-1)-(2**536-1)`。
 
-#### Example
+#### 例子
 
-- `unsigned integer 0`: `0x00`
-- `unsigned integer 1`: `0x04`
-- `unsigned integer 42`: `0xa8`
-- `unsigned integer 69`: `0x1501`
+- `无符号整数0`: `0x00`
+- `无符号整数1`: `0x04`
+- `无符号整数42`: `0xa8`
+- `无符号整数69`: `0x1501`
 
-Error:
+错误:
 
-- ~~`0x0100`: Zero encoded in mode 1~~
+- ~~`0x0100`: 用模式1零编码。
 
 ### Boolean
 
-Boolean values are encoded using the least significant bit of a single byte.
+Boolean用单字节的最小的一位编码。
 
-#### Example
+#### 例子
 
 - `boolean false`: `0x00`
 - `boolean true`: `0x01`
 
-### Options
+### 可选项
 
-One or zero values of a particular type. Encoded as:
+特殊类型的1或者0值。编码成：
 
-- `0x00` if it is `None` ("empty" or "null").
-- `0x01` followed by the encoded value if it is `Some`.
+- `0x00` 如果是 `None` ("empty" 或者 "null")。
+- `0x01` 如果是 `Some`，则紧接着是编码值。
 
-As an exception, in the case that the type is a boolean, then it is always one
-byte:
+作为一个例外，倘若是boolean类型，永远是一个字节：
 
-- `0x00` if it is `None` ("empty" or "null").
-- `0x01` if it is the `false` value.
-- `0x02` if it is the `true` value.
+- `0x00` 如果是 `None` ("empty" 或者 "null")。
+- `0x01` 如果是 `false` 值。
+- `0x02` 如果是 `true` 值。
 
-### Vectors (lists, series, sets)
+### 矢量数据 （lists，series，sets）
 
-A collection of same-typed values is encoded, prefixed with a *compact* encoding
-of the number of items, followed by each item's encoding concatenated in turn.
+一堆相同类型的值被编码，前缀是有若干项目的一个*紧凑*编码，紧接着是每个项目的依次串行编码。
 
-#### Example
+#### 例子
 
-Vector of unsigned 16-bit integers:
+无符号的16位整数矢量：
 
 ```
 [4, 8, 15, 16, 23, 42]
 ```
 
-SCALE Bytes:
+SCALE字节：
 
 ```
 0x18040008000f00100017002a00
 ```
 
-### Tuples
+### 元组
 
-A fixed-size series of values, each with a possibly different but predetermined
-and fixed type. This is simply the concatenation of each encoded value. 
+一系列固定大小的值，每一个可能不一样但是事先确定并且类型固定。这个单纯是每个编码值的串行。
 
-#### Example
+#### 例子
 
-Tuple of compact unsigned integer and boolean:
+紧凑无符号整数和boolean的元组:
 
 `(3, false)`: `0x0c00`
 
-### Data Structures
+### 数据结构
 
-For structures, the values are named, but that is irrelevant for the encoding (names are ignored - 
-only order matters). **All containers store elements consecutively. The order of the elements is not 
-fixed, depends on the container, and cannot be relied on at decoding.**
+对于结构来说，值是命名的，但是和编码无关（名字被忽略的 - 只有顺序是要紧的）。 **所有容器连续存储了元素。元素的顺序不确定，取决于容器，并且不依赖于解码。**
 
-This implicitly means that decoding some byte-array into a specified structure that
-enforces an order and then re-encoding it could result in a different byte array than the
-original that was decoded.
+这明确意味着把一些字节组解码成特定的强制顺序的结构然后重新编码，可能会导致产生字节组不同于原始被解码的字节组。
 
-#### Example
+#### 例子
 
-Imagine a `SortedVecAsc<u8>` structure that always has byte-elements in ascending order and you 
-have `[3, 5, 2, 8]`, where the first element is the number of bytes following (i.e. `[3, 5, 2]` 
-would be invalid).
+想象下`SortedVecAsc<u8>`结构永远有以上升顺序排列的字节元素并且你有`[3, 5, 2, 8]`，第一个元素代表接下来的字节的数量(也就是说 `[3, 5, 2]`是不合法的)。
 
-`SortedVecAsc::from([3, 5, 2, 8])` would decode to `[3, 2, 5, 8]`, which does not match the 
-original encoding.
+`SortedVecAsc::from([3, 5, 2, 8])`会被解码成`[3, 2, 5, 8]`，这就不匹配原始编码了。
 
-### Enumerations (tagged-unions)
+### 枚举（标签联合）
 
-A fixed number of variants, each mutually exclusive and potentially implying a
-further value or series of values.
+一个固定数量的变量，每一个都是互相排斥的并且暗示了下面的值或者一系列的值。
 
-Encoded as the first byte identifying the index of the variant that the value
-is. Any further bytes are used to encode any data that the variant implies.
-Thus, no more than 256 variants are supported.
+第一个字节代表变量的索引。任何之后的字节被用来编码任何变量意指的数据。因此，只支持不超过256个变量。
 
-#### Example
+#### 例子
 
 ```rust
 enum IntOrBool {
@@ -171,9 +137,9 @@ enum IntOrBool {
 - `Int(42)`: `0x002a`
 - `Bool(true)`: `0x0101`
 
-## Implementations
+## 实现
 
-The Parity SCALE Codec is currently implemented for:
+Parity的SCALE编解码器目前有以下的实现：
 
 * Rust:
   [`paritytech/parity-scale-codec`](https://github.com/paritytech/parity-scale-codec)
@@ -183,20 +149,19 @@ The Parity SCALE Codec is currently implemented for:
 * C++: [`soramitsu/scale`](https://github.com/soramitsu/scale)
 * JavaScript: [`polkadot-js/api`](https://github.com/polkadot-js/api)
 
-## Next Steps
+## 下一步
 
-### Learn More
-
-TODO
-
-### Examples
+### 学习更多
 
 TODO
 
-### References
+### 例子
 
-* Visit the reference docs for the
-  [`parity-scale-codec`](https://substrate.dev/rustdocs/master/parity_scale_codec/index.html).
+TODO
 
-* Visit the auxiliary encoding section of the [Polkadot runtime environment
+### 参考
+
+* 查看[`parity-scale-codec`](https://substrate.dev/rustdocs/master/parity_scale_codec/index.html)的参考文档。
+
+* 查看附加的编码章节[Polkadot runtime environment
   specification](https://github.com/w3f/polkadot-spec/blob/master/runtime-environment-spec/polkadot_re_spec.pdf).
