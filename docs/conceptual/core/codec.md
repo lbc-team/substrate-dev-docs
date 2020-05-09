@@ -5,8 +5,8 @@ title: SCALE编解码器
 SCALE (简单串行聚合小端 Simple Concatenated Aggregate Little-Endian) 编解码器是一个轻量级,
 高效, 二进制序列化和反序列化的编解码器.
 
-它是为了在资源约束的执行环境中实现数据高效、免拷贝编解码而设计的。例如： [Substrate
-runtime](conceptual/runtime/index.md)。 它不是任何方式的自我描述并且前提条件是解码环境包含了所有类型的编码数据知识。
+它是为了在资源受限的执行环境中实现数据高效、免拷贝编解码而设计的。例如： [Substrate
+runtime](conceptual/runtime/index.md)。 它不是任何方式的自我描述并且会假设解码环境包含了所有类型的编码数据知识。
 
 ## substrate的SCALE编解码器
 
@@ -14,11 +14,11 @@ Substrate使用了[`parity-scale-codec`](https://github.com/paritytech/parity-sc
 
 * 它相对于一般的序列化框架例如[serde](https://serde.rs/)来说，是轻量级的。而一般的框架显著增加了样板使得二进制的大小膨胀。
 * 它不使用Rust标准库，因此能够为Substrate runtime编译成Wasm。
-* 它更好地支持Rust表达出对新类型的编解码器逻辑：
+* 它是使用Rust构建，那么对于新的类型需要派生编解码逻辑的时候有更好的支持（译者注：因为Substrate也是使用rust构建的）：
   ```
   #[derive(Encode, Decode)]
   ```
-确认Substrate使用的编码规范而不是重新使用已有的Rust编解码器库是很重要的。因为这个新的编解码器需要被其他想要支持互操作性的平台和语言重新实现。
+定义Substrate使用的编码规范而不是重用已有的Rust编解码器库是很重要的。因为这个新的编解码器需要被其他想要支持互操作性的平台和语言重新实现。
 
 
 ## 编解码器定义
@@ -59,7 +59,7 @@ Substrate使用了[`parity-scale-codec`](https://github.com/paritytech/parity-sc
 
 ### Boolean
 
-Boolean用单字节的最小的一位编码。
+布尔值用单字节的最小有效位编码。
 
 #### 例子
 
@@ -81,7 +81,7 @@ Boolean用单字节的最小的一位编码。
 
 ### 矢量数据 （lists，series，sets）
 
-一堆相同类型的值被编码，前缀是有若干项目的一个*紧凑*编码，紧接着是每个项目的依次串行编码。
+一堆相同类型的值被编码，前缀是有若干项的一个*紧凑*编码，紧接着是每个项目的依次串行编码。
 
 #### 例子
 
@@ -103,7 +103,7 @@ SCALE字节：
 
 #### 例子
 
-紧凑无符号整数和boolean的元组:
+紧凑无符号整数和布尔的元组:
 
 `(3, false)`: `0x0c00`
 
