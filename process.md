@@ -3,7 +3,7 @@
 
 | 文件               |  译者(认领-完成)    |   校对  |  学分 | 
 | ----------------- | ----------------- | ---------------   | --------   |
-| docs/xxxx         | xxx  |  xxx  |    | 
+| docs/conceptual/core/codec.md         | toldjunjie  |  zmant  |  103  | 
 
 
 
