@@ -81,7 +81,7 @@ Substrate使用了[`parity-scale-codec`](https://github.com/paritytech/parity-sc
 
 ### 矢量数据 （lists，series，sets）
 
-一堆相同类型的值被编码，前缀是有若干项的一个*紧凑*编码，紧接着是每个项目的依次串行编码。
+一堆相同类型的值被编码，前缀是有若干项的一个*紧凑*编码，紧接着是每个项的依次串行编码。
 
 #### 例子
 
