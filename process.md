@@ -7,6 +7,7 @@
 | docs/overview/frame.md         | zmant(完成)  |  toldjunjie  |  160  |
 | docs/overview/index.md         | zmant(认领)  |  toldjunjie  |  xxx  |
 | docs/overview/glossary.md         | zmant(认领)  |  toldjunjie  |  xxx  |
+| docs/conceptual/core/codec.md         | toldjunjie  |  zmant  |  103  | 
 
 
 
