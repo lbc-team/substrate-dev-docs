@@ -1,30 +1,29 @@
 ---
 title: "Introduction"
 ---
+Substrate is a blockchain platform with a completely generic State Transition Function ([STF](../conceptual/runtime/index.md)) and modular components for consensus, networking, and configuration.
 
-Substrate 是一个带有完全通用状态转换功能([STF](../conceptual/runtime/index.md))的区块链开发框架以及用于共识，网络和配置的模块组件。
+Despite being "completely generic", it comes with both standards and conventions - particularly with the Substrate Runtime Module Library ([SRML](overview/glossary.md#srml-substrate-runtime-module-library)) - regarding the underlying data-structures that power the STF, thereby making rapid blockchain development a reality.
 
+## Core Datatypes
 
-尽管它是“完全通用”的，但它同时也自带了一个标准和规范 - 特别是 Substrate 运行时模块库（又名 FRAME）- 由于底层数据结构对 STF 的支持，从而使得快速开发区块链成为可能
+There are several data types that work with the underlying core of Substrate (thus the "Core" data types). They are mandatory to define and must fulfil a particular interface in order to work within the Substrate framework.
 
-## 核心数据类型
+Each of these data types corresponds to a Rust `trait`. They are:
 
-有几种数据类型与底层的 Substrate 核心一起工作（因此它们是“核心”数据类型）。他们是强制性定义的，并且必须实现（其中）一个特定的接口才可以在 Substrate 框架内工作。
-
-每一个数据类型都对应了一个 Rust 的 `trait`。它们是：
-- `Hash`，对某些数据的加密摘要进行编码的一种类型，通常只有256位（bit）。
-- `BlockNumber`, 对任何合法区块的祖先总数进行编码的一种类型。通知是 32-bit。
-- `DigestItem`, 一种必须有能力对许多可供选择的和共识与变更追踪相关的“硬链接”中的一个以及许多和运行时内特定模块相关的“软编码”变体进行编码的类型。
-- `Digest`, 基本上就是一串`DigestItem`，它编码了与轻5客服端相关的所有信息。
-- `Header`, 一种表示和块相关的所有信息（加密方式或其他方面的一些信息）的一种类型。它包括了（区块的）父哈希值，存储根，extrinsics 前缀树根，（区块）摘要以及块号。
+- `Hash`, a type which encodes a cryptographic digest of some data. Typically just a 256-bit quantity.
+- `BlockNumber`, a type which encodes the total number of ancestors any valid block has. Typically a 32-bit quantity.
+- `DigestItem`, a type which must be able to encode one of a number of "hard-wired" alternatives relevant to consensus and change-tracking as well as any number of "soft-coded" variants, relevant to specific modules within the runtime.
+- `Digest`, basically just a series of `DigestItem`s, this encodes all information that is relevant for a light-client to have on hand within the block.
+- `Header`, a type which is representative (cryptographically or otherwise) of all information relevant to a block. It includes the parent hash, the storage root and the extrinsics trie root, the digest and a block number.
 - `Extrinsic`, a type to represent a single piece of data external to the blockchain that is recognized by the blockchain. This typically involves one or more signatures, and some sort of encoded instruction (e.g. for transferring ownership of funds or calling into a smart contract).
 - `Block`, essentially just a combination of `Header` and a series of `Extrinsic`s, together with a specification of the hashing algorithm to be used.
 
 Generic reference implementations for each of these traits are provided in the [SRML](overview/glossary.md#srml-substrate-runtime-module-library). Technically these need not be used, but there are few cases where they are insufficiently generic for a use case.
 
->**一些专业知识**
+> **Some Expertise Needed**
 >
-> 为了更好的发挥substrate的潜能，你应该对区块链概念和基本的密码学要有一些了解。（一些）术语像（区块）头，区块，客户端，哈希，交易以及签名都应该要熟悉。目前你需要会rust编程知识，这样才有能力对substrate做任何有意义的定制/适配（尽管我们的目标并不是这个（译注：指深入学习rust））。
+> In order to get the most out of Substrate, you should have a good knowledge of blockchain concepts and basic cryptography. Terminology like header, block, client, hash, transaction and signature should be familiar. At present you will need a working knowledge of Rust to be able to do any significant customization/adaption of Substrate (though eventually, we aim for this not to be the case).
 
 ## Usage
 
