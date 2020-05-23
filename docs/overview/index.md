@@ -1,36 +1,38 @@
 ---
 title: "Introduction"
 ---
-Substrate is a blockchain platform with a completely generic State Transition Function ([STF](../conceptual/runtime/index.md)) and modular components for consensus, networking, and configuration.
 
-Despite being "completely generic", it comes with both standards and conventions - particularly with the Substrate Runtime Module Library ([SRML](overview/glossary.md#srml-substrate-runtime-module-library)) - regarding the underlying data-structures that power the STF, thereby making rapid blockchain development a reality.
+Substrate 是一个带有完全通用状态转换功能（[STF](../conceptual/runtime/index.md)）的区块链开发框架以及用于共识，网络和配置的模块组件。
 
-## Core Datatypes
 
-There are several data types that work with the underlying core of Substrate (thus the "Core" data types). They are mandatory to define and must fulfil a particular interface in order to work within the Substrate framework.
+尽管它是“完全通用”的，但它同时也自带了一个标准和规范 - 特别是 Substrate 运行时模块库（又名 SRML）- 由于底层数据结构对 STF 的支持，从而使得快速开发区块链成为可能。
 
-Each of these data types corresponds to a Rust `trait`. They are:
+## 核心数据类型
 
-- `Hash`, a type which encodes a cryptographic digest of some data. Typically just a 256-bit quantity.
-- `BlockNumber`, a type which encodes the total number of ancestors any valid block has. Typically a 32-bit quantity.
-- `DigestItem`, a type which must be able to encode one of a number of "hard-wired" alternatives relevant to consensus and change-tracking as well as any number of "soft-coded" variants, relevant to specific modules within the runtime.
-- `Digest`, basically just a series of `DigestItem`s, this encodes all information that is relevant for a light-client to have on hand within the block.
-- `Header`, a type which is representative (cryptographically or otherwise) of all information relevant to a block. It includes the parent hash, the storage root and the extrinsics trie root, the digest and a block number.
-- `Extrinsic`, a type to represent a single piece of data external to the blockchain that is recognized by the blockchain. This typically involves one or more signatures, and some sort of encoded instruction (e.g. for transferring ownership of funds or calling into a smart contract).
-- `Block`, essentially just a combination of `Header` and a series of `Extrinsic`s, together with a specification of the hashing algorithm to be used.
+有几种数据类型与底层的 Substrate 核心一起工作（因此它们是“核心”数据类型）。他们是强制性定义的，并且必须实现（其中）一个特定的接口才可以在 Substrate 框架内工作。
 
-Generic reference implementations for each of these traits are provided in the [SRML](overview/glossary.md#srml-substrate-runtime-module-library). Technically these need not be used, but there are few cases where they are insufficiently generic for a use case.
+每一个数据类型都对应了一个 Rust 的 `trait`。它们是：
+- `Hash`，对某些数据的加密摘要进行编码的一种类型，通常只有256位（bit）。
+- `BlockNumber`, 对任何合法区块的祖先总数进行编码的一种类型。通知是 32-bit。
+- `DigestItem`, 一种必须有能力对许多可供选择的和共识与变更追踪相关的“硬链接”中的一个以及许多和运行时内特定模块相关的“软编码”变体进行编码的类型。
+- `Digest`, 基本上就是一串`DigestItem`，它编码了与轻客服端相关的所有信息。
+- `Header`, 一种表示和块相关的所有信息（加密方式或其他方面的一些信息）的一种类型。它包括了（区块的）父哈希值，存储根，extrinsics 前缀树根，（区块）摘要以及块号。
+- `Extrinsic`, 一种类型，用于表示区块链外部被区块链识别的一段数据。这通常涉及一个或多个签名，以及某种编码指令(例如用于转移资金所有权或调用智能合约)。
+- `Block`, 本质上它就是区块头（`Header`）和一系列 `Extrinsic` 的组合，以及要使用的散列算法的规范。
 
-> **Some Expertise Needed**
+[SRML](overview/glossary.md#srml-substrate-runtime-module-library)中提供了这些 `trait` 的通用参考实现。从技术上讲，这些不需要使用，但是在少数情况下对于某些用例来说不够通用。
+
+>**一些专业知识**
 >
-> In order to get the most out of Substrate, you should have a good knowledge of blockchain concepts and basic cryptography. Terminology like header, block, client, hash, transaction and signature should be familiar. At present you will need a working knowledge of Rust to be able to do any significant customization/adaption of Substrate (though eventually, we aim for this not to be the case).
+> 为了更好的发挥substrate的潜能，你应该对区块链概念和基本的密码学要有一些了解。（一些）术语像（区块）头，区块，客户端，哈希，交易以及签名都应该要熟悉。目前你需要会rust编程知识，这样才有能力对substrate做任何有意义的定制/适配（尽管我们的目标并不是这个（译注：指深入学习rust））。
 
-## Usage
+## 用法
 
-Substrate is designed to be used in one of three ways:
+Substrate被设计用于一下三种用途之一：
 
-1. **With our bundled Node**: By running the pre-designed Substrate Node (`substrate`) and configuring it with a genesis block that includes the current demonstration runtime. In this case just configure a JSON file and launch your own blockchain. This affords you the least amount of customizability, primarily allowing you to change the genesis parameters of the various included runtime modules such as balances, staking, block-period, fees and governance. For a tutorial on doing this, see [Deploying a Substrate Node chain](tutorials/start-a-private-network-with-substrate).
+1. **使用我们绑定的节点**: 通过运行预先设计的 Substrate 节点（`substrate`），并使用包含当前演示运行时的创世块对其进行配置。 这种情况，你仅仅需要配置一个 Json 文件就可以发起你自己的区块链了。这给你的可定制性是最小的，主要允许你更改运行时模块的初始参数，比如：余额，标定线（staking），区块周期，费用，治理。关于这部分的教程，请参[阅部署一个 Substrate 节点链](overview/glossary.md#srml-substrate-runtime-module-library)。
 
-2. **With the SRML**: By composing modules from the [SRML](overview/glossary.md#srml-substrate-runtime-module-library) into a new runtime, perhaps adding new custom modules and possibly altering or reconfiguring the Substrate client's block authoring logic. This affords you a very large amount of freedom over your own blockchain's logic, letting you change datatypes, select from the library of modules and, crucially, add your own modules. Much can be changed without touching the block-authoring logic since it is directed through on-chain logic. If this is the case, then the existing Substrate binary can be used for block authoring and syncing. If the block authoring logic needs to be tweaked, then a new altered block-authoring binary must be built as a separate project and used by validators. This is how the Polkadot relay chain is built and should suffice for almost all circumstances in the near to mid-term. For a tutorial on this, see [creating your first Substrate chain](tutorials/creating-your-first-substrate-chain).
+2. **使用 SRML**: （这种方式可以）组合 SRML 模块到一个新的运行时（runtime）中，或者添加新的自定义模块，或更改或重配置 Substrate 客户端的区块生成逻辑。使用FRAME你可以很简单的创建你自己自定义的区块链。 这给了你在你自己的区块链逻辑中有很大的自由，允许你改变数据类型，选择模块中库，关键的是可以添加你自己的模块。 大多数内容都是可以在不触及区块创建逻辑的情况下更改，因为他是通过链上逻辑进行定向的。如果是这种情况，那么可以使用现存的 substrate 二进制程序来进行区块创建和同步。如果需要更改区块创建的逻辑，那么这个新的区块创建程序必须被编译成一个独立的项目，并有验证器使用。这就是波卡中继链怎么被构建并满足未来几乎所有需求的原因。关于这方面更多的教程，请参阅[创建你第一个 Substrate 链](tutorials/creating-your-first-substrate-chain)。
 
-3. Generic: The entire [SRML](overview/glossary.md#srml-substrate-runtime-module-library) can be ignored and the entire runtime designed and implemented from scratch. If desired, this can be done in a language other than Rust, providing it can target WebAssembly. If the runtime can be made to be compatible with Substrate Node's abstract block authoring logic, then you can simply construct a new genesis block from your Wasm blob and launch your chain with the existing Rust-based Substrate client. If not, then you'll need to alter the client's block authoring logic accordingly, potentially even altering the header and block serialization formats. In terms of development effort this is by far the most arduous means to use Substrate, but also gives you the most freedom to innovate. It reflects a long-term far-reaching upgrade path for the Substrate paradigm.
+3. **通用**：整个 SRML 都可以被忽略，并且整个运行时都可以被重新设计和实现。如果需要，这可以使用另一种语言来完成而不仅是 `Rust`，只要它可被编译到 Webassembly 即可。如果运行时（指你自己重新设计和实现的）可以兼容 Substrate 节点创建区块的抽象逻辑，那么你可以简单的从 wasm blob 构造一个新的创世区块并且在现存的基于 rust 的 Substrate的客户端上启动你的（区块）链。否则的话，你就需要更改客户端创建区块的逻辑，甚至可能需要更改（区块）头和区块序列化的格式。就开发工作而言，这种是你使用substrate最困难的方式，但它给了你创新的最大自由。他反应了 Substrate 范例一种长远的升级路径。
+
