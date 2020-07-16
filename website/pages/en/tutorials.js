@@ -372,6 +372,6 @@ function sort_by_name(a, b) {
   return 0;
 }
 
-Tutorials.title = "教程";
+Tutorials.title = "中文教程";
 Tutorials.description = "找到有关Sustrate的最新教程";
 module.exports = Tutorials;

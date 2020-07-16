@@ -1,153 +1,125 @@
 ---
-title: Consensus
+title: 共识
 ---
 
-Blockchain nodes use consensus engines to agree on the blockchain's state. This article covers the
-fundamentals of consensus in blockchain systems, how consensus interacts with the runtime in the
-Substrate framework, and the consensus engines available with the framework.
+区块链节点使用共识引擎来达成区块链状态一致性。本文涉及区块链系统的共识基础知识，共识如何与substrate framework中的runtime进行交互，以及共识引擎是如何在framework中存在的。
 
-## State Machines and Conflicts
 
-A blockchain runtime is a [state machine](https://en.wikipedia.org/wiki/Finite-state_machine). It
-has some internal state, and state transition function that allows it to transition from its current
-state to a future state. In most runtimes there are states that have valid transitions to multiple
-future states, but a single transition must be selected.
+## 状态机
 
-Blockchains must agree on:
 
-- Some initial state, called "genesis",
-- A series of state transitions, each called a "block", and
-- A final (current) state.
+区块链 runtime 是一个[状态机](https://en.wikipedia.org/wiki/Finite-state_machine)。它有一些内部状态和状态转换功能允许它从现有状态转换到未来状态。在大多数runtime中，状态可以合法地转换到多个将来状态，但仅有一个状态转换必须被选择。
 
-In order to agree on the resulting state after a transition, all operations within a blockchain's
-[state transition function](../runtime/index) must be deterministic.
+区块链必须具有以下共识：
 
-## Conflict Exclusion
+- 一些初始状态，称为“创世纪区块（genesis）”，
+- 一系列状态转换，称为“区块”，以及
+- 一个最终（目前）状态。
 
-In centralized systems, the central authority chooses among mutually exclusive alternatives by
-recording state transitions in the order it sees them, and choosing the first of the competing
-alternatives when a conflict arises. In decentralized systems, the nodes will see transactions in
-different orders, and thus they must use a more elaborate method to exclude transactions. As a
-further complication, blockchain networks strive to be fault tolerant, which means that they should
-continue to provide consistent data even if some participants are not following the rules.
 
-Blockchains batch transactions into blocks and have some method to select which participant has the
-right to submit a block. For example, in a proof-of-work chain, the node that finds a valid proof of
-work first has the right to submit a block to the chain.
+为了转换后的结果状态达成一致。所有的区块链[状态转换](../runtime/index)必须是确定的。
 
-Substrate provides several block construction algorithms and also allows you to create your own:
 
-- Aura (round robin)
-- BABE (slot-based)
-- Proof of Work
+## 解决冲突
 
-## Fork Choice Rules
+在中心化系统中，中心机构通过记录状态转换的顺序在相互排斥的备选方案中进行选择，当冲突产生时选择第一个竞争方案
 
-As a primitive, a block contains a header and a batch of
-[extrinsics](../learn-substrate/extrinsics). The header must contain a reference to its parent block
-such that one can trace the chain to its genesis. Forks occur when two blocks reference the same
-parent. Forks must be resolved such that only one, canonical chain exists.
+在去中心化系统中，节点会以不同的顺序记录交易，并且因此他们必须使用更精心设计的方案来排除交易。更为麻烦的是，区块链网络力求容错，这意味着即使有些参与者不遵守规则，它们也应该继续提供一致的数据。
 
-A fork choice rule is an algorithm that takes a blockchain and selects the "best" chain, and thus
-the one that should be extended. Substrate exposes this concept through the
-[`SelectChain` Trait](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_consensus/trait.SelectChain.html).
+区块链会把多笔交易打包进一个区块并且（需要）有方法选择哪个参与者有权提交区块。例如，在一个工作量证明的链中，首先找到合法的工作量证明的节点有权把区块提交到链中。
 
-Substrate allows you to write a custom fork choice rule, or use one that comes out of the box. For
-example:
+Substrate提供一些区块构建算法，同时也允许你定制自己的：
 
-### Longest Chain Rule
+- Aura (轮训))
+- BABE (基于插槽)
+- 工作量证明
 
-The longest chain rule simply says that the best chain is the longest chain. Substrate provides this
-chain selection rule with the
-[`LongestChain` struct](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus/struct.LongestChain.html).
-GRANDPA uses the longest chain rule for voting.
+## 分叉选择规则
 
-![longest chain rule](assets/consensus-longest-chain.png)
+一个区块包含了区块头和一系列的[外部交易(extrinsics)](../node/extrinsics)。区块头必须包含一个指向它父区块的引用，使得能够追溯到链的创世纪块。当两个区块指向同一个父区块分叉就发生了。必须解决分叉使得只存在唯一的候选链。
 
-### GHOST Rule
+一个分叉选择规则是一种选择“最佳”链的算法，并且选择的链可以被延伸。Substrate通过[`SelectChain` Trait](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_consensus/trait.SelectChain.html)来展示这个概念。 
 
-The Greedy Heaviest Observed SubTree rule says that, starting at the genesis block, each fork is
-resolved by choosing the branch that has the most blocks built on it recursively.
+Substrate允许你定制自己的分叉选择规则，或开箱即用当前实现的。
+例如：
+
+
+### 最长链规则
+
+
+最长链规则很简单，它定义了最佳链就是最长的链。Substrate通过[`LongestChain` 结构体](https://substrate.dev/rustdocs/master/sc_client/struct.LongestChain.html)提供了链选择规则。GRANDPA使用最长链规则来投票。
+
+![最长链规则](assets/consensus-longest-chain.png)
+
+
+### 幽灵(GHOST)规则
+
+根据贪心最重观察子树(GHOST: Greedy Heaviest Observed SubTree)规则： 从创世块开始，依据最多区块的分支的方式来选择每个分叉，并依此递归。
+
 
 ![GHOST rule](assets/consensus-ghost.png)
 
-## Block Production
+##  区块生成
 
-Some nodes in a blockchain network are able to produce new blocks, a process known as authoring.
-Exactly which nodes may author blocks depends on which consensus engine you're using. In a
-centralized network, a single node might author all the blocks, whereas in a completely
-permissionless network, an algorithm must select the block author at each height.
+区块链网络中的一些节点能够生成新区块，也当作为一个授权的过程。准确来说，哪个节点能够授权生成区块取决于你使用了什么样的共识引擎。在一个中心化的网络中，一个单一节点能够授权生成所有的区块，然而在一个完全去权限（premissionless）的网络中，一个算法必须为每个高度选择区块生成者。
 
-### Proof of Work
 
-In proof-of-work systems like Bitcoin, any node may produce a block at any time, so long as it has
-solved a computationally-intensive problem. Solving the problem takes CPU time, and thus miners can
-only produce blocks in proportion with their computing resources. Substrate provides a proof-of-work
-block production engine.
+### 工作量证明
 
-### Slots
+在一个工作量证明的系统中例如比特币，任何节点都可能在任何时间产生区块，只要它能解决一个高计算量的问题。解决问题需要CPU时间，并且因此矿工只能通过消耗它们的计算资源成比例的产生区块。Substrate提供了一个工作量证明的区块生成引擎。
 
-Slot-based consensus algorithms must have a known set of validators who are permitted to produce
-blocks. Time is divided up into discrete slots, and during each slot only some of the validators may
-produce a block. The specifics of which validators can author blocks during each slot vary from
-engine to engine. Substrate provides Aura and Babe, both of which are slot-based block authoring
-engines.
 
-## Finality
+### 插槽
 
-Users in any system want to know when their transactions are finalized, and blockchain is no
-different. In some traditional systems, finality happens when a receipt is handed over, or papers
-are signed.
 
-Using the block authoring schemes and fork choice rules described so far, transactions are never
-entirely finalized. There is always a chance that a longer (or heavier) chain will come along and
-revert your transaction. However, the more blocks are built on top of a particular block, the less
-likely it is to ever be reverted. In this way, block authoring along with a proper fork choice rule
-provides probabilistic finality.
+基于插槽的共识算法被允许产生区块是一群已知的验证者。时间被分割为离散的插槽，并且在每个插槽时间内只有一些验证者能够产生区块。每个验证者能够在每个插槽时间内授权产生区块的细节根据引擎的不同而不同。Substrate提供Aura和Babe，两者都是基于插槽的区块生成引擎。
 
-When deterministic finality is desired, a finality gadget can be added to the blockchain's logic.
-Members of a fixed authority set cast finality votes, and when enough votes have been cast for a
-certain block, the block is deemed final. In most systems, this threshold is 2/3. Blocks that have
-been finalized by such a gadget cannot be reverted without external coordination such as a hard
-fork.
 
-> Some consensus systems couple block production and finality, as in, finalization is part of the
-> block production process and a new block `N+1` cannot be authored until block `N` is finalize.
-> Substrate, however, isolates the two processes and allows you to use any block production engine
-> on its own with probabilistic finality or couple it with a finality gadget to have determinsitic
-> finality.
+## 最终确定性（Finality）
 
-In systems that use a finality gadget, the fork choice rule must be modified to consider the results
-of the finality game. For example, instead of taking the longest chain period, a node would take the
-longest chain that contains the most recently finalized block.
 
-## Consensus in Substrate
+用户在任何系统中都想知道他们的交易什么时候最终确定，区块链上也是如此。在一些传统的系统中，当一个收据被移交或者文件被签署代表着最终确定性
 
-The Substrate framework ships with several consensus engines that provide block authoring, or
-finality. This article provides a brief overview of the offerings included with Substrate itself.
-Developers are always welcome to provide their own custom consensus algorithms.
+
+使用区块生成模式以及当前描述的分叉选择规则，交易是不会完全确定的。永远可能会有一个更长的（或权重更重的）链来回滚（revert）你的交易。然而当更多的区块基于某个特定区块上产生时，被回滚的可能性就更小。这样的话，使用着合适的分叉选择规则是可以提供概率性的确定性。
+
+
+当需要最终的确定性，一个最终确定性小工具（gadget）可被添加到区块链逻辑上。
+一个固定授权集合的成员可进行确定性投票，当足够的投票被投到一个特定的区块时候，这个区块被认为是最终确定的。在大多数系统中，这个阙值是2/3。没有外部调整例如硬分叉的话，被完成的区块将是最终确定的，即不能回滚。
+
+
+> 一些共识系统把区块生成和最终确定耦合起来了，就像，最终确定是区块生成的一部分，新区块`N+1`不能被生成直到区块`N`最终确定。
+> 然而Substrate把两个过程分开并且允许你使用任何区块生成引擎，其本身就具有概率性确定性，或者加上一个最终确定性的小工具（gadget）
+
+
+在使用最终确定性小工具的系统中，分叉选择规则必须被修改为考虑终确定性的结果。例如，一个节点可能选择有最新的具有确定性区块的最长链而不是（单纯的）最长的链。
+
+
+## Substrate中的共识
+
+Substrate框架集成了一些共识引擎，用于提供区块生成，或确定性。本文提供了Substrate包含引擎的简明概要。
+开发者定制自己的共识算法一直是受欢迎的。
+
 
 ### Aura
 
-[Aura](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_aura/index.html) provides a slot-based
-block authoring mechanism. In Aura a known set of authorities take turns producing blocks.
+[Aura](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_aura/index.html) 是一个基于插槽的区块生成机制。
+
+在Aura中一个已知的验证者集合轮流生成区块。
+
 
 ### BABE
 
-[BABE](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_babe/index.html) also provides slot-based
-block authoring with a known set of validators. In these ways it is similar to Aura. Unlike Aura,
-slot assignment is based on the evaluation of a Verifiable Random Function (VRF). Each validator is
-assigned a weight for an _epoch._ This epoch is broken up into slots and the validator evaluates its
-VRF at each slot. For each slot that the validator's VRF output is below its weight, it is allowed
-to author a block.
 
-Because multiple validators may be able to produce a block during the same slot, forks are more
-common in BABE than they are in Aura, and are common even in good network conditions.
+[BABE](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_babe/index.html)同样是基于插槽的、由一个已知的验证者集合来生成区块。
+这些方式和Aura相似。不像Aura，BABE 插槽分配建立可验证随机函数（VRF）上。每一个验证者在一个周期（epoch）分配了一个权重。这个周期（epoch）被混编到插槽中，并且验证者在每个周期（epoch）验证的VRF。对于每个验证者，其VRF输出在它的权重之下的插槽，被允许生成一个区块。 
 
-Substrate's implementation of BABE also has a fallback mechanism for when no authorities are chosen
-in a given slot. These "secondary" slot assignments allow BABE to achieve a constant block time.
+因为多个验证者可以在相同的插槽下产生区块，比起Aura来BABE更容易产生分叉，并且甚至在好的网络环境下也很常见。
 
-### Proof of Work
+Substrate的BABE实现有一个回滚机制，当一个给定插槽没有符合条件的验证者生成区块时，备选的（"secondary" ）允许BABE完成一个常量区块时间。
+
+
+### 工作量证明
 
 [Proof-of-work](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_pow/index.html) block authoring
 is not slot-based and does not require a known authority set. In proof of work, anyone can produce a

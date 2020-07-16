@@ -160,7 +160,7 @@ class Footer extends React.Component {
           </div>
         </section>
 
-        <section className="copyright">本文档由
+        <section className="copyright">本Substrate文档由
           <a href="https://learnblockchain.cn/">
             {this.props.config.copyright}
           </a>翻译
