@@ -83,7 +83,7 @@ class Videos extends React.Component {
         <HomeSplash
           siteConfig={siteConfig}
           language={language}
-          title={<translate>Videos</translate>}
+          title={<translate>视频</translate>}
           tagline={<translate>Find great content about Substrate!</translate>}
           padding={0}
         />
@@ -97,6 +97,6 @@ class Videos extends React.Component {
   }
 }
 
-Videos.title = "Videos";
+Videos.title = "视频";
 Videos.description = "View great content about Substrate.";
 module.exports = Videos;

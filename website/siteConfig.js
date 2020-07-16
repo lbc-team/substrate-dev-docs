@@ -53,8 +53,8 @@ const siteConfig = {
 	headerLinks: [
 		{ page: 'tutorials', label: '教程' },
 		{ doc: 'index', label: '知识库' },
-		{ href: 'https://substrate.dev/recipes/', label: 'Recipes' },
-		{ href: 'https://substrate.dev/rustdocs/', label: 'Reference Documents' },
+		{ href: 'https://substrate.dev/recipes/', label: '菜谱' },
+		{ href: 'https://substrate.dev/rustdocs/', label: '接口文档' },
     { search: true },
 	],
 
@@ -73,7 +73,7 @@ const siteConfig = {
 	},
 
 	// This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-	copyright: `Copyright © ${new Date().getFullYear()} Parity Technologies`,
+	copyright: `登链社区`,
 
 	highlight: {
 		// Highlight.js theme to use for syntax highlighting in code blocks.

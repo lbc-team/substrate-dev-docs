@@ -51,7 +51,7 @@ function Community(props) {
   );
 
   const RiotChat = () => (
-    <CommunityResource title={<translate>Riot Chat</translate>}>
+    <CommunityResource title={<translate>Riot 聊天</translate>}>
       <translate>
         Riot is the main form of communication between employees at Parity and the
         community of people who use Parity products. Drop in to ask technical

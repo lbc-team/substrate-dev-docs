@@ -40,27 +40,22 @@ class Index extends React.Component {
 					id='home-hero'
 					siteConfig={siteConfig}
 					language={language}
-					title={<translate>Substrate Developer Hub</translate>}
-					tagline={<translate>The blockchain framework that helps you focus on your vision.</translate>}
+					title="Substrate 开发者中心"
+					tagline={<translate>让你专注于愿景的区块链框架</translate>}
 					description={
-						<translate>
-							Substrate is a modular blockchain framework that lets you pick and choose the right
-							components for your application or enterprise.
-						</translate>
+						<translate> Substrate是一个模块化的区块链框架，你可以为应用程序或企业选择适合自己的组件。</translate>
 					}
-					buttonText={<translate>Get Started</translate>}
+					buttonText={<translate>开始</translate>}
 					buttonUrl={`tutorials`}
 				/>
 
 				<section className='mainContainer' id='home'>
 					<Container>
 						<section className='intro-statement home-section'>
-							<span className='tagline'>Why use Substrate</span>
+							<span className='tagline'>为什么使用Substrate</span>
 
-							<h2 className='large h1'>Focus on your development.</h2>
-							<p>
-								Substrate helps you develop your blockchain fast so that you can focus on your expertise
-								while it handles the rest.
+							<h2 className='large h1'>专注你的业务</h2>
+							<p> Substrate可帮助你快速开发区块链，以便你专注于自己的业务领域知识。
 							</p>
 						</section>
 
@@ -69,13 +64,13 @@ class Index extends React.Component {
 								<section className='icon-wrap'>
 									<div className='icon runtime' />
 								</section>
-								<h4>Runtime Development</h4>
-								<p>Learn how to build a custom blockchain using Substrate.</p>
+								<h4>Runtime 开发</h4>
+								<p>了解如何使用Substrate构建自定义区块链。</p>
 								<section className='button-wrap'>
 									<a
-										href='https://substrate.dev/docs/en/tutorials/build-a-dapp/'
+										href='https://learnblockchain.cn/docs/substrate/docs/tutorials/build-a-dapp/'
 										className='with-arrow'>
-										Learn More
+										了解更多
 									</a>
 								</section>
 							</section>
@@ -84,14 +79,14 @@ class Index extends React.Component {
 								<section className='icon-wrap'>
 									<div className='icon frontend' />
 								</section>
-								<h4>Front-End Development</h4>
-								<p>Learn how to build interactive user experiences with Polkadot-JS.</p>
+								<h4>前端开发</h4>
+								<p>了解如何使用Polkadot-JS打造交互式用户体验。</p>
 								<section className='button-wrap'>
 									<a
 										href='https://github.com/substrate-developer-hub/substrate-front-end-template'
 										className='with-arrow'
 									>
-										Learn More
+										了解更多
 									</a>
 								</section>
 							</section>
@@ -100,13 +95,13 @@ class Index extends React.Component {
 								<section className='icon-wrap'>
 									<div className='icon smart-contract' />
 								</section>
-								<h4>Smart Contract Development</h4>
-								<p>Learn how to build Wasm smart contracts with ink!.</p>
+								<h4>智能合约开发</h4>
+								<p>了解如何使用 ink! 构建Wasm智能合约。</p>
 								<section className='button-wrap'>
 									<a
 										href='https://substrate.dev/substrate-contracts-workshop/#/'
 										className='with-arrow'>
-										Learn More
+										了解更多
 									</a>
 								</section>
 							</section>
@@ -118,11 +113,10 @@ class Index extends React.Component {
 							<div className='pt-5'>
 								<div className='row justify-content-center text-center py-3'>
 									<div className='col-12 col-md-8'>
-										<h4>What is Substrate</h4>
-										<h2 className='display-4 h1'>Everything you need to build a blockchain.</h2>
+										<h4>Substrate是什么</h4>
+										<h2 className='display-4 h1'>构建区块链所需的一切。</h2>
 										<p className='lead mb-4'>
-											Substrate comes with p2p networking, consensus algorithms, and cryptographic
-											libraries out-of-the-box, for free.
+                      Substrate 集成了 p2p网络，共识算法和密码库。
 										</p>
 									</div>
 								</div>
@@ -130,38 +124,38 @@ class Index extends React.Component {
 							<div className='row py-5 features'>
 								<div className='col-12 col-md-4 mb-4'>
 									<div className='d-flex align-items-center mb-2'>
-										<img className='mr-2' src='/img/glyphs/rectangle-1.svg' width='40' />
-										<h3 className='mb-0'>Fast and efficient database</h3>
+										<img className='mr-2' src='./img/glyphs/rectangle-1.svg' width='40' />
+										<h3 className='mb-0'>快速高效的数据库</h3>
 									</div>
 								</div>
 								<div className='col-12 col-md-4 mb-4'>
 									<div className='d-flex align-items-center mb-2'>
-										<img className='mr-2' src='/img/glyphs/rectangle-2.svg' width='40' />
-										<h3 className='mb-0'>Modular P2P networking stack in libp2p</h3>
+										<img className='mr-2' src='./img/glyphs/rectangle-2.svg' width='40' />
+										<h3 className='mb-0'>libp2p下的模块化P2P网络技术栈</h3>
 									</div>
 								</div>
 								<div className='col-12 col-md-4'>
 									<div className='d-flex align-items-center mb-2'>
-										<img className='mr-2' src='/img/glyphs/rectangle-3.svg' width='40' />
-										<h3 className='mb-0'>Hot-swappable consensus layer</h3>
+										<img className='mr-2' src='./img/glyphs/rectangle-3.svg' width='40' />
+										<h3 className='mb-0'>热插拔共识层</h3>
 									</div>
 								</div>
 								<div className='col-12 col-md-4 mb-4'>
 									<div className='d-flex align-items-center mb-2'>
-										<img className='mr-2' src='/img/glyphs/rectangle-4.svg' width='40' />
-										<h3 className='mb-0'>Customizable transaction queue management system</h3>
+										<img className='mr-2' src='./img/glyphs/rectangle-4.svg' width='40' />
+										<h3 className='mb-0'>可定制的交易队列管理系统</h3>
 									</div>
 								</div>
 								<div className='col-12 col-md-4 mb-4'>
 									<div className='d-flex align-items-center mb-2'>
-										<img className='mr-2' src='/img/glyphs/rectangle-5.svg' width='40' />
-										<h3 className='mb-0'>Rich framework for composing runtime logic.</h3>
+										<img className='mr-2' src='./img/glyphs/rectangle-5.svg' width='40' />
+										<h3 className='mb-0'>可组合的运行时(Runtime)逻辑框架</h3>
 									</div>
 								</div>
 								<div className='col-12 col-md-4'>
 									<div className='d-flex align-items-center mb-2'>
-										<img className='mr-2' src='/img/glyphs/rectangle-6.svg' width='40' />
-										<h3 className='mb-0'>Mobile light client support</h3>
+										<img className='mr-2' src='./img/glyphs/rectangle-6.svg' width='40' />
+										<h3 className='mb-0'>支持轻量级移动端</h3>
 									</div>
 								</div>
 							</div>
@@ -172,20 +166,20 @@ class Index extends React.Component {
 						<div className='container'>
 							<div className='row justify-content-between align-items-center py-5'>
 								<div className='col-12 col-md-5 order-2 order-md-1'>
-									<h2 className='h1'>Smart contract ready</h2>
+									<h2 className='h1'>智能合约已就绪</h2>
 									<p className='large mb-4'>
-										Substrate has a Wasm smart contract platform that you can use out of the box.
-										Because Substrate uses Wasm, you can build your smart contracts using any
-										compatible language. We have built ink!, a Rust-based eDSL for this purpose.
+                    Substrate具有Wasm智能合约平台，你可以直接使用它。
+                    由于Substrate使用Wasm，因此你可以使用任何兼容的语言来构建智能合约。
+                    我们已经为此构建了ink! ，这是基于Rust的eDSL。
 									</p>
 									<a
 										className='action-link'
-										href='https://substrate.dev/docs/en/knowledgebase/smart-contracts/overview'>
-										<span>Learn more about ink!</span>
+										href='https://learnblockchain.cn/docs/substrate/docs/knowledgebase/smart-contracts/overview/'>
+										<span>更多关于ink!</span>
 									</a>
 								</div>
 								<div className='col-12 col-md-6 order-1 order-md-2 pl-md-0 mb-4 mb-md-0 text-center'>
-									<img className='w-25' src='/img/pictures/substrate-wasm.svg' />
+									<img className='w-25' src='./img/pictures/substrate-wasm.svg' />
 								</div>
 							</div>
 						</div>
@@ -195,22 +189,20 @@ class Index extends React.Component {
 						<div className='container'>
 							<div className='row justify-content-between align-items-center py-5 polkadot-row'>
 								<div className='col-12 col-md-6 pl-md-0 mb-4 mb-md-0 text-center polkadot-graphic-wrap'>
-									<img src='/img/pictures/polkadot-network.svg' className='polkadot-image' />
+									<img src='./img/pictures/polkadot-network.svg' className='polkadot-image' />
 									<div
 										className='polkadot-graphic'
-										style={{ backgroundImage: `url(/img/pictures/polkadot-network.svg)` }}
+										style={{ backgroundImage: `url(./img/pictures/polkadot-network.svg)` }}
 									/>
 								</div>
 								<div className='col-12 col-md-5'>
-									<h2 className='h1'>(Almost) production ready</h2>
+									<h2 className='h1'>(即将) 主网发布</h2>
 									<p className='large mb-4'>
-										Substrate is the backbone that powers Polkadot, a next generation,
-										heterogeneous, multi-chain network. Most 'parachains' that will connect to this
-										network are also built on Substrate. Substrate is undergoing a security audit in
-										preparation for a 2020 release of the Polkadot network.
+                  Substrate驱动着下一代区块链网络Polkadot，这是一个异构的多链网络。 大多数将与Polkadot相连的“平行链”网络也将基于Substrate构建。
+                  Substrate正在进行安全审计，为2020年发布的Polkadot网络做准备。
 									</p>
 									<a className='action-link' href='https://polkadot.network/technology/'>
-										<span>Learn more about Polkadot</span>
+										<span>了解更多关于Polkadot</span>
 									</a>
 								</div>
 							</div>
@@ -221,8 +213,8 @@ class Index extends React.Component {
 						<div className='container'>
 							<div className='row justify-content-center text-center pt-5'>
 								<div className='col-12 col-md-10'>
-									<h4>Learning Substrate</h4>
-									<h2 className='h1'>More ways to learn Substrate.</h2>
+									<h4>学习Substrate</h4>
+									<h2 className='h1'>多种方式学习Substrate.</h2>
 								</div>
 							</div>
 						</div>
@@ -237,13 +229,12 @@ class Index extends React.Component {
 											<div className='py-5 py-md-0'>
 												<h2>Substrate Seminar</h2>
 												<p className='mb-3'>
-													Substrate Seminar is an open collaborative learning call where we
-													learn about Substrate together.
+                        Substrate Seminar是一个开放式线上协作学习会议，我们可以在此一起学习有关Substrate的知识。
 												</p>
 												<a
 													className='btn primary-color'
 													href='https://substrate.dev/en/seminar'>
-													Join the learning group
+													加入Seminar
 												</a>
 											</div>
 											<div className='border-bottom d-md-none' />
@@ -257,13 +248,12 @@ class Index extends React.Component {
 											<div className='py-5 py-md-0'>
 												<h2>Substrate Playground</h2>
 												<p className='mb-3'>
-													Start hacking your substrate runtime in a web based VSCode like IDE,
-													with full terminal support.
+                        Playground是一个基于浏览器的线上IDE（类似VSCode），具有完整的终端支持，可以在此环境中开始substrate runtime开发。
 												</p>
 												<a
 													className='btn primary-color'
 													href='https://playground.substrate.dev'>
-													Start playing in your browser
+													启动 Playground
 												</a>
 											</div>
 										</div>
@@ -278,27 +268,25 @@ class Index extends React.Component {
 							<div className='py-5'>
 								<div className='row justify-content-center text-center py-3'>
 									<div className='col-12 col-md-10'>
-										<h2 className='display-4 h1'>Ready to build with Substrate?</h2>
+										<h2 className='display-4 h1'>准备基于Substrate构建区块链?</h2>
 									</div>
 									<div className='col-12 col-md-8'>
 										<p className='lead mb-4'>
-											Get started with the documentation or drop in the Riot chat to ask technical
-											questions, meet others who share your interests, or keep an eye on what's
-											going on
+                    开始使用文档或在Riot聊天中提问技术问题，结识与你有共同兴趣的人或关注正在发生的事情
 										</p>
 										<div className='d-flex justify-content-center'>
 											<div className='px-1'>
 												<a
 													className='btn btn-lg primary-color'
-													href='https://substrate.dev/docs/en/'>
-													Get Started
+													href='https://learnblockchain.cn/docs/substrate/docs/'>
+													前往文档
 												</a>
 											</div>
 											<div className='px-1'>
 												<a
 													className='btn btn-lg btn-outline-primary'
 													href='https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org'>
-													Ask Questions
+													咨询问题
 												</a>
 											</div>
 										</div>
@@ -313,6 +301,6 @@ class Index extends React.Component {
 	}
 }
 
-Index.title = 'Official Substrate Documentation for Blockchain Developers'
-Index.description = 'Learn to build blockchains using the next generation blockchain framework.'
+Index.title = 'Substrate中文文档'
+Index.description = '学习使用下一代区块链框架构建区块链。'
 module.exports = Index

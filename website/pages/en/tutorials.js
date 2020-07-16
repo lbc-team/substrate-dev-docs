@@ -213,7 +213,7 @@ class Tutorials extends React.Component {
     const RecommendedTutorials = () => (
       <div>
         <h2>
-          <translate>Try these first!</translate>
+          <translate>先试试这些教程!</translate>
         </h2>
         <hr />
         <Row>
@@ -222,11 +222,11 @@ class Tutorials extends React.Component {
               {
                 img: `${baseUrl}img/crates.png`,
                 title: (
-                  <translate>Create Your First Substrate Chain</translate>
+                  <translate>创建第一条Substrate区块链</translate>
                 ),
                 text: (
                   <translate>
-                    Launch and interact with your first Substrate chain in this minimal end-to-end guide.
+                    在此基础教程中启动你的第一个Substrate链并与之交互。
                   </translate>
                 ),
                 difficulty: "easy",
@@ -240,11 +240,11 @@ class Tutorials extends React.Component {
               {
                 img: `${baseUrl}img/first-substrate-chain.png`,
                 title: (
-                  <translate>Build a PoE Decentralized Application</translate>
+                  <translate>构建一个PoE(存在证明) 去中心化应用</translate>
                 ),
                 text: (
                   <translate>
-                    Build a customized Substrate chain with its own user interface.
+                    构建一个有自定义用户接口的Substrate链
                   </translate>
                 ),
                 difficulty: "easy",
@@ -257,11 +257,11 @@ class Tutorials extends React.Component {
               },
               {
                 title: (
-                  <translate>Adding a Pallet to Your Runtime</translate>
+                  <translate>给你的 Runtime添加 Pallet </translate>
                 ),
                 text: (
                   <translate>
-                    Add the Contracts pallet or other FRAME pallets to your Substrate node template.
+                    添加合约 pallet 或其他的 FRAME pallets 到你的 Substrate 节点模板。
                   </translate>
                 ),
                 difficulty: "medium",
@@ -274,12 +274,11 @@ class Tutorials extends React.Component {
               {
                 img: `${baseUrl}img/substrate-network.png`,
                 title: (
-                  <translate>Start a Private Network with Substrate</translate>
+                  <translate>用 Substrate 启动一个是私有网络</translate>
                 ),
                 text: (
                   <translate>
-                    Learn to start a blockchain network using an
-                    out-of-the-box Substrate node.
+                    了解如何使用现成的Substrate节点启动区块链网络。
                   </translate>
                 ),
                 difficulty: "easy",
@@ -292,11 +291,10 @@ class Tutorials extends React.Component {
               },
               {
                 img: `${baseUrl}img/ink-smart-contracts-tutorial.png`,
-                title: <translate>ink! Smart Contracts Tutorial</translate>,
+                title: <translate>ink! 智能合约教程</translate>,
                 text: (
                   <translate>
-                    A comprehensive, end-to-end tutorial for building an ERC20
-                    token contract using ink!.
+                    有关使用 ink！构建ERC20代币合约的全面教程。
                   </translate>
                 ),
                 difficulty: "easy",
@@ -350,8 +348,8 @@ class Tutorials extends React.Component {
         <HomeSplash
           siteConfig={siteConfig}
           language={language}
-          title={<translate>Tutorial Catalog</translate>}
-          tagline={<translate>Let's learn together!</translate>}
+          title={<translate>Substrate 教程目录</translate>}
+          tagline={<translate>一起来学习吧!</translate>}
           padding={0}
         />
         <div className="mainContainer">
@@ -374,6 +372,6 @@ function sort_by_name(a, b) {
   return 0;
 }
 
-Tutorials.title = "Tutorials";
-Tutorials.description = "Find the latest tutorials for Substrate.";
+Tutorials.title = "教程";
+Tutorials.description = "找到有关Sustrate的最新教程";
 module.exports = Tutorials;

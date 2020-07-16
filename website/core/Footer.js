@@ -112,24 +112,19 @@ class Footer extends React.Component {
             )}
           </a>
           <div>
-            <h5>Developer Hub</h5>
+            <h5>开发者中心</h5>
             <a href={this.pageUrl("tutorials", this.props.language)}>
-              Tutorials
+              教程
             </a>
             <a href={'/docs/' + this.props.language + '/'}>
-              Knowledge Base
+              知识库
             </a>
-            <a href="https://substrate.dev/recipes/">Recipes</a>
-            <a href="https://substrate.dev/rustdocs">Reference Documents</a>
+            <a href="https://substrate.dev/recipes/">菜谱</a>
+            <a href="https://substrate.dev/rustdocs">接口文档</a>
           </div>
           <div>
-            <h5>Community</h5>
+            <h5>社区</h5>
             <a href={this.pageUrl("community", this.props.language)}>Community Home</a>
-            <a href={this.pageUrl("newsletter", this.props.language)}>Newsletter</a>
-            <a href="https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org">
-              Riot Chat
-            </a>
-            <a href={this.pageUrl("seminar", this.props.language)}>Substrate Seminar</a>
             <a
               href="http://stackoverflow.com/questions/tagged/substrate"
               target="_blank"
@@ -153,7 +148,7 @@ class Footer extends React.Component {
             </a>
           </div>
           <div>
-            <h5>More</h5>
+            <h5>更多</h5>
             <a href="https://www.substrate.io/builders-program/">Substrate Builders Program</a>
             <a href="https://www.parity.io/blog/">Blog</a>
             <a href="https://github.com/paritytech/substrate">
@@ -162,26 +157,14 @@ class Footer extends React.Component {
             <a href="https://github.com/substrate-developer-hub/">
               Developer Hub GitHub
             </a>
-            <a href="https://www.parity.io/privacy/">Privacy Policy</a>
-            <a href="/terms">Terms of Use</a>
-            <a href="#" id="cookie-settings">
-              Cookie Settings
-              {/* Script for cookie settings pop-up. */}
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `
-              var cookieSettings = document.getElementById('cookie-settings');
-              cookieSettings.onclick = function() {
-                return klaro.show();
-              };
-              `
-                }}
-              />
-            </a>
           </div>
         </section>
 
-        <section className="copyright">{this.props.config.copyright}</section>
+        <section className="copyright">本文档由
+          <a href="https://learnblockchain.cn/">
+            {this.props.config.copyright}
+          </a>翻译
+        </section>
       </footer>
     );
   }
