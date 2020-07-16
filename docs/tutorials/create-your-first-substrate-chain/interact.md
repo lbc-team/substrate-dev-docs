@@ -1,23 +1,27 @@
 ---
-title: Interacting with Your Node
+title: 与节点交互
 ---
 
-Now that your node has finished compiling, let's show you how everything works out of the box.
+现在，Substrate模板节点应该已完成编译，让我们向你展示一切是如何工作的。
 
-## Starting Your Node
 
-Run the following commands to start your node:
+
+## 启动节点
+
+运行以下命令以启动节点：
+
+
 
 ```bash
-# Purge chain cleans up any old data from running a `dev` node in the past
-# You will be prompted to type `y`
+# purge-chain 用来清除之前 dev 模式运行的老数据（如果有）
+# 根据提示输入 y 
 ./target/release/node-template purge-chain --dev
 
-# Run your actual node in "development" mode
+# 在“开发”模式下启动实际的节点
 ./target/release/node-template --dev
 ```
 
-You should see something like this if your node is running successfully:
+如果你的节点运行成功，你应该看到类似以下内容的信息：
 
 ```
 $ ./target/release/node-template --dev
@@ -56,89 +60,83 @@ $ ./target/release/node-template --dev
 2020-06-26 10:10:20 💤 Idle (0 peers), best: #3 (0xf647…5c2d), finalized #1 (0x9a3a…192f), ⬇ 0 ⬆ 0
 ```
 
-If the number after `finalized:` is increasing, your blockchain is producing new blocks and reaching
-consensus about the state they describe!
+如果`finalized：`之后的数字在增加，则你的区块链正在产生新的区块并且状态达成了共识！
 
-## Start the Front-End
 
-To interact with your local node, we will use
-[the Substrate Developer Hub Front-End Template](https://github.com/substrate-developer-hub/substrate-front-end-template),
-which is a collection of UI components that have been designed with common use cases in mind.
 
-To get started with the Front-End Template, clone its repository and
-[follow the simple steps to run it locally](https://github.com/substrate-developer-hub/substrate-front-end-template#using-the-template).
+## 启动前端
 
-## Interact
+为了与本地节点进行交互，我们将使用[Substrate Developer Hub前端模板](https://github.com/substrate-developer-hub/substrate-front-end-template)，这是一套UI组件，这些组件在设计时考虑了常见的交互场景。
 
-Once the Front-End Template is running and loaded in your browser at
-[http://localhost:8000/](http://localhost:8000/), take a moment to explore its components. At the
-top, you will find lots of helpful information about the chain to which you're connected as well as
-an account selector that will let you control the account you use to perform on-chain operations.
+要使用前端模板，需要先克隆库代码并[按照指引步骤在本地运行](https://github.com/substrate-developer-hub/substrate-front-end-template#using-the-template)。
 
-![Chain Data & Account Selector](assets/tutorials/first-chain/chain-data.png)
 
-There is also a table that lists
-[the well-known test accounts](../../knowledgebase/integrate/subkey#well-known-keys) that you have access to. Some,
-like Alice and Bob, already have funds!
 
-![Account Table](assets/tutorials/first-chain/accts-prefunded.png)
+## 交互
 
-Beneath the account table there is a Transfer component that you can use to transfer funds from
-one account to another. Take note of the info box that describes the precision used by the Front-End
-Template; you should transfer at least `1000000000000` to make it easy for you to observe the
-changes you're making.
+在运行前端模板并将其加载到浏览器中的 [http://localhost:8000/](http://localhost:8000/)后，请花点时间探索下这个前端组件。 在顶部，你将找到许多所连接链的相关信息，以及一个帐户选择列表，在这里可以选择用于执行链上操作的帐户。
 
-![Balance Transfer](assets/tutorials/first-chain/apps-transfer.png)
 
-Notice that the table of accounts is dynamic and that the account balances are updated as soon as
-the transfer is processed.
 
-### Runtime Metadata
+![链状态及帐户选择列表](assets/tutorials/first-chain/chain-data.png)
 
-The Front-End Template exposes many helpful features and you should explore all of them while you're
-connected to a local development node. One good way to get started is by clicking the "Show
-Metadata" button at the top of the template page and reviewing
-[the metadata that your runtime exposes](../../knowledgebase/runtime/metadata).
+这里也列出了可以使用的[已知的测试账号](../../knowledgebase/integrate/subkey#well-known-keys)，诸如 Alice 和 Bob 账号都是已经带有资金。
 
-![Metadata JSON](assets/tutorials/first-chain/metadata.png)
+![账号列表](assets/tutorials/first-chain/accts-prefunded.png)
 
-### Pallet Interactor & Events
 
-You can use the runtime metadata to discover a runtime's capabilities. The Front-End Template
-provides a helpful Pallet Interactor component that provides several mechanisms for interacting with
-a Substrate runtime.
+
+账户表下方有一个转账组件，你可以使用该组件将资金从一个账户转移到另一个账户。 记下前端模板描述精度的信息框； 你应该至少转移`1000000000000`以方便观察到余额的变化。
+
+![转账](assets/tutorials/first-chain/apps-transfer.png)
+
+请注意，帐户表是动态的，并且在处理转帐后会立即更新帐户余额。
+
+
+
+### Runtime元数据(Metadata)
+
+> 译者注：元数据（Metadata）， 是一种描述数据的数据（data about data）。
+
+
+
+前端模板提供了许多有用的功能，在连接到本地开发节点时应该探索下所有这些功能。 一种入门好方法是点击模板页面顶部的“Show Metadata(显示元数据)”按钮并查看[运行时发布的元数据](../../knowledgebase/runtime/metadata)
+
+![元数据 JSON](assets/tutorials/first-chain/metadata.png)
+
+### Pallet Interactor及事件
+
+你可以使用Runtime元数据探索运行时的功能。 前端模板提供了一个有用的Pallet Interactor组件，该组件提供了几种与Substrate Runtime进行交互的机制。
+
+
 
 ![Pallet Interactor & Events](assets/tutorials/first-chain/interactor-events.png)
 
-[Extrinsics](../../knowledgebase/learn-substrate/extrinsics) are the runtime's callable functions; if you are
-already familiar with blockchain concepts, you can think of them as transactions for now. The Pallet
-Interactor allows you to submit [unsigned](../../knowledgebase/learn-substrate/extrinsics#unsigned-transactions) or
-[signed](../../knowledgebase/learn-substrate/extrinsics#signed-transactions) extrinsics and also provides a button
-that makes it easy to invoke an extrinsic by way of
-[the `sudo` function from the Sudo pallet](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_sudo/enum.Call.html#variant.sudo).
+ 是Runtime 的可调用函数；如果你已经熟悉区块链概念，可以将其视作为交易。 Pallet Interactor 允许你提交 [无签名(unsigned)](../../knowledgebase/learn-substrate/extrinsics#unsigned-transactions) 或 [具签名(signed)](../../knowledgebase/learn-substrate/extrinsics#signed-transactions) d的交易并且提供了一个按钮通过[超级权限（sudo）](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_sudo/enum.Call.html#variant.sudo)来触发交易。
 
-You can select Query interactions to read
-[the values present in your runtime's storage](../../knowledgebase/runtime/storage). The RPC and Constant options
-provide additional mechanisms for runtime interaction.
 
-Like many blockchains, Substrate chains use [events](../../knowledgebase/runtime/events) to report the results of
-asynchronous operations. If you have already used the Front-End Template to perform a balance
-transfer as described above, you should see an event for the transfer in the Event component next to
-the Pallet Interactor.
 
-## Next Steps
+你可以选择Query(查询)来读取[Runtime存储中保存的值](../../knowledgebase/runtime/storage)。 RPC和Constant选项则是与Runtime交互提供的其他机制。
 
-This is the end of your journey to launching your first blockchain with Substrate.
 
-You have launched a working Substrate-based blockchain, attached a user interface to that chain, and
-made token transfers among users. We hope you'll continue learning about Substrate.
 
-Your next step may be:
+像许多区块链一样，Substrate链使用[事件](../../knowledgebase/runtime/events)来报告异步操作的结果。 如果你已经使用前端模板执行转账，则应该在Pallet Interactor旁边的“事件（Event）”组件中可以看到Tranfer事件。
 
-- Decentralize your network with more nodes in the
-  [Start a Private Network](../start-a-private-network/) tutorial.
-- Add custom functionality in the [Build a dApp](../build-a-dapp/) tutorial.
 
-If you experienced any issues with this tutorial or want to provide feedback, feel free to
-[open a GitHub issue](https://github.com/substrate-developer-hub/tutorials/issues/new) or reach out
-on [Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org).
+
+## 接下来
+
+到这里，使用Substrate启动第一个区块链就完成了。
+
+
+
+你已经启动了可工作的基于Substrate的区块链，并且用户界面连接到该链了，用户之间进行Token转移。 希望你继续学习Substrate。
+
+下一步，你也许想：
+
+- 启用更多的节点搭建去中心化网络，可参考 [启动一个私有网络](../start-a-private-network/) 教程.
+- 添加自定义的功能，可参考 [构建一个 DApp](../build-a-dapp/) 教程.
+
+
+
+如果你在本教程中遇到任何问题或想提供反馈，请随时[提交GitHub issue](https://github.com/substrate-developer-hub/tutorials/issues/new)或在 [Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)上联系我们。

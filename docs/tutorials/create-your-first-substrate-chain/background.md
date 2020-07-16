@@ -1,52 +1,58 @@
 ---
-title: Background Information
+title:  Subustrate框架背景知识
 ---
 
-In this section we will teach you about the Substrate blockchain development framework. The Node
-Template that you are currently developing is built from this framework.
+在本节中，我们将了解有关Substrate区块链开发框架的基础知识。
 
-## Background on Blockchains
+当前正在编译的节点模板（ Node Template）正是基于此开发框架构建的。
 
-Blockchain development is hard.
 
-Blockchain networks are composed of individual **nodes** that are connected together on a
-peer-to-peer (P2P) network. Nodes are the individual computers on a network running the blockchain
-software that makes everything work.
+## 区块链基础
 
-To function, a blockchain node needs:
+区块链开发很难。
 
-- A Database
-- P2P Networking
-- A Consensus Engine
-- Transaction Handling
-- A State Transition Function
-- and more...
+区块链网络由单独的**节点**组成，这些节点在点对点（P2P）网络上连接在一起。 节点是区块链网络上相互独立运行的计算机。
 
-These technologies span a huge breadth of computer science, and thus usually require expert teams to
-develop. As a result, most blockchain projects are _not_ developed from the ground up. Instead,
-these projects are forked from already existing blockchain repositories. For instance:
 
-- The Bitcoin repository was forked to create: Litecoin, ZCash, Namecoin, Bitcoin Cash, etc...
-- The Ethereum repository was forked to create: Quorem, POA Network, KodakCoin, Musicoin, etc...
+为了完成功能，节点需要:
 
-![Blockchain Project Repository Forks](assets/tutorials/first-chain/forks.png)
+- 一个数据库
+- P2P 网络
+- 共识引擎
+- 处理交易
+- 状态转换函数
+- 以及其他...
 
-Building blockchains in this way has serious limitations as these existing platform were not
-designed with modification in mind.
+
+
+这些技术涉及领域很广，因此通常需要专家团队来开发。 因此，大多数区块链项目都不是从头开始开发的。 相反，这些项目是从现有的区块链代码库中分叉而来。 例如：
+
+-  莱特币(Litecoin), ZCash, Namecoin, Bitcoin Cash 等等是基于比特币库（Bitcoin）分叉而来；
+- Quorem, POA Network, KodakCoin, Musicoin 等等是基于以太坊库分叉而来。
+
+![区块链项目分叉](assets/tutorials/first-chain/forks.png)
+
+
+以这种方式构建区块链存在严重的局限性，因为这些现有平台在设计时并未把修改考虑进去。
+
+
 
 ## Substrate
 
-Substrate is an **open source**, **modular**, and **extensible** framework for building blockchains.
 
-Substrate has been designed from the ground up to provide a flexible framework for innovators to
-design and build their next blockchain network. It provides all the core components you need to
-build a customized blockchain node.
 
-### Substrate Node Template
+Substrate是一个用于构建区块链的``开源``、`模块化`以及`可扩展` 的框架。
 
-We provide an out-of-the-box working Substrate-based node in the form of the Node Template, which
-should be compiling as you read this. Without making any changes, you and your friends could share
-this node template and create a working blockchain network with a cryptocurrency and everything!
+Substrate 是重新设计的一套可灵活构建下一代区块链网络的框架。 它提供了构建自定义区块链节点所需的所有核心组件。
 
-We will teach you how to use this node in "development" mode, which allows you to run a network with
-a single node, and have some pre-configured user accounts with funds.
+
+
+### 节点模板(Substrate Node Template)
+
+我们以Node Template的形式提供了一个开箱即用的基于Substrate的节点，此时应该正在编译。 无需进行任何更改，你和朋友就可以共享此节点模板创建具有加密货币和所有功能的区块链网络！
+
+
+
+我们将教你如何在“开发”模式下使用该节点，该模式使你可以在单个节点上运行网络，并拥有一些预先配置资金的用户帐户。
+
+
