@@ -3,6 +3,9 @@ id: getting-started
 title: 开始入门
 ---
 
+NOTICE: REMOVED.
+
+
 # 开始入门
 
 这一页有你开始构建 Substrate 的一切信息。

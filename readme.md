@@ -1,9 +1,9 @@
-
 # Substrate 开发者中文文档
 
 
 本份 Substrate 开发者中文文档由登链社区发起，由[Cell Network](https://www.cellnetwork.io/?utm_souce=learnblockchain#/cellhome) 和 [登链社区](https://learnblockchain.cn/) 共同赞助。
 如果你对我们的翻译计划感兴趣，来看看[招募译者](https://learnblockchain.cn/article/796) .
+
 
 登链社区[区块链技术文档中心](https://learnblockchain.cn/site/docs) 已经有很多文档，本 Substrate 开发者中文文档将托管在 [https://learnblockchain.cn/docs/substrate/](https://learnblockchain.cn/docs/substrate/) 。
 
@@ -34,7 +34,7 @@
 git clone https://github.com/lbc-team/substrate-dev-docs
 cd  substrate-dev-docs
 cd website
-yarn
+yarn (或yarn install)
 ```
 
 使用`yarn start` 就可以启动本地预览， 浏览器访问 `http://localhost:3000/docs/en/` 查看预览。

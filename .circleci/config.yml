@@ -73,20 +73,52 @@ jobs:
           command: |
             cd website && yarn install && yarn run write-translations && yarn build
 
+  check-links:
+      docker:
+        - image: web3f/link-checker:v1.0.1
+      steps:
+        - checkout
+        - run:
+            name: build
+            working_directory: website
+            command: |
+              yarn
+        - run:
+            name: serve
+            working_directory: website
+            background: true
+            command: |
+              yarn start
+        - run:
+            name: wait serve
+            command: |
+              while ! nc -z localhost 3000; do
+                sleep 1
+                echo waiting for website to start...
+              done
+        - run:
+            name: check links
+            command: |
+              linkchecker --ignore-url="^(?:(?!\/en\/).)*$" --check-extern http://localhost:3000/
+
 workflows:
   version: 2
   check_n_deploy:
     jobs:
       - check-build:
           filters: *non-deployment-branches
+      - check-links:
+          filters: *non-deployment-branches
       - deploy-to-prod:
           filters: *only-source
           requires:
             - check-build
+            - check-links
       - deploy-to-staging:
           filters: *only-staging-source
           requires:
             - check-build
+            - check-links
 
   nightly_deploy:
     triggers:

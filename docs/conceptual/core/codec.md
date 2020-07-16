@@ -2,6 +2,8 @@
 title: SCALE编解码器
 ---
 
+NOTICE: REMOVED
+
 SCALE (简单串行聚合小端 Simple Concatenated Aggregate Little-Endian) 编解码器是一个轻量级,
 高效, 二进制序列化和反序列化的编解码器.
 
