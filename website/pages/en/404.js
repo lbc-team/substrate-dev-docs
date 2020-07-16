@@ -33,6 +33,9 @@ class ErrorPage extends React.Component {
           </a>
           !
         </p>
+         <p>
+       Alternatively, if you arrive here via a dead link, return to the <a href="https://substrate.dev/docs/">documentation homepage</a>.
+      </p>
         <p>
           <Button href="/" variant="secondary" className="primary-color">
             Back to Home

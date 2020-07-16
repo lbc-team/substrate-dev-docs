@@ -55,13 +55,13 @@ function Seminar(props) {
 							<section className='button-wrap'>
 								<Button
 									className='btn btn--white primary-color'
-									href='https://calendar.google.com/event?action=TEMPLATE&tmeid=MXFuaHJ1OWZyY2g1NTY0aDV1YW9zNXBlNThfMjAyMDAzMTdUMTQwMDAwWiBwYXJpdHkuaW9fMzkzNzkzNDNoMDczdjA2cWh0MXZwcWNlZmNAZw&tmsrc=parity.io_39379343h073v06qht1vpqcefc%40group.calendar.google.com&scp=ALL'>
+									href='https://calendar.google.com/calendar/b/1?cid=cGFyaXR5LmlvXzJmc2tqN245cm1qcHE1Y2xiOWc3ZWUzZGhvQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20'>
 									<span className='btn__text'>Add to Google Calendar</span>
 								</Button>
 							</section>
 							<section>
 								<span className='block type--fine-print'>
-									or <a href='https://zoom.us/j/916767726'>join live call »</a>
+									or <a href='https://www.crowdcast.io/e/substrate-seminar'>join live call »</a>
 								</span>
 							</section>
 						</div>
@@ -79,7 +79,7 @@ function Seminar(props) {
 								together. We meet every Tuesday at 14:00UTC. Ask for help, show off your project, learn
 								Substrate, and make friends!
 							</p>
-							<a href='#'>Add next call to Google Calendar »</a>
+							<a href='https://calendar.google.com/calendar/b/1?cid=cGFyaXR5LmlvXzJmc2tqN245cm1qcHE1Y2xiOWc3ZWUzZGhvQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20'>Add next call to Google Calendar »</a>
 						</div>
 						<div className='col-md-4 col-lg-5 right'>
 							<div className='feature feature-2 boxed boxed--border box-shadow'>
@@ -104,23 +104,18 @@ function Seminar(props) {
 						<div className='col-md-6 first'>
 							<h4 className='mb-2'>What topics are coming up?</h4>
 							<p>
-								On <strong>April 14th</strong>, Cecile Tonglet will join us to talk about the new Substrate CLI and how to use and extend it. We may also briefly explore the Substrate Service and Cumulus.
+								On <strong>14 July</strong>, Parity's Dan Forbes will demonstrate and discuss how to write your own Substrate pallet and install it in a runtime. He will also explore the uses and idiosyncrasies of Substrate's runtime storage. This is a beginner-friendly session focused on runtime development. Ricardo Rius will be the host in this seminar.
 							</p>
 							<p>
-								On <strong>April 21st</strong>, Joshy Orndorff and Nicole Zhu will discuss a UTXO pallet and creating a bitcoin-like chain on Substrate.
+								On <strong>21 July</strong>, Parity's Kian Paimani returns to demonstrate testing and debugging live chains locally. This is an intermediate session in which attendees will learn the challenges associated with testing upgrades and migrations on live blockchains, and explore a techinque to overcome those challenges. Addie Wagenknecht will be the host in this seminar.
 							</p>
 							<p>
-								On <strong>April 28th, Seminar is Cancelled</strong>. Let's all attend <a href="https://sub0.parity.io">Sub0 Online</a> instead!
+								On <strong>28 July</strong>, Parity's Ricardo Rius (also being the host), Jimmy Chu, and Steve Degosserie join us to present a Substrate Enterprise demo. This intermediate presentation will show several features of Substrate that enterprise users may find valuable. It may even include a demonstration of running a Substrate node on Android.
 							</p>
 							<h4 className='mb-2'>How do I join the call?</h4>
 							<p>
-								We meet using zoom video conferencing. Specifically we meet in{' '}
-								<a href='https://zoom.us/j/916767726'>https://zoom.us/j/916767726</a>. This link will
-								only work when the call is live, so you may prefer to add this{' '}
-								<a href='https://calendar.google.com/event?action=TEMPLATE&tmeid=MXFuaHJ1OWZyY2g1NTY0aDV1YW9zNXBlNThfMjAyMDAzMTdUMTQwMDAwWiBwYXJpdHkuaW9fMzkzNzkzNDNoMDczdjA2cWh0MXZwcWNlZmNAZw&tmsrc=parity.io_39379343h073v06qht1vpqcefc%40group.calendar.google.com&scp=ALL'>
-									Google calendar invitation
-								</a>{' '}
-								to you own calendar.
+								We are trying the crowdcast platform for seminar. Specifically we meet in{' '}
+								<a href='https://www.crowdcast.io/e/substrate-seminar'>https://www.crowdcast.io/e/substrate-seminar</a>.
 							</p>
 						</div>
 
@@ -139,11 +134,11 @@ function Seminar(props) {
 							</p>
 							*/}
 
-							<h4 className='mt-4 mb-2'>Can I share a project I've been working on?</h4>
+							<h4 className='mt-4 mb-2'>Can I ask my own questions?</h4>
 							<p>
-								Yes! Seminar works best when everyone shares their projects and interests. To ensure a
-								slot to share, please contact the group on <a href='https://matrix.to/#/!oClBfIbtucPfGKlNpk:matrix.parity.io'>Riot</a>.
+								Yes! The second half of every Seminar is for open Q & A like office hours. You can ask questions or even bring your code that doesn't compile. Participants will be invited on-screen to share their work and their questions. You may also join us between Seminars on <a href='https://matrix.to/#/!oClBfIbtucPfGKlNpk:matrix.parity.io'>Riot</a>.
 							</p>
+
 							<h4 className='mb-2'>I am not a [Substrate] developer, can I still participate?</h4>
 							<p>
 								Yes! The seminar is open to everyone. The content is generally more developer-oriented,
@@ -151,111 +146,32 @@ function Seminar(props) {
 								out to be off-topic, we'll point you to a better resource.
 							</p>
 
-							<h4 className='mb-2'>Is this related to Substrate Collaborative Learning?</h4>
+							<h4 className='mb-2'>Where are the recordings?</h4>
 							<p>
-								Yes! Substrate Collaborative Learning was the previous harder-to-pronounce iteration of
-								Substrate Seminar. When we decided to start meeting every week, and have a more
-								discoverable web presence, we rebranded. If you liked Substrate Collaborative Learning,
-								you'll love Substrate Seminar. The{' '}
-								<a href='https://www.youtube.com/playlist?list=PLp0_ueXY_enUCPszf_3Q9ZxovLvKm1eMx'>
-									SCL recordings
-								</a>{' '}
-								are still available.
+								Seminar has changed formats a few times so the recordings are in a few places.
+								<ul>
+									<li>
+										<a href='https://www.crowdcast.io/e/substrate-seminar/'>
+											June 23 2020 and later
+										</a>{' '} are on Crowdcast.
+									</li>
+									<li>
+										<a href='https://www.youtube.com/watch?v=XoL1Ur_6Lxk&list=PLp0_ueXY_enXRfoaW7sTudeQH10yDvFOS'>
+											19 November 2019 - June 23 2020
+										</a>{' '} are on the Substrate Seminar YouTube playlist.
+									</li>
+									<li>
+										<a href='https://www.youtube.com/playlist?list=PLp0_ueXY_enUCPszf_3Q9ZxovLvKm1eMx'>
+											03 June 2019 - 02 November 2019
+										</a>{' '} are on the Substrate Collaborative Learning YouTube playlist.
+									</li>
+								</ul>
 							</p>
 						</div>
 					</div>
 				</div>
 			</section>
 			<section className='bg--secondary'>
-				<div className='container'>
-					<div
-						className='row pb-0'
-						style={{
-							marginBottom: '20px'
-						}}>
-						<div className='col-6'>
-							<h4 className='p-color'>Previous calls</h4>
-						</div>
-						<div className='col-6 text-right'>
-							<a
-								href='https://www.youtube.com/playlist?list=PLp0_ueXY_enXRfoaW7sTudeQH10yDvFOS'
-								target='_blank'>
-								View more recordings »
-							</a>
-						</div>
-					</div>
-
-					<div className='row featured-video pt-0'>
-
-						<div className='col-md-4'>
-							<section className='video-cover video-cover-xs'>
-								<div
-									className='background-image-holder'
-									style={{
-										backgroundImage: `url('/img/seminar-t.jpg' )`
-									}}
-								/>
-								<a
-									className='video-play'
-									href='https://www.youtube.com/watch?v=bnC5RQsaAXQ&list=PLp0_ueXY_enXRfoaW7sTudeQH10yDvFOS'
-									target='_blank'
-								/>
-							</section>
-							<section className='video-details'>
-								<h4 className='p-color'>Stable Coin and Storage Adapters</h4>
-								<p>
-									Alexander Popiak joins us to discuss his uncollateralized stablecoin implementation and the "Transient Storage Adapters" pattern
-								</p>
-							</section>
-						</div>
-
-						<div className='col-md-4'>
-							<section className='video-cover video-cover-xs'>
-								<div
-									className='background-image-holder'
-									style={{
-										backgroundImage: `url('/img/seminar-t.jpg' )`
-									}}
-								/>
-								<a
-									className='video-play'
-									href='https://www.youtube.com/watch?v=uhkV0jAcWDY&list=PLp0_ueXY_enXRfoaW7sTudeQH10yDvFOS'
-									target='_blank'
-								/>
-							</section>
-							<section className='video-details'>
-								<h4 className='p-color'>Manual Seal and Instant Seal</h4>
-								<p>
-									This week Seun LanLege helps us build a Substrate node that uses manual seal and instant seal consensus engines.
-								</p>
-							</section>
-						</div>
-
-						<div className='col-md-4'>
-							<section className='video-cover video-cover-xs'>
-								<div
-									className='background-image-holder'
-									style={{
-										backgroundImage: `url('/img/seminar-t.jpg' )`
-									}}
-								/>
-								<a
-									className='video-play'
-									href='https://www.youtube.com/watch?v=lXw6GTNh73Y&list=PLp0_ueXY_enXRfoaW7sTudeQH10yDvFOS'
-									target='_blank'
-								/>
-							</section>
-							<section className='video-details'>
-								<h4 className='p-color'>Moonbeam and EVM Pallet</h4>
-								<p>
-									Derek from Purestake tells us about their Moonbeam contract chain, and Parity's Kirill Taran demonstrates using the EVM pallet.
-								</p>
-							</section>
-						</div>
-
-					</div>
-
-				</div>
 
 				<div
 					className='container'
@@ -270,13 +186,13 @@ function Seminar(props) {
 								<section className='button-wrap'>
 									<Button
 										className='btn btn--white primary-color'
-										href='https://calendar.google.com/event?action=TEMPLATE&tmeid=MXFuaHJ1OWZyY2g1NTY0aDV1YW9zNXBlNThfMjAyMDAzMTdUMTQwMDAwWiBwYXJpdHkuaW9fMzkzNzkzNDNoMDczdjA2cWh0MXZwcWNlZmNAZw&tmsrc=parity.io_39379343h073v06qht1vpqcefc%40group.calendar.google.com&scp=ALL'>
+										href='https://calendar.google.com/calendar/b/1?cid=cGFyaXR5LmlvXzJmc2tqN245cm1qcHE1Y2xiOWc3ZWUzZGhvQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20'>
 										<span className='btn__text'>Add to Google Calendar</span>
 									</Button>
 								</section>
 								<section>
 									<span className='block type--fine-print'>
-										or <a href='https://zoom.us/j/916767726'>join live call »</a>
+										or <a href='https://www.crowdcast.io/e/substrate-seminar'>join live call »</a>
 									</span>
 								</section>
 							</div>
