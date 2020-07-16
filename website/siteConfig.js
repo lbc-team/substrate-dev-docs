@@ -20,7 +20,7 @@
 // List of videos on the "videos" page
 const videos = require('./data/videos')
 
-const title_prefix = 'Substrate Developer Hub'
+const title_prefix = 'Substrate开发者中心'
 const custom_url = 'substrate.dev'
 const is_staging = process.env['NODE_ENV'] == 'staging'
 const git_rev = is_staging ? process.env['GIT_REV'] : null
@@ -34,14 +34,14 @@ const siteConfig = {
 
 	// Used for publishing and more
 	organizationName: 'substrate-developer-hub',
-	projectName: 'substrate-developer-hub.github.io',
+	projectName: 'substrate',
 	// For top-level user or org sites, the organization is still the same.
 	// e.g., for the https://JoelMarcey.github.io site, it would be set like...
 	//   organizationName: 'JoelMarcey'
 
 	// Your website URL
-	url: 'https://substrate-developer-hub.github.io/',
-	baseUrl: '/', // Base URL for your project */
+	url: 'https://learnblockchain.cn/docs/substrate/',
+	baseUrl: '/docs/substrate/', // Base URL for your project */
 	// For github.io type URLs, you would set the url and baseUrl like:
 	//   url: 'https://facebook.github.io',
 	//   baseUrl: '/test-site/',
@@ -51,11 +51,11 @@ const siteConfig = {
 
 	// For no header links in the top nav bar -> headerLinks: [],
 	headerLinks: [
-		{ page: 'tutorials', label: 'Tutorials' },
-		{ doc: 'index', label: 'Knowledge Base' },
+		{ page: 'tutorials', label: '教程' },
+		{ doc: 'index', label: '知识库' },
 		{ href: 'https://substrate.dev/recipes/', label: 'Recipes' },
 		{ href: 'https://substrate.dev/rustdocs/', label: 'Reference Documents' },
-		{ search: true }
+    { search: true },
 	],
 
 	// Presentations
@@ -140,7 +140,7 @@ const siteConfig = {
 	stylesheets: [ 'https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css' ],
 
 	// Translation recruitment link, appears in the language drop down as "Help Translate"
-	translationRecruitingLink: 'https://crowdin.com/project/substrate-developer-hub',
+	translationRecruitingLink: 'https://github.com/lbc-team/substrate-dev-docs',
 
 	// Algolia Search
 	algolia: {

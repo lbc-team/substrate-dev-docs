@@ -61,7 +61,7 @@
     ]
   },
   "create-your-first-substrate-chain": {
-    "Create Your First Substrate Chain": [
+    "创建第一条Substrate链": [
       "tutorials/create-your-first-substrate-chain/index",
       "tutorials/create-your-first-substrate-chain/setup",
       "tutorials/create-your-first-substrate-chain/background",

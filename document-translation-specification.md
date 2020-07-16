@@ -32,8 +32,8 @@
 | ---   | ---   |
 | transaction   | 交易（transaction）
 | contract      | 合约（contract）
-| Merkle trees  | 梅克尔树（Merkle tress）
-| Merkle root   | 梅克尔根（Merkle tress）
+| Merkle trees  | 默克尔树（Merkle tress）
+| Merkle root   | 默克尔根（Merkle tress）
 | ....          |
 
 
