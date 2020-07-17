@@ -61,7 +61,7 @@ Substrate允许你定制自己的分叉选择规则，或开箱即用当前实�
 
 ##  区块生成
 
-区块链网络中的一些节点能够生成新区块，也当作为一个授权的过程。准确来说，哪个节点能够授权生成区块取决于你使用了什么样的共识引擎。在一个中心化的网络中，一个单一节点能够授权生成所有的区块，然而在一个完全去权限（premissionless）的网络中，一个算法必须为每个高度选择区块生成者。
+区块链网络中的一些节点能够生成新区块，也当作为一个授权(authoring)的过程。准确来说，哪个节点能够授权生成区块取决于你使用了什么样的共识引擎。在一个中心化的网络中，一个单一节点能够授权生成所有的区块，然而在一个完全去权限（premissionless）的网络中，一个算法必须为每个高度选择区块生成者。
 
 
 ### 工作量证明
@@ -121,47 +121,34 @@ Substrate的BABE实现有一个回滚机制，当一个给定插槽没有符合�
 
 ### 工作量证明
 
-[Proof-of-work](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_pow/index.html) block authoring
-is not slot-based and does not require a known authority set. In proof of work, anyone can produce a
-block at any time, so long as they can solve a computationally challenging problem (typically a hash
-preimage search). The difficulty of this problem can be tuned to provide a statistical target block
-time.
+[工作量证明](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_pow/index.html) 区块生成即不是基于插槽也不是通过已知的验证人集合。 在工作量证明中，任何人可以在任何时间产生区块，只要他们能解决一个计算挑战问题（典型的是一个哈希查找）。这个问题的难度可以通过提供目标出块时间来调整。
+
 
 ### GRANDPA
 
-[GRANDPA](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_finality_grandpa/index.html) provides block
-finalization. It has a known weighted authority set like BABE. However, GRANDPA does not author
-blocks; it just listens to gossip about blocks that have been produced by some authoring engine like
-the three discussed above. GRANDPA validators vote on _chains,_ not _blocks,_ i.e. they vote on a
-block that they consider "best" and their votes are applied transitively to all previous blocks.
-Once more than 2/3 of the GRANDPA authorities have voted for a particular block, it is considered
-final.
+[GRANDPA](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_finality_grandpa/index.html) 提供区块最终确定性。
 
-### Coordination with the Runtime
+它具有BABE类似的加权验证集合。 但是，GRANDPA不生成区块; 它只是监听区块生成引擎（如上述三个引擎）产生的块。 GRANDPA验证者对_chains（而不是_blocks）投票，即他们在认为“最佳”的区块上投票，并且其投票可应用于所有之前的区块。
 
-The simplest static consensus algorithms work entirely outside of the runtime as we've described so
-far. However many consensus games are made much more powerful by adding features that require
-coordination with the runtime. Examples include adjustable difficulty in proof of work, authority
-rotation in proof of authority, and stake-based weighting in proof-of-stake networks.
+一旦超过 2/3 的GRANDPA验证者对一个特定的区块投票，就认为具有最终的确定性。
 
-To accommodate these consensus features, Substrate has the concept of a
-[`DigestItem`](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/enum.DigestItem.html), a message
-passed from the outer part of the node, where consensus lives, to the runtime, or vice versa.
 
-## Learn More
+### 与Runtime协作
 
-Because both BABE and GRANDPA will be used in the Polkadot network, Web3 Foundation provides
-research-level presentations of the algorithms.
+就目前我们描述的，最简单的静态共识算法完全在Runtime之外运行。 但是，通过与Runtime协作的功能，许多共识变得更加强大。 例如包括工作证明中的可调难度，授权证明（POA）中的权限轮换以及权益证明网络（proof-of-stake）中基于权益的加权。
+
+为了适应这些共识功能，Substrate具有[`DigestItem`](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/enum.DigestItem.html)的概念，这是一条从节点外部（共识所在之处）传递到Runtime的消息，反之亦然。
+
+
+## 更多
+
+由于BABE和GRANDPA都将在Polkadot网络中使用，因此Web3 Foundation提供了研究级别的算法报告。
+
 
 - [BABE Research](https://research.web3.foundation/en/latest/polkadot/BABE/Babe.html)
 - [GRANDPA Research](https://research.web3.foundation/en/latest/polkadot/GRANDPA.html)
 
-All deterministic finality algorithms, including GRANDPA, require at least `2f + 1` non-faulty
-nodes, where `f` is the number of faulty or malicious nodes. Learn more about where this threshold
-comes from and why it is ideal in the seminal paper
-[Reaching Agreement in the Presence of Faults](https://lamport.azurewebsites.net/pubs/reaching.pdf)
-or on [Wikipedia: Byzantine Fault](https://en.wikipedia.org/wiki/Byzantine_fault).
 
-Not all consensus protocols define a single, canonical chain. Some protocols validate
-[directed acyclic graphs](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (DAG) when two
-blocks with the same parent do not have conflicting state changes.
+所有具有最终确定性的算法（包括GRANDPA）都至少需要 `2f + 1` 个无故障节点，其中f是有故障或恶意节点的数量。 在这篇[在存在故障下达成协议](https://lamport.azurewebsites.net/pubs/reaching.pdf)论文或在[Wiki：拜占庭错误](https://en.wikipedia.org/wiki/Byzantine_fault)可以了解到有关这个阈值如何得来以及为什么的更多信息。
+
+并非所有共识协议都定义单个权威链。 当具有相同父对象的两个块的状态转换没有冲突时，某些协议会验证[有向无环图](https://en.wikipedia.org/wiki/Directed_acyclic_graph) （DAG）。
