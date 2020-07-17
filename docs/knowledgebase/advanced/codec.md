@@ -16,7 +16,7 @@ Substrate使用了 [`parity-scale-codec`](https://github.com/paritytech/parity-s
 
 - 相对于一般的序列化框架(例如[serde](https://serde.rs/))，它是轻量级的。而一般的序列化框架会增加了大量样板代码（boilerplate）从而膨胀二进制的大小。
 - 它不使用Rust标准库，因此能够为Substrate runtime编译成Wasm。
-- 它是使用Rust构建，那么对于新的类型需要派生编解码逻辑的时候有更好的支持（译者注：因为Substrate也是使用rust构建的）It is built to have great support in Rust for deriving codec logic for new types:
+- 它是使用Rust构建，那么对于新的类型需要派生编解码逻辑的时候有更好的支持（译者注：因为Substrate也是使用rust构建的）
   ```
   #[derive(Encode, Decode)]
   ```
