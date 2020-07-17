@@ -1,21 +1,20 @@
 ---
-title: Installation
+title: 环境安装
 ---
 
-## Fast Installation
+## 快速安装
 
-Install all the required dependencies with a single command. (Be patient, this can take up to 30
-minutes)
+使用单个命令安装所有的依赖（需要一点耐心，这需要大概 30 分钟）
 
 ```bash
 curl https://getsubstrate.io -sSf | bash -s -- --fast
 ```
 
-## Manual Installation
+## 手动安装
 
 ### Debian
 
-Run:
+运行：
 
 ```bash
 sudo apt install -y cmake pkg-config libssl-dev git gcc build-essential clang libclang-dev
@@ -23,46 +22,47 @@ sudo apt install -y cmake pkg-config libssl-dev git gcc build-essential clang li
 
 ### MacOS
 
-Install the [Homebrew package manager](https://brew.sh/), then run:
+先安装 [Homebrew 包管理器](https://brew.sh/)，然后运行:
 
 ```bash
 brew install openssl cmake llvm
 ```
 
-## Rust Developer Environment
+## Rust 开发环境
 
-Substrate uses the Rust programming language. You should
-[install Rust](https://www.rust-lang.org/tools/install) using `rustup`:
+Substrate 使用 rust 编程语言开发。你应该使用 `rustup` 来[安装Rust](https://www.rust-lang.org/tools/install) ：
+
 
 ```
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-Then make sure that you are using the latest Rust stable by default:
+然后确保默认使用的是 rust 最新的稳定版本，使用下面的命令：
+
 
 ```
 rustup default stable
 ```
 
-### Wasm Compilation
+### Wasm 编译
 
-Substrate uses WebAssembly (Wasm), and you will need to configure your Rust compiler to use
-`nightly` to support this build target.
+Substrate 使用 WebAssembly(Wasm)，你需要配置 rust 编译器使用 `nightly` 来支持这个编译Wasm目标。
 
-Run the following:
+使用下面的命令：
 
 ```bash
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
 ```
 
-### Rustup Update
+### Rustup 更新
 
-Substrate always uses the latest version of Rust stable and nightly for compilation. To ensure your
-Rust compiler is always up to date, you should run:
+Substrate 总是使用 rust 最新的稳定版（stable）以及 nightly 版编译。为了确保你的 rust 编译器总是最新的，你应该运行下面的命令：
+
+
 
 ```
 rustup update
 ```
 
-This may even solve compilation issues you face when working with Substrate.
+这甚至可能解决你在使用 Substrate 时遇到的一些编译问题。

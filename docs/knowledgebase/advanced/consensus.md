@@ -111,7 +111,8 @@ Substrate框架集成了一些共识引擎，用于提供区块生成或确定�
 
 
 [BABE](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_babe/index.html)同样是基于插槽的、由一个已知的验证者集合来生成区块。
-这些方式和Aura相似。不像Aura，BABE 插槽分配建立可验证随机函数（VRF）上。每一个验证者在一个周期（epoch）分配了一个权重(weight)。这个周期（epoch）被分成多个插槽，验证者在每个周期（epoch）验证的VRF。对于验证者VRF输出低于权重（weight）的插槽，被允许生成一个区块。 
+这些方式和Aura相似。不像Aura，BABE 插槽分配建立可验证随机函数（VRF）上。每一个验证者在一个周期（epoch）分配了一个权重(weight)。
+这个周期（epoch）被分成多个插槽，验证者在每个周期（epoch）验证的VRF。对于验证者VRF输出低于权重（weight）的插槽，被允许生成一个区块。 
 
 > 译者注：BABE共识引擎要做到下一个块生产者需要是随机挑选出来。在BABE中，时间被分为插槽(slot)，每个slot只能生产一个区块。多个slot为一个epoch。
 
@@ -126,7 +127,8 @@ Substrate框架集成了一些共识引擎，用于提供区块生成或确定�
 
 ### 工作量证明
 
-[工作量证明](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_pow/index.html) 区块生成即不是基于插槽也不是通过已知的验证人集合。 在工作量证明中，任何人可以在任何时间产生区块，只要他们能解决一个计算挑战问题（典型的是一个哈希查找）。这个问题的难度可以通过提供目标出块时间来调整。
+[工作量证明](https://substrate.dev/rustdocs/v2.0.0-rc4/sc_consensus_pow/index.html) 区块生成即不是基于插槽也不是通过已知的验证人集合。
+在工作量证明中，任何人可以在任何时间产生区块，只要他们能解决一个计算挑战问题（典型的是一个哈希查找）。这个问题的难度可以通过提供目标出块时间来调整。
 
 
 ### GRANDPA
@@ -154,6 +156,7 @@ Substrate框架集成了一些共识引擎，用于提供区块生成或确定�
 - [GRANDPA Research](https://research.web3.foundation/en/latest/polkadot/GRANDPA.html)
 
 
-所有具有最终确定性的算法（包括GRANDPA）都至少需要 `2f + 1` 个无故障节点，其中f是有故障或恶意节点的数量。 在这篇[在存在故障下达成协议](https://lamport.azurewebsites.net/pubs/reaching.pdf)论文或在[Wiki：拜占庭错误](https://en.wikipedia.org/wiki/Byzantine_fault)可以了解到有关这个阈值如何得来以及为什么的更多信息。
+所有具有最终确定性的算法（包括GRANDPA）都至少需要 `2f + 1` 个无故障节点，其中f是有故障或恶意节点的数量。
+在这篇[在存在故障下达成协议](https://lamport.azurewebsites.net/pubs/reaching.pdf)论文或在[Wiki：拜占庭错误](https://en.wikipedia.org/wiki/Byzantine_fault)可以了解到有关这个阈值如何得来以及为什么的更多信息。
 
 并非所有共识协议都定义单个权威链。 当具有相同父对象的两个块的状态转换没有冲突时，某些协议会验证[有向无环图](https://en.wikipedia.org/wiki/Directed_acyclic_graph) （DAG）。
