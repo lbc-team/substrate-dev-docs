@@ -24,7 +24,7 @@ Substrate使用了 [`parity-scale-codec`](https://github.com/paritytech/parity-s
 定义Substrate使用的编码规范而不是重用已有的Rust编解码器库是很重要的。因为这个编解码器还需要被其他想要支持互操作性的平台和语言重新实现。
 
 
-## 编解码器定义
+## 编解码器规范
 
 这里你能找到SCALE编解码器怎样为不同类型的数据编码。
 
