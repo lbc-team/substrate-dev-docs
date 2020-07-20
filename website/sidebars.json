@@ -1,12 +1,12 @@
 {
   "docs": {
-    "Getting Started": [
+    "开始": [
       "index",
       "knowledgebase/getting-started/index",
       "knowledgebase/getting-started/windows-users",
       "knowledgebase/getting-started/glossary"
     ],
-    "Learn Substrate": [
+    "学习 Substrate": [
       "knowledgebase/learn-substrate/extrinsics",
       "knowledgebase/learn-substrate/tx-pool",
       "knowledgebase/learn-substrate/account-abstractions",
@@ -31,7 +31,7 @@
       "knowledgebase/runtime/tests",
       "knowledgebase/runtime/randomness"
     ],
-    "Smart Contracts": [
+    "智能合约": [
       "knowledgebase/smart-contracts/index",
       "knowledgebase/smart-contracts/overview",
       "knowledgebase/smart-contracts/ink-fundamentals",
@@ -40,14 +40,14 @@
       "knowledgebase/smart-contracts/evm-pallet",
       "knowledgebase/smart-contracts/faq"
     ],
-    "Integrate": [
+    "集成": [
       "knowledgebase/integrate/polkadot-js",
       "knowledgebase/integrate/libraries",
       "knowledgebase/integrate/chain-spec",
       "knowledgebase/integrate/subkey",
       "knowledgebase/integrate/memory-profiling"
     ],
-    "Advanced": [
+    "高级": [
       "knowledgebase/advanced/codec",
       "knowledgebase/advanced/consensus",
       "knowledgebase/advanced/block-import",

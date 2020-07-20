@@ -27,7 +27,7 @@ title:  Subustrate框架背景知识
 这些技术涉及领域很广，因此通常需要专家团队来开发。 因此，大多数区块链项目都不是从头开始开发的。 相反，这些项目是从现有的区块链代码库中分叉而来。 例如：
 
 -  莱特币(Litecoin), ZCash, Namecoin, Bitcoin Cash 等等是基于比特币库（Bitcoin）分叉而来；
-- Quorem, POA Network, KodakCoin, Musicoin 等等是基于以太坊库分叉而来。
+- Quorum, POA Network, KodakCoin, Musicoin 等等是基于以太坊库分叉而来。
 
 ![区块链项目分叉](assets/tutorials/first-chain/forks.png)
 

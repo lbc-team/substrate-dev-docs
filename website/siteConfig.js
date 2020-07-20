@@ -21,7 +21,7 @@
 const videos = require('./data/videos')
 
 const title_prefix = 'Substrate开发者中心'
-const custom_url = 'substrate.dev'
+const custom_url = 'learnblockchain.cn'
 const is_staging = process.env['NODE_ENV'] == 'staging'
 const git_rev = is_staging ? process.env['GIT_REV'] : null
 const title = is_staging ? `${title_prefix} (@${git_rev})` : title_prefix

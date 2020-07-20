@@ -301,6 +301,6 @@ class Index extends React.Component {
 	}
 }
 
-Index.title = 'Substrate中文文档'
+Index.title = 'Substrate中文文档 - 登链社区翻译'
 Index.description = '学习使用下一代区块链框架构建区块链。'
 module.exports = Index
