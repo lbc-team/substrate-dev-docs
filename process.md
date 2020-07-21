@@ -9,7 +9,7 @@
 | docs/conceptual/core/codec.md                  | toldjunjie  |         |        |  zmant     |         |   103  | 
 | docs/knowledgebase/advanced/consensus.md         | toldjunjie  |        |        |  zmant  |          |  100  | 
 | docs/tutorials/create-your-first-sustrate-chain  | Tiny熊   |          |         |  Tiny熊  |          |  181   | 
-| docs/tutorials/*                                   | Tiny熊  |         |        |            |          |     | 
+| docs/tutorials/*                                  | Tiny熊  |2020/7/21 |        |            |          |     | 
 
 
 
