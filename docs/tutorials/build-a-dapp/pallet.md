@@ -1,36 +1,33 @@
 ---
-title: Building a Custom Pallet
+title: 定制 Pallet
 ---
 
-The Substrate runtime is composed of FRAME pallets. You can think of these pallets as individual
-pieces of logic that define what your blockchain can do! Substrate provides you with a number of
-pre-built pallets for use in FRAME-based runtimes.
 
-![Runtime Composition](assets/tutorials/build-a-dapp/runtime.png)
+Substrate 运行时（Runtime）由 [FRAME pallet](https://learnblockchain.cn/docs/substrate/docs/knowledgebase/runtime/frame/) 组成。 你可以将这些 pallet 视为一个个（实现好的）区块链功能的独立逻辑（模块）！ Substrate 已经提供了许多预先构建的pallet，可以让我们在构建基于 FRAME 的 Runtime 时使用。
 
-For example, FRAME includes a [Balances](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_balances/)
-pallet that controls the underlying currency of your blockchain by managing the _balance_ of all the
-accounts in your system.
 
-If you want to add smart contract functionality to your blockchain, you simply need to include the
-[Contracts](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/) pallet.
 
-Even things like on-chain governance can be added to your blockchain by including pallets like
-[Democracy](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_democracy/),
-[Elections](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_elections/), and
-[Collective](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_collective/).
+![Runtime 组成](assets/tutorials/build-a-dapp/runtime.png)
 
-The goal of this tutorial is to teach you how to create your own Substrate pallet to include in your
-custom blockchain! The `substrate-node-template` comes with a template pallet that we will build
-your custom logic on top of.
+举例来说，FRAME 包含的 [Balances](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_balances/) pallet，它可以用来管理你的区块链上的所有账户下基础货币的余额，如果你想在链上加入智能合约功能，仅需要简单的引入
+[Contracts](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/) pallet 。
 
-## File Structure
 
-We will now modify the `substrate-node-template` to introduce the basic functionality of a Proof Of
-Existence pallet.
 
-Open the `substrate-node-template` in your favorite code editor. Then open the file
-`pallets/template/src/lib.rs`
+甚至可以通过添加诸如 [Democracy](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_democracy/), [Elections](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_elections/), 和 [Collective](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_collective/) 之类的 pallet，将链上治理的内容添加到你的区块链中 
+
+
+
+本教程的目的是学会如何创建自己的Substrate pallet 以及包含在自定义区块链中！ `substrate-node-template` 带有一个模板pallet ，我们将在其之上构建自定义逻辑。
+
+
+
+## 文件结构
+
+现在，我们将修改`substrate-node-template`以引入存证 pallet 的基本功能。
+
+
+在你常用的文本编辑器里打开 `substrate-node-template` 。然后打开文件`pallets/template/src/lib.rs`
 
 ```
 substrate-node-template
@@ -41,11 +38,11 @@ substrate-node-template
 |   |
 |   +-- template
 |       |
-|       +-- Cargo.toml    <-- One change in this file
+|       +-- Cargo.toml    <--  此文件有一处修改
 |       |
 |       +-- src
 |           |
-|           +-- lib.rs     <-- Most changes in this file
+|           +-- lib.rs     <-- 大部分修改在此文件
 |           |
 |           +-- mock.rs
 |           |
@@ -58,44 +55,50 @@ substrate-node-template
 +-- ...
 ```
 
-You will see some pre-written code which acts as a template for a new pallet. You can read over this
-file if you like, and then delete the contents since we will start from scratch for full
-transparency. When writing your own pallets in the future, you will likely find the scaffolding in
-this template pallet useful.
 
-## Build Your New Pallet
 
-At a high level, a Substrate pallet can be broken down into six sections:
+你将看到一些预先编写的代码，它们作为新pallet的模板。 你可以阅读这些文件（如果你想愿意的话）后删除内容，因为我们要从头开始实现。 将来在编写自己的pallet 时，您可能会发现此模板 pallet 中的脚手架很有用。
+
+
+
+## 构建全新的Pallet
+
+从较高的层次上（代码框架）看，Substrate pallet可以分为六个部分：
 
 ```rust
-// 1. Imports
+// 1. 引入包
 use frame_support::{decl_module, decl_storage, decl_event, decl_error, dispatch};
 use frame_system::{self as system, ensure_signed};
 
-// 2. Pallet Configuration
+// 2. Pallet 配置
 pub trait Trait: system::Trait { /* --snip-- */ }
 
-// 3. Pallet Storage Items
+// 3. 定义 Pallet 存储项
 decl_storage! { /* --snip-- */ }
 
-// 4. Pallet Events
+// 4. 定义 Pallet 事件
 decl_event! { /* --snip-- */ }
 
-// 5. Pallet Errors
+// 5. 定义 Pallet 错误
 decl_error! { /* --snip-- */ }
 
-// 6. Callable Pallet Functions
+// 6. 定义 Pallet 可调用函数
 decl_module! { /* --snip-- */ }
 ```
 
-Things like events, storage, and callable functions may look familiar to you if you have done other
-blockchain development. We will show you what each of these components look like for a basic Proof
-Of Existence pallet.
 
-### Imports and Dependencies
 
-Since imports are pretty boring, you can start by copying this at the top of your empty `lib.rs`
-file:
+如果你做过其他的区块链开发，诸如 事件（event），存储（storage）和可调用函数（callable function）可能会让你觉得很熟悉。
+
+
+
+我们将向您展示基本的“存在性证明” Pallet 中所有这些组件都长什么样。
+
+
+
+### 导入及依赖
+
+由于导入非常无聊，因此你可以首先以下内容将其复制到空的`lib.rs`文件头部：
 
 ```rust
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -107,10 +110,13 @@ use frame_system::{self as system, ensure_signed};
 use sp_std::vec::Vec;
 ```
 
-Most of these imports are already available because they were used in the template pallet whose code
-we just deleted. However, `sp_std` is not available and we need to list it as a dependency.
 
-**Add** this block to your `pallets/template/Cargo.toml` file.
+
+大多数导入（import）是直接可用，因为它们已在我们刚刚删除pallet代码中使用。 但是，`sp_std`不可用，我们需要将其列为依赖项（dependency）。
+
+
+
+**添加** 以下代码块到 `pallets/template/Cargo.toml` 文件.
 
 ```toml
 [dependencies.sp-std]
@@ -120,7 +126,7 @@ tag = 'v2.0.0-rc4'
 version = '2.0.0-rc4'
 ```
 
-Then, **Update** the existing `[features]` block to look like this. The last line is new.
+然后， **修改** 已有的 `[features]` 块，修改完是这样子，最后一行是新加的
 
 ```toml
 [features]
@@ -129,182 +135,188 @@ std = [
     'codec/std',
     'frame-support/std',
     'frame-system/std',
-    'sp-std/std',          <-- This line is new
+    'sp-std/std',          <-- 这一行是新加的
 ]
 ```
 
-### Pallet Configuration
+### 配置 Pallet 
 
-Every pallet has a configuration trait. For now, the only thing we will configure about our pallet
-is that it will emit some Events.
+每个pallet都要配置 trait 。 目前，我们唯一要为 pallet 配置的是：pallet 会触发一些事件。
+
+
 
 ```rust
-/// The pallet's configuration trait.
+/// pallet 的 trait 配置.
 pub trait Trait: system::Trait {
-    /// The overarching event type.
+    /// 事件类型
     type Event: From<Event<Self>> + Into<<Self as system::Trait>::Event>;
 }
 ```
 
-### Pallet Events
+### 定义 Pallet 事件
 
-After we've configured our pallet to emit events, let's go ahead define which events:
+在配置好 pallet 可发出事件类型后，让我们继续定义需要哪些事件：
+
+> 译者注：区块链通过事件把区块链上（某时刻）发生的事情通知到外部。
 
 ```rust
-// This pallet's events.
+// pallet 的事件.
 decl_event! {
     pub enum Event<T> where AccountId = <T as system::Trait>::AccountId {
-        /// Event emitted when a proof has been claimed.
+        /// 在声明存证后触发该事件。 
         ClaimCreated(AccountId, Vec<u8>),
-        /// Event emitted when a claim is revoked by the owner.
+        /// 在撤销存证后触发该事件。
         ClaimRevoked(AccountId, Vec<u8>),
     }
 }
 ```
 
-Our pallet will only have two events:
+我们的 pallet 只会有两个事件： 
 
-1. When a new proof is added to the blockchain.
-2. When a proof is removed.
+1. 当新存证添加到区块链时触发事件。
+2. 当存证撤销时触发事件。
 
-The events can contain some additional data, in this case, each event will also display who
-triggered the event (`AccountId`), and the proof data (as `Vec<u8>`) that is being stored or
-removed.
 
-## Pallet Errors
+事件可以包含一些附加数据（通过事件的参数），在当前存证案例下，每个事件还包含显示触发事件的人（`AccountId`）和正在存储或删除的证明数据（如Vec <u8>）。
 
-The events we defined previously indicate when calls to the pallet have completed successfully.
-Similarly, errors indicate when a call has failed, and why it has failed.
+
+
+### 定义 Pallet 错误
+
+我们先前定义的事件用来指示什么时够对 pallet 的调用成功了。
+
+同样的，如果调用失败了，以及为什么失败同样需要指示。
+
 
 ```rust
-// This pallet's errors.
+//  pallet 错误.
 decl_error! {
 	pub enum Error for Module<T: Trait> {
-		/// This proof has already been claimed
+		/// 存证已经被声明了
 		ProofAlreadyClaimed,
-		/// The proof does not exist, so it cannot be revoked
+		/// 存证不存在，因此不能被撤销
 		NoSuchProof,
-		/// The proof is claimed by another account, so caller can't revoke it
+		/// 存证被另一个用户声明，因此调用者不能撤销
 		NotProofOwner,
 	}
 }
 ```
 
-The first of these errors can occur when attempting to claim a new proof. Of course a user cannot
-claim a proof that has already been claimed. The latter two can occur when attempting to revoke a
-proof.
+当用户尝试声明新的存证时，可能会出现第一个错误。因为用户不能声明已经声明的存证。 尝试撤销存证时，可能会发生后两种情况。
 
-### Pallet Storage Items
 
-To add a new proof to the blockchain, we will simply store that proof in our pallet's storage. To
-store that value, we will create a [hash map](https://en.wikipedia.org/wiki/Hash_table) from the
-proof to the owner of that proof and the block number the proof was made.
+### 定义 Pallet 存储项
+
+要添加一个新的存证到区块链上时，就要将其存储到 pallet 的存储里面。
+我们这里创建一个[hash map](https://en.wikipedia.org/wiki/Hash_table)来存储存证及对应值。
+为每个存证保存其所有者及存证声明时的区块号
+
 
 ```rust
-// This pallet's storage items.
+// pallet 存储项
 decl_storage! {
     trait Store for Module<T: Trait> as TemplateModule {
-        /// The storage item for our proofs.
-        /// It maps a proof to the user who made the claim and when they made it.
+        /// 存储的存储项
+        /// 一个从存证（Vec<u8>）到所有者及区块号的map
         Proofs: map hasher(blake2_128_concat) Vec<u8> => (T::AccountId, T::BlockNumber);
     }
 }
 ```
 
-If a proof has an owner and a block number, then we know that it has been claimed! Otherwise, the
-proof is available to be claimed.
+如果证明有所有者和区块号，那么我们知道它已被声明！ 否则，就可以去声明它。
 
-### Callable Pallet Functions
 
-As implied by our pallet events and errors, we will have two "dispatchable functions" the user can
-call in this Substrate pallet:
+### 定义可调用 Pallet 函数
 
-1. `create_claim()`: Allow a user to claim the existence of a file with a proof.
-2. `revoke_claim()`: Allow the owner of a claim to revoke their claim.
+正如我们的pallet事件和错误所暗示的那样，在Substrate pallet中需要有两个可以被用户调用的“可调度函数（dispatchable functions）”：
 
-Here is what the pallet declaration looks like with these these two functions:
+
+1. `create_claim()`: 用户声明存证
+2. `revoke_claim()`: 存证所有者用来撤销存证
+
+这两个函数的pallet声明如下
+
 
 ```rust
-// The pallet's dispatchable functions.
+// pallet可调度函数
 decl_module! {
-    /// The module declaration.
+    /// module 声明
     pub struct Module<T: Trait> for enum Call where origin: T::Origin {
-        // Initializing errors
-        // this includes information about your errors in the node's metadata.
-        // it is needed only if you are using errors in your pallet
+        // 初始化错误
+        // 在节点的metadata中，包含关于错误的信息
+        // 仅仅在pallet中需要使用到错误才需要
         type Error = Error<T>;
 
-        // A default function for depositing events
+        // 默认的用来分发事件的函数
         fn deposit_event() = default;
 
-        /// Allow a user to claim ownership of an unclaimed proof
+        /// 声明存证函数
         #[weight = 10_000]
         fn create_claim(origin, proof: Vec<u8>) {
-            // Verify that the incoming transaction is signed and store who the
-            // caller of this function is.
+            // 验证交易签名及记录函数的调用者
             let sender = ensure_signed(origin)?;
 
-            // Verify that the specified proof has not been claimed yet or error with the message
+            // 检查存证没有被声明，否则提示错误
             ensure!(!Proofs::<T>::contains_key(&proof), Error::<T>::ProofAlreadyClaimed);
 
-            // Call the `system` pallet to get the current block number
+            // 调用 `system` pallet 获得当前区块号
             let current_block = <system::Module<T>>::block_number();
 
-            // Store the proof with the sender and the current block number
+            // 保存调用者(sender) 和 当前区块号
             Proofs::<T>::insert(&proof, (&sender, current_block));
 
-            // Emit an event that the claim was created
+            // 触发事件
             Self::deposit_event(RawEvent::ClaimCreated(sender, proof));
         }
 
-        /// Allow the owner to revoke their claim
+        /// 撤销存证函数
         #[weight = 10_000]
         fn revoke_claim(origin, proof: Vec<u8>) {
-            // Determine who is calling the function
+            // 确定谁在调用函数
             let sender = ensure_signed(origin)?;
 
-            // Verify that the specified proof has been claimed
+            // 检查存证是否声明过
             ensure!(Proofs::<T>::contains_key(&proof), Error::<T>::NoSuchProof);
 
-            // Get owner of the claim
+            // 获得存证的所有者
             let (owner, _) = Proofs::<T>::get(&proof);
 
-            // Verify that sender of the current call is the claim owner
+            // 检查调用者是否是所有者
             ensure!(sender == owner, Error::<T>::NotProofOwner);
 
-            // Remove claim from storage
+            // 删除存证项
             Proofs::<T>::remove(&proof);
 
-            // Emit an event that the claim was erased
+            // 触发事件
             Self::deposit_event(RawEvent::ClaimRevoked(sender, proof));
         }
     }
 }
 ```
 
-> The functions you see here do not have return types explicitly stated. In reality they all return
-> [`DispatchResult`](https://substrate.dev/rustdocs/v2.0.0-rc4/frame_support/dispatch/type.DispatchResult.html)s.
-> This return type is added on your behalf by the `decl_module!` macro.
+> 在此处看到的函数没有明确声明返回类型。实际上他们都会返回 [`DispatchResult`](https://substrate.dev/rustdocs/v2.0.0-rc4/frame_support/dispatch/type.DispatchResult.html).
+> 返回类型是通过 `decl_module!` 宏添加的。
 
-## Compile Your New Pallet
+## 编译 Pallet
 
-After you've copied all of the parts of this pallet correctly into your `pallets/template/lib.rs`
-file, you should be able to recompile your node without warning or error. Run this command in the
-root directory of the `substrate-node-template` repository.
+在你将pallet所有代码片段正确复制到`pallets/template/lib.rs`文件之后，你应该能够重新编译节点而不会提示警告或错误。
+ 在`substrate-node-template`代码库的根目录中运行此命令。
+
 
 ```bash
 cargo build --release
 ```
 
-Now you can start your node:
+编译完之后，现在可以启动节点：
 
 ```bash
-# Purge chain to clean up your old chain state
-# You will be prompted to type `y`
+# purge-chain 用来清除之前运行的老数据
+# 在提示中输入 `y`
 ./target/release/node-template purge-chain --dev
 
-# Re-run your node in "development" mode
+# 在“开发”模式下重新运行节点
 ./target/release/node-template --dev
 ```
 
-Now it is time to interact with our new Proof of Existence pallet!
+现在是时候与我们的存证pallet进行交互了！
+

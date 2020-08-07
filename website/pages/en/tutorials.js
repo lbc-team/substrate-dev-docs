@@ -240,11 +240,11 @@ class Tutorials extends React.Component {
               {
                 img: `${baseUrl}img/first-substrate-chain.png`,
                 title: (
-                  <translate>构建一个PoE(存在证明) 去中心化应用</translate>
+                  <translate>构建一个PoE(存证) 去中心化应用</translate>
                 ),
                 text: (
                   <translate>
-                    构建一个有自定义用户接口的Substrate链
+                    构建一个自定义用户接口的Substrate链及前端
                   </translate>
                 ),
                 difficulty: "easy",

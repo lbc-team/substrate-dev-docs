@@ -69,7 +69,7 @@
     ]
   },
   "build-a-dapp": {
-    "Build a PoE Decentralized Application": [
+    "基于Subsutrate构建一个存证DApp": [
       "tutorials/build-a-dapp/index",
       "tutorials/build-a-dapp/prepare",
       "tutorials/build-a-dapp/pallet",

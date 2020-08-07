@@ -1,33 +1,36 @@
 ---
-title: Building a Custom Front End
+title: 定制前端
 ---
 
-If you have made it this far, that means you _should_ have a brand new blockchain with custom
-functionality up and running.
+到这里，你应该已经运行了一个全新的具有自定义功能的区块链。
 
-We will give you a custom react component that you can add to your `substrate-front-end-template`
-meant for interacting with your node.
 
-## Explore the Front End Template
+现在我们将定制一个自定义的react组件，你可以将其添加到`substrate-front-end-template`中。用于与自定义节点进行交互。
 
-To start the front-end template, navigate to its directory and run:
+
+## 探索前端模板
+
+要运行前端模板，定位到根目录并运行：
+
 
 ```bash
 yarn start
 ```
 
-A new tab should open in your web browser and you'll see the following interface.
+你的浏览器中应会打开一个新标签，并看到以下界面。
 
-![Front End Template](assets/tutorials/build-a-dapp/front-end-template.png)
 
-You'll see a list of pre-funded accounts, and you can make token transfers between those accounts.
+![前端模板](assets/tutorials/build-a-dapp/front-end-template.png)
+
+你会看到一个预注资金帐户列表，并且可以在这些帐户之间进行代币转移。
+
 
 ![Balance Transfer](assets/tutorials/build-a-dapp/front-end-template-balance-transfer.png)
 
-## Add Your Custom React Component
+## 添加自定义 React 组件
 
-In the `substrate-front-end-template` project, edit the `TemplateModule.js` file in the `/src/`
-folder:
+在 `substrate-front-end-template` 项目中, 编辑`/src/`下的 `TemplateModule.js`：
+
 
 ```
 substrate-front-end-template
@@ -38,13 +41,14 @@ substrate-front-end-template
 |   |
 |   +-- App.js
 |   |
-|   +-- TemplateModule.js  <-- Edit this file
+|   +-- TemplateModule.js  <-- 编辑这个文件
 |   |
 |   +-- ...
 +-- ...
 ```
 
-Delete the contents of that file, and instead use the following component.
+删除该文件的内容，改用下面的组件。
+
 
 <div style="max-height: 20em; overflow: auto; margin-bottom: 1em;">
 
@@ -52,30 +56,29 @@ Delete the contents of that file, and instead use the following component.
 // React and Semantic UI elements.
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Grid, Message } from 'semantic-ui-react';
-// Pre-built Substrate front-end utilities for connecting to a node
-// and making a transaction.
+// 预先构建好的 Substrate 前端工具：用来连接节点和发起交易
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
-// Polkadot-JS utilities for hashing data.
+// Polkadot-JS 工具用来对数据hash
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-// Our main Proof Of Existence Component which is exported.
+// 存证组件
 export function Main (props) {
-  // Establish an API to talk to our Substrate node.
+  // 建议用于和Substrate节点的连接的 API
   const { api } = useSubstrate();
-  // Get the 'selected user' from the `AccountSelector` component.
+  // 获取从`AccountSelector`组件选择的用户
   const { accountPair } = props;
-  // React hooks for all the state variables we track.
-  // Learn more at: https://reactjs.org/docs/hooks-intro.html
+  // 用来跟踪状态的React hooks
+  // 从 https://reactjs.org/docs/hooks-intro.html 了解更多
   const [status, setStatus] = useState('');
   const [digest, setDigest] = useState('');
   const [owner, setOwner] = useState('');
   const [block, setBlock] = useState(0);
 
-  // Our `FileReader()` which is accessible from our functions below.
+  // 用来读取文件
   let fileReader;
 
-  // Takes our file, and creates a digest using the Blake2 256 hash function.
+  // 获取文件的 hash 
   const bufferToDigest = () => {
     // Turns the file content to a hexadecimal representation.
     const content = Array.from(new Uint8Array(fileReader.result))
@@ -86,23 +89,22 @@ export function Main (props) {
     setDigest(hash);
   };
 
-  // Callback function for when a new file is selected.
+  // 选择新文件时回调
   const handleFileChosen = (file) => {
     fileReader = new FileReader();
     fileReader.onloadend = bufferToDigest;
     fileReader.readAsArrayBuffer(file);
   };
 
-  // React hook to update the 'Owner' and 'Block Number' information for a file.
+  // React hook 用来更新文件对应的 'Owner' 和 'Block Number' 信息
   useEffect(() => {
     let unsubscribe;
 
-    // Polkadot-JS API query to the `proofs` storage item in our pallet.
-    // This is a subscription, so it will always get the latest value,
-    // even if it changes.
+    // Polkadot-JS API 查询在 pallet 的 `proofs` 存储
+    // 这是一个订阅, 即使值改变了，也会获取最新的值，
     api.query.templateModule
       .proofs(digest, (result) => {
-        // Our storage item returns a tuple, which is represented as an array.
+        // 存储返回元组（tuple）它用数组表示
         setOwner(result[0].toString());
         setBlock(result[1].toNumber());
       })
@@ -111,43 +113,40 @@ export function Main (props) {
       });
 
     return () => unsubscribe && unsubscribe();
-    // This tells the React hook to update whenever the file digest changes
-    // (when a new file is chosen), or when the storage subscription says the
-    // value of the storage item has updated.
+    // 告诉React Root 在文件摘要更改时（如选择了新文件）或存储项的值更新时进行更新。
   }, [digest, api.query.templateModule]);
 
-  // We can say a file digest is claimed if the stored block number is not 0.
+  // 如果存储的区块号不为0，则文件摘要已经被声明。
   function isClaimed () {
     return block !== 0;
   }
 
-  // The actual UI elements which are returned from our component.
+  // 从我们的组件返回的实际UI元素。 
   return (
     <Grid.Column>
       <h1>Proof Of Existence</h1>
-      {/* Show warning or success message if the file is or is not claimed. */}
+      {/* 根据文件时候被声明，显示警告和成功信息 */}
       <Form success={!!digest && !isClaimed()} warning={isClaimed()}>
         <Form.Field>
-          {/* File selector with a callback to `handleFileChosen`. */}
+          {/* 用于选择文件，选择后回调 `handleFileChosen`. */}
           <Input
             type='file'
             id='file'
             label='Your File'
             onChange={(e) => handleFileChosen(e.target.files[0])}
           />
-          {/* Show this message if the file is available to be claimed */}
+          {/* 如果文件可被声明显示 */}
           <Message success header='File Digest Unclaimed' content={digest} />
-          {/* Show this message if the file is already claimed. */}
+          {/* 如果文件已经声明显示 */}
           <Message
             warning
             header='File Digest Claimed'
             list={[digest, `Owner: ${owner}`, `Block: ${block}`]}
           />
         </Form.Field>
-        {/* Buttons for interacting with the component. */}
+        {/* 用来和交易的按钮 */}
         <Form.Field>
-          {/* Button to create a claim. Only active if a file is selected,
-          and not already claimed. Updates the `status`. */}
+          {/* 声明存证按钮. 仅在文件选中及没被声明过时可用。 会更新状态 */}
           <TxButton
             accountPair={accountPair}
             label={'Create Claim'}
@@ -161,8 +160,7 @@ export function Main (props) {
               paramFields: [true]
             }}
           />
-          {/* Button to revoke a claim. Only active if a file is selected,
-          and is already claimed. Updates the `status`. */}
+          {/* 撤销存证按钮. 仅在文件选中及声明过时可用。 会更新状态. */}
           <TxButton
             accountPair={accountPair}
             label='Revoke Claim'
@@ -177,7 +175,7 @@ export function Main (props) {
             }}
           />
         </Form.Field>
-        {/* Status message about the transaction. */}
+        {/* 交易的状态信息 */}
         <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
@@ -193,51 +191,46 @@ export default function TemplateModule (props) {
 
 </div>
 
-We won't walk you step by step through the creation of this component, but do look over the code
-comments to learn what each part is doing.
+我们不会逐步引导你完成此组件的创建，但是请仔细阅读代码注释以了解每个部分的功能。
 
-## Submit a Proof
 
-Your front end template should reload when you save your changes, and you'll notice our new
-component. Now we're ready to try out our new dApp. Select any file on your computer, and you will
-see that you can create a claim with its file digest:
+## 提交证明
 
-![Proof Of Existence Component](assets/tutorials/build-a-dapp/poe-component.png)
+保存更改后，前端模板应该会重新加载，你会注意到我们的新组件。 现在，我们准备试用一下新的dApp。 选择计算机上的任何文件，会看到可以使用其文件摘要创建声明：
 
-If you press "Create Claim", a transaction will be dispatched to your custom Proof of Existence
-pallet, where this digest and the selected user account will be stored on chain.
 
-![Claimed File](assets/tutorials/build-a-dapp/poe-claimed.png)
+![存证组件](assets/tutorials/build-a-dapp/poe-component.png)
 
-If all went well, you should see a new `ClaimCreated` event appear in the Events component. The
-front-end automatically recognizes that your file is now claimed, and even gives you the option to
-revoke the claim if you want.
+如果你点击 "Create Claim", 会发起一个交易到自定义的存证 pallet ，摘要和选择的用户会保存到链上。
 
-Remember, only the owner can revoke the claim! If you select another user account at the top, and
-you will see that the revoke option is disabled!
+![声明的文件](assets/tutorials/build-a-dapp/poe-claimed.png)
 
-## Next Steps
 
-This is the end of our journey into creating a Proof of Existence blockchain.
+如果一切顺利，应该会在事件组件中看到一个新的`ClaimCreated`事件。 前端会自动识别你的文件已被声明，并且可以根据需要选择撤消声明。
 
-You have seen first hand how simple it can be to develop a brand new pallet and launch a custom
-blockchain using Substrate. Furthermore, we have shown you that the Substrate ecosystem provides you
-with the tools to quickly create responsive front-end experiences so users can interact with your
-blockchain.
 
-This tutorial chose to omit some of the specific details around development in order to keep this
-experience short and satisfying. However, we want you to keep learning!
+请记住，只有所有者才能撤消声明！ 如果你在顶部选择另一个用户帐户，则会看到撤消被禁用！
 
-To learn more about building your own pallets, explore the
-[Substrate Recipes](https://substrate.dev/recipes).
 
-It would also be a good time to call out that your success on the Substrate framework will
-ultimately be limited on your ability to program in Rust. The
-[Rust Book](https://doc.rust-lang.org/book/) is a great resource for beginning and intermediate rust
-developers.
+## 接下来
 
-If you experienced any issues with this tutorial or want to provide feedback, feel free to
-[open a GitHub issue](https://github.com/substrate-developer-hub/tutorials/issues/new) or reach out
-on [Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org).
+我们的存证案例就完成了。
 
-We can't wait to see what you build next!
+你已经亲眼看到了开发一个全新的pallet并用Substrate启动一个自定义区块链是很简单的。 
+此外，我们还展示了使用Substrate生态系统提供的前端工具快速创建响应式前端应用，以便用户与区块链进行交互。
+
+
+本教程里省略一些有关开发的特定细节，以使教程简洁而令人满意。 但是，我们希望你继续学习！
+
+
+更多关于创建直接的pallet，可以阅读[Substrate Recipes](https://substrate.dev/recipes).
+
+
+我们也应该告诉你，你在Substrate框架上最终的成功将受限于你的Rust编程的能力。 [Rust Book](https://doc.rust-lang.org/book/)是初级和中级Rust开发人员的重要学习资源。
+
+如果你在本教程中遇到任何问题或想提供反馈，请随时[创建GitHub Issue](https://github.com/substrate-developer-hub/tutorials/issues/new)或在[Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)联系我们。
+
+
+我们迫不及待想看看你接下来的建造！
+
+
