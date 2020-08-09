@@ -1,48 +1,37 @@
 ---
-title: "Add a Pallet"
+title: "添加一个 Pallet"
 ---
 
-The [Substrate node template](https://github.com/substrate-developer-hub/substrate-node-template)
-provides a minimal working runtime which you can use to quickly get started building your own custom
-blockchain. However, in the attempts to remain minimal, it does not include most of the pallets from
-[FRAME](../../knowledgebase/runtime/frame).
+[Substrate node template(节点模板)](https://github.com/substrate-developer-hub/substrate-node-template) 提供了一个最小的可工作的运行时，你可以使用它来快速开始构建自己的自定义区块链。 但是，为保持精炼，它并不包括[FRAME](../../knowledgebase/runtime/frame)中的大多数 Pallet 。
 
-This guide will show you how you can add the
-[Contracts pallet](https://substrate.dev/rustdocs/v2.0.0-rc4) to your runtime in order to
-allow your blockchain to support Wasm smart contracts. You can follow similar patterns to add
-additional FRAME pallets to your runtime, however you should note that each pallet is a little
-different in terms of the specific configuration settings needed to use it correctly.
+本教程将向您展示如何将[合约 pallet](https://substrate.dev/rustdocs/v2.0.0-rc4) 添加到运行时（runtime）中，以允许你的区块链支持Wasm智能合约，但是请注意，为了正确使用，每个pallet所需的特定配置设置会略有不同。
 
-## Install the Node Template
+## 安装节点模板(Node Template) 
 
-You should already have version `v2.0.0-rc4` of the
-[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)
-compiled on your computer from when you completed the
-[Create Your First Substrate Chain Tutorial](../create-your-first-substrate-chain/).
-If you do not, please complete that tutorial.
+如果你完成了前面的[创建第一条 Substrate 区块链](../create-your-first-substrate-chain/)，你应该已经编译好了 [Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)  `v2.0.0-rc4` 版本，如果还没有，需要先完成前面的教程。
 
-> Experienced developers who truly prefer to skip that tutorial, you may install the node template
-> according to the instructions in its readme.
 
-## File Structure
+> 有经验的开发人员会想跳过该教程，那你参考 readme 指引可以安装节点模板
 
-We will now modify the `substrate-node-template` to include the contracts pallet.
+## 文件结构
 
-Open the `substrate-node-template` in your favorite code editor. We will be editing two files:
-`runtime/src/lib.rs`, and `runtime/Cargo.toml`.
+我们将修改 `substrate-node-template` 来引入合约 pallet.
+
+用编辑器打开 `substrate-node-template，我们将编辑以下两个文件：
+`runtime/src/lib.rs` 和 `runtime/Cargo.toml`.
 
 ```
 substrate-node-template
 |
 +-- runtime
 |   |
-|   +-- Cargo.toml    <-- One change in this file
+|   +-- Cargo.toml    <-- 一处更改
 |   |
 |   +-- build.rs
 |   |
 |   +-- src
 |       |
-|       +-- lib.rs     <-- Most changes in this file
+|       +-- lib.rs     <-- 大量修改
 |
 +-- pallets
 |
@@ -53,15 +42,15 @@ substrate-node-template
 +-- ...
 ```
 
-## Importing a Pallet Crate
+## 导入 Pallet 包（crate）
 
-The first thing you need to do to add the Contracts pallet is to import the `pallet-contracts` crate
-in your runtime's `Cargo.toml` file. If you want a proper primer into Cargo References, you should
-check out [their official documentation](https://doc.rust-lang.org/cargo/reference/index.html).
+添加合约 pallet 的第一件事是在运行时的 `Cargo.toml` 文件中导入 `pallet-contracts` 包。
 
-Open `substrate-node-template/runtime/Cargo.toml` and you will see a list of all the dependencies
-your runtime has. For example, it depends on the
-[Balances pallet](https://substrate.dev/rustdocs/v2.0.0-rc4):
+如果你想查看原始引用方法，请查看[其官方文档](https://doc.rust-lang.org/cargo/reference/index.html)
+
+
+
+打开 `substrate-node-template/runtime/Cargo.toml` 后，你会看到运行时所有的依赖列表，例如：它依赖[Balances pallet](https://substrate.dev/rustdocs/v2.0.0-rc4):
 
 **`runtime/Cargo.toml`**
 
@@ -74,12 +63,12 @@ tag = 'v2.0.0-rc4'
 version = '2.0.0-rc4'
 ```
 
-### Crate Features
+### 包特性（Crate Features）
 
-One important thing we need to call out with importing pallet crates is making sure to set up the
-crate `features` correctly. In the code snippet above, you will notice that we set
-`default_features = false`. If you explore the `Cargo.toml` file even closer, you will find
-something like:
+导入pallet 包时需要注意的一件事是确保正确设置包的 `features`。
+
+在上面的代码片段中，您会注意到我们设置了 `default_features = false`。 如果您更仔细地浏览 `Cargo.toml` 文件，您会发现类似：
+
 
 **`runtime/Cargo.toml`**
 
@@ -97,50 +86,46 @@ std = [
 ]
 ```
 
-This second line defines the `default` features of your runtime crate as `std`. You can imagine,
-each pallet crate has a similar configuration defining the default feature for the crate. Your
-feature will determine the features that should be used on downstream dependencies. For example, the
-snippet above should be read as:
+第二行将运行时 crate 的 `default` 特性定义为`std`（译者注：表示 Rust 标准库）。 您可以想象，每个 pallet crate 都有一个类似的配置，定义了 crate 的默认特性 。 特性的定义会决定下游依赖项应该使用的特性。 例如，上面的代码片段应解读为：
 
-> The default feature for this Substrate runtime is `std`. When `std` feature is enabled for the
-> runtime, `parity-scale-codec`, `primitives`, `client`, and all the other listed dependencies
-> should use their `std` feature too.
 
-This is important to enable the Substrate runtime to compile to both native binaries (which support
-Rust [`std`](https://doc.rust-lang.org/std/)) and Wasm binaries (which do not:
-[`no_std`](https://rust-embedded.github.io/book/intro/no-std.html)).
+>  Substrate 运行时默认特性是`std`。当运行时的 `std` 特性可用时，`parity-scale-codec`, `primitives`, `client` 和其他列出的依赖也应该使用他们的 `std` 特性。
 
-To see how these features actually get used in the runtime code, we can open the project file:
+在编译 Native版本（支持 Rust  [`std`](https://doc.rust-lang.org/std/) ） 和 Wasm版本（仅支持 [`no_std`](https://rust-embedded.github.io/book/intro/no-std.html)），feature 配置非常重要的。
+
+> 译者注：可以把 no_std 简单理解为为了在嵌入式环境下运行，精简为只包含部分核心的`std`, 并包含了一些底层相关的代码。
+
+我们可以打开项目文件，来查看这些特性实际上如何在运行时代码中使用：
+
+
 
 **`runtime/src/lib.rs`**
 
 ```rust
-//! The Substrate Node Template runtime. This can be compiled with `#[no_std]`, ready for Wasm.
+//!  Substrate Node Template 运行时. 用 `#[no_std]` 编译, 用于 Wasm 版本.
 
 #![cfg_attr(not(feature = "std"), no_std)]
-// `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
+// `construct_runtime!` 进行了大量递归，并要求我们将限制增加到256。
 #![recursion_limit="256"]
 
-// Make the WASM binary available.
+// 使 WASM 二进制可用
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-// --snip--
+// --省略--
 ```
 
-You can see that at the top of the file, we define that we will use `no_std` when we are _not_ using
-the `std` feature. A few lines lower you can see `#[cfg(feature = "std")]` above the
-`wasm_binary.rs` import, which is a flag saying to only import the WASM binary when we have enabled
-the `std` feature.
+您可以看到，在文件的顶部，我们定义了当_不_使用`std`特性时，使用`no_std`。 接下来几行，可以在 `wasm_binary.rs` 导入上方看到 `#[cfg(feature = "std")]`，这是一个标志，表示在启用 `std` 特性时仅导入WASM二进制文件。
 
-### Importing the Contracts Pallet Crate
 
-Okay, now that we have covered the basics of crate features, we can actually import the Contracts
-pallet. The Contracts pallet is probably the most complicated pallet in FRAME, so it makes for a
-good example of some of the trickiness that can be involved when adding additional pallets.
+### 导入合约 Pallet 包（crate)
 
-First we will add the new dependency by simply copying an existing pallet, and changing the values.
-So based on the `balances` import shown above, the `contracts` import will look like:
+好了, 现在我们有了 crate 特性的基本的认识，开始实际导入合约 pallet。  合约 pallet 也许是 FRAME 中最复杂的pallet， 因此，这为添加其他pallet时可能涉及的一些棘手问题提供了一个很好的例子。 
+
+首先，我们将通过简单地复制现有 pallet 并更改值来添加新的依赖。
+
+因此，根据上面导入的`balances` ，`contracts` 的导入将类似于：
+
 
 **`runtime/Cargo.toml`**
 
@@ -160,9 +145,8 @@ tag = 'v2.0.0-rc4'
 version = '2.0.0-rc4'
 ```
 
-As with other pallets, the Contracts pallet has an `std` feature. We should build its `std` feature
-when the runtime is built with its own `std` feature. Add the following two lines to the runtime's
-`std` feature.
+与其他 pallets 一样，合约 pallet 具有 `std` 特性。 当运行时使用其自己的 `std` 特性构建时，我们应该构建其 `std` 特性。 将以下两行添加到运行时的`std` 特性中。
+
 
 **`runtime/Cargo.toml`**
 
@@ -170,14 +154,15 @@ when the runtime is built with its own `std` feature. Add the following two line
 [features]
 default = ["std"]
 std = [
-    #--snip--
+    #--省略--
     'contracts/std',
     'contracts-primitives/std',
-    #--snip--
+    #--省略--
 ]
 ```
 
-If you forget to set the feature, when building to your native binaries you will get errors like:
+如果你忘记设置特性，则在构建native二进制文件时会出现类似以下错误：
+
 
 ```rust
 error[E0425]: cannot find function `memory_teardown` in module `sandbox`
@@ -195,58 +180,59 @@ error[E0425]: cannot find function `memory_new` in module `sandbox`
 ...
 ```
 
-Now is a good time to check that everything compiles correctly so far with:
+现在是时候检查一下是否可以正确编译所有内容：
+
 
 ```bash
 cargo check
 ```
 
-## Adding the Contracts Pallet
+## 添加合约 Pallet
 
-Now that we have successfully imported the Contracts pallet crate, we need to add it to our Runtime.
-Different pallets will require you to `use` different thing. For the contracts pallet we will use
-the `Schedule` type. Add this line along with the other `pub use` statements at the beginning of
-your runtime.
+现在，我们已经成功导入了合约 Pallet 包（crate），我们需要将其添加到运行时中。
+不同的 Pallet 将要求您 `use` 不同的类型。 对于合约Pallet，我们将使用`Schedule`类型。 在运行时开头处，将此行添加到其他`pub use`语句附近。
+
+
 
 **`runtime/src/lib.rs`**
 
 ```rust
-/*** Add This Line ***/
-/// Importing the contracts Schedule type.
+/*** 添加此行 ***/
+/// 导入合约 Schedule 类型
 pub use contracts::Schedule as ContractsSchedule;
 ```
 
-### Implementing the Contract Trait
+### 实现合约 Trait
 
-Every pallet has a configuration trait called `Trait` that the runtime must implement.
+每个 pallet 都称为`Trait` 的配置 trait，必须在运行时中实现。
 
-To figure out what we need to implement for this pallet specifically, you can take a look to the
-FRAME
-[`contracts::Trait` documentation](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/trait.Trait.html).
-For our runtime, the implementation will look like this:
+
+要弄清楚我们需要为该 pallet 具体实现什么，您可以看一下FRAME [`contracts::Trait` 文档](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/trait.Trait.html) 。
+
+对于我们的运行时，实现将如下所示：
 
 **`runtime/src/lib.rs`**
 
 ```rust
 
-// These time units are defined in number of blocks.
-   /* --snip-- */
+// 时间单位以区块数定义。 
+/* --省略-- */
 
-/*** Add This Block ***/
-// Contracts price units.
+/*** 添加的代码块 ***/
+// Contracts 货币单位.
 pub const MILLICENTS: Balance = 1_000_000_000;
 pub const CENTS: Balance = 1_000 * MILLICENTS;
 pub const DOLLARS: Balance = 100 * CENTS;
-/*** End Added Block ***/
+/*** 结束添加代码块 ***/
 ```
 
 ```rust
 
 impl timestamp::Trait for Runtime {
-    /* --snip-- */
+    /* --省略-- */
 }
 
-/*** Add This Block ***/
+/*** 添加代码块 ***/
 parameter_types! {
 	pub const TombstoneDeposit: Balance = 16 * MILLICENTS;
 	pub const RentByteFee: Balance = 4 * MILLICENTS;
@@ -272,7 +258,7 @@ impl contracts::Trait for Runtime {
 	type MaxValueSize = contracts::DefaultMaxValueSize;
 	type WeightPrice = transaction_payment::Module<Self>;
 }
-/*** End Added Block ***/
+/*** 结束添加代码块 ***/
 ```
 
 We will use `type DetermineContractAddress` as an example to go into a bit more detail - you can see
