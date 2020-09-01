@@ -1,29 +1,26 @@
 ---
-title: Alice and Bob Start Blockchain
+title: Alice 和 Bob 启动区块链网络
 ---
 
-Before we generate our own keys, and start a truly unique Substrate network, let's learn the
-fundamentals by starting with a pre-defined network specification called `local` with two
-pre-defined (and definitely not private!) keys known as Alice and Bob.
+在我们生成自己的密钥并启动一个真正独特的Substrate网络之前，让我们从一个名为 `local` 的预定义网络规范开始，学习带有两个称为Alice和Bob的预定义（绝对不是私有！）密钥的基础知识。 。
 
-> This portion of the tutorial should be run on a single workstation with a single Substrate binary.
-> If you've followed the tutorial up to this point, you have the correct setup.
+> 本教程的这一部分应在使用Substrate二进制文件在单个工作站上运行。
+> 如果你已经按照前面的教程进行了操作，则说明设置正确。
 
-## Alice Starts First
+## Alice 先开始
 
-Alice (or whomever is playing her) should run these commands from node-template repository root.
+Alice （或扮演她的人）应该从节点模板代码库根目录运行这些命令。
 
-> Here we've explicitly shown the `purge-chain` command. In the future we will omit this You should
-> purge old chain data any time you're trying to start a new network.
+> 在这里，我们明确使用了 `purge-chain` 命令。 将来，我们将忽略此操作。无论何时尝试启动新网络，都应清除旧的链数据。
 
 ```bash
-# Purge any chain data from previous runs
-# You will be prompted to type `y`
+# 按提示输入  `y` 清楚先前的旧链数据
+
 ./target/release/node-template purge-chain --base-path /tmp/alice --chain local
 ```
 
 ```bash
-# Start Alice's node
+# 启动 Alice 的节点
 ./target/release/node-template \
   --base-path /tmp/alice \
   --chain local \
@@ -35,20 +32,21 @@ Alice (or whomever is playing her) should run these commands from node-template 
   --validator
 ```
 
-Let's look at those flags in detail:
+让我们详细看看这些命令标签的含义：
 
-| <div style="min-width:110pt"> Flags </div> | Descriptions                                                                                                                                                                                                                                                                                                                               |
+
+| <div style="min-width:110pt"> 命令标签 </div> | 描述                                                                                                                                                                                                                                                                                                                               |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--base-path`     | Specifies a directory where Substrate should store all the data related to this chain. If the directory does not exist it will be created for you. If other blockchain data already exists there you will get an error. Either clear the directory or choose a different one. If this value is not specified, a default path will be used. |
-| `--chain local`   | Specifies which chain specification to use. There are a few pre-packaged options including `local`, `development`, and `staging` but generally one specifies their own chainspec file. We'll specify our own file in a later step.                                                                                                         |
-| `--alice`         | Puts the pre-defined Alice keys (both for block production and finalization) in the node's keystore. Generally one should generate their own keys and insert them with an RPC call. We'll generate our own keys in a later step. This flag also makes Alice a validator.                                                                   |
-| `--port 30333`    | Specifies the port that your node will listen for p2p traffic on. `30333` is the default and this flag can be omitted if you're happy with the default. If Bob's node will run on the same physical system, you will need to explicitly specify a different port for it.                                                                   |
-| `--ws-port 9944`  | Specifies the port that your node will listen for incoming web socket traffic on. `9944` is the default, so it can also be omitted.                                                                                                                                                                                                        |
-| `--rpc-port 9933` | Specifies the port that your node will listen for incoming RPC traffic on. `9933` is the default, so it can also be omitted.                                                                                                                                                                                                               |
-| `--telemetry-url` | Tells the node to send telemetry data to a particular server. The one we've chosen here is hosted by Parity and is available for anyone to use. You may also host your own (beyond the scope of this article) or omit this flag entirely.                                                                                                  |
-| `--validator`     | Means that we want to participate in block production and finalization rather than just sync the network.                                                                                                                                                                                                                                  |
+| `--base-path`     | 指定 Substrate 存储与该链有关的所有数据的目录。 如果目录不存在，则会创建该目录。 如果其他区块链数据已经存在，将得到一个错误。 请清除目录或选择其他目录。 如果未指定此值，将使用默认路径。 |
+| `--chain local`   | 指定要使用的链规范。 有一些预打包的选项，包括`local`, `development`, 和 `staging`，但通常一个选项指定其自己的 chainspec 文件。 我们将在以后的步骤中指定我们自己的文件。|
+| `--alice`         | 将预定义的Alice密钥（用于块生产和最终确定性）放入节点的密钥库中。 通常，应该生成自己的密钥，并通过RPC调用将其插入。 我们将在以后的步骤中生成自己的密钥。 此命令标签同时让Alice成为验证者。|
+| `--port 30333`    | 指定节点在哪一个端口监听p2p流量。 30333是默认设置，如果您对默认设置满意，可以省略此命令标签。 如果Bob的节点将在同一物理系统上运行，则需要为其明确指定其他端口。  |
+| `--ws-port 9944`  | 指定节点用于监听其上传入的Web套接字流量的端口。默认设置是`9944`，因此也可以省略。                                                                                      |
+| `--rpc-port 9933` | 指定节点用户监听传入的RPC通信的端口。 默认值为`9933`，因此也可以省略。|
+| `--telemetry-url` | 告诉节点将遥测数据发送到特定服务器。 我们在这里选择的服务器由Parity托管，任何人都可以使用。 你也可以托管自己的地址（超出本文的范围）或完全省略此标志。     |
+| `--validator`     | 意味着我们要参与区块生产和最终确定性，而不仅仅是同步网络。|
 
-When the node starts you should see output similar to this.
+当节点启动时，你应该会看到类似的输出。
 
 ```
 2020-06-26 11:16:13 Substrate Node
@@ -71,18 +69,17 @@ When the node starts you should see output similar to this.
 ...
 ```
 
-> **Notes**
+> **注意**
 >
-> - `🔨 Initializing Genesis block/state (state: 0xa244…0444, header-hash: 0x1814…8aac)` tells which
->   genesis block the node is using. When you start the next node, verify that these values are
->   equal.
-> - `🏷  Local node identity is: 12D3KooWQsb4rFifmkZDsTCbjHdZ4GYca1PwDhETKiJnALSSbyEs...` shows the
->   Peer ID that Bob will need when booting from Alice's node.
+> - `🔨 Initializing Genesis block/state (state: 0xa244…0444, header-hash: 0x1814…8aac)` 告诉节点正在使用哪个创世纪块。 启动下一个节点时，请验证这些值是否相等。
+> - `🏷  Local node identity is: 12D3KooWQsb4rFifmkZDsTCbjHdZ4GYca1PwDhETKiJnALSSbyEs...` 显示从Alice节点对等ID， 引导启动Bob时需要使用到对等ID。
 
-You'll notice that no blocks are being produced yet. Blocks will start being produced once another
-node joins the network.
+你会注意到当前尚未生成任何块。 它需要等到另一个节点加入网络时才开始产生。
 
-More details about all of these flags and others that I haven't mentioned are available by running
+
+通过运行以下帮助命令可以获得所有这些标签的更多详细信息
+
+
 `./target/release/node-template --help`.
 
 ## Attach a UI

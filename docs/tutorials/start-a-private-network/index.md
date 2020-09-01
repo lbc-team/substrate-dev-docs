@@ -1,28 +1,24 @@
 ---
-title: "Start a Private Network"
+title: "启动一个私有网络"
 ---
 
-In this tutorial we will learn and practice how to start a blockchain network with a
-validator/authority set of your choosing using Substrate.
+在本教程中，我们将学习和练习如何基于Substrate使用自己选择的验证者/权威集合启动区块链网络。
 
-## Install the Node Template
 
-You should already have version `v2.0.0-rc4` of the
-[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)
-compiled on your computer from when you completed the
-[Create Your First Substrate Chain Tutorial](../../tutorials/create-your-first-substrate-chain/).
-If you do not, please complete that tutorial.
+## 安装 Node Template
 
-> Experienced developers who truly prefer to skip that tutorial, you may install the node template
-> according to the instructions in its readme.
+你应该已经在电脑上编译了[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template) 的 `v2.0.0-rc4` 版本，因为它是上一个教程的[创建第一个 Substrate 链](../../tutorials/create-your-first-substrate-chain/) 的内容，如果还没有完成的话，请先完成。
 
-## What you will be doing
 
-Before we even get started, let's lay out what we are going to do over the course of this tutorial.
-We will:
+> 有经验的开发人员会想跳过该教程，那你参考 readme 指引可以安装节点模板
 
-1. Launch a Substrate blockchain **network** based on a template project.
-2. Generate ed25519 and sr25519 key-pairs for use as a network authority.
-3. Create and edit a chainspec json file.
+## 你会做什么
 
-Sound reasonable? Good, then let's begin!
+在开始之前，让我们列出在本教程中我们将要做的事情。
+我们会：
+
+1. 根据模板项目启动Substrate区块链**网络**。 
+2. 生成ed25519和sr25519密钥对，以用作网络授权。
+3. 创建和编辑 chainspec json 文件.
+
+听起来合理吗？ 好，那就开始吧！
