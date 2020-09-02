@@ -82,51 +82,43 @@ Alice （或扮演她的人）应该从节点模板代码库根目录运行这�
 
 `./target/release/node-template --help`.
 
-## Attach a UI
+## 关联 UI
 
-You can tell a lot about your node by watching the output it produces in your terminal. There is
-also a nice graphical user interface known as the Polkadot-JS Apps, or just "Apps" for short.
+通过查看终端中产生的输出，你可以了解很多有关节点的信息。 这里还有一个称为Polkadot-JS Apps很好的图形用户界面，简称为“Apps”。
 
-In your web browser, navigate to
+在浏览器打开地址：
 [https://polkadot.js.org/apps/#/settings?rpc=ws://127.0.0.1:9944](https://polkadot.js.org/apps/#/settings?rpc=ws://127.0.0.1:9944).
 
-> Some browsers, notably Firefox, will not connect to a local node from an https website. An easy
-> work around is to try another browser, like Chromium. Another option is to
-> [host this interface locally](https://github.com/polkadot-js/apps#development).
+> 某些浏览器（尤其是Firefox）无法从https网站连接到本地节点。 一个简单的解决方法是尝试使用其他浏览器，例如Chromium。 另一个选项是[在本地启动polkadot-js](https://github.com/polkadot-js/apps#development)。
 
-The link provided above includes the `rpc` URL parameter, which instructs the Apps UI to connect to
-the URL that was provided as its value (in this case, your local node). To manually configure Apps
-UI to connect to another node:
+上面提供的链接包含 `rpc` URL参数，该参数用来告诉Apps UI连接到哪一个节点URL（在本例中为本地节点）。 可以手动配置应用UI连接到另一个节点：
 
-- Click on the top left network icon
+
+- 点解左上角的网络图标
 
   ![Top Left Network Icon](assets/tutorials/private-network/private-network-top-left-network-icon.png)
 
-- A popup dropdown appears. Choose the last entry, which is a local node using default port 9944
+- 在弹出的下拉框中，选择最后一项，他是本地默认使用 9944 的节点
 
   ![Select Network](assets/tutorials/private-network/private-network-select-network.png)
 
-- To connect to a custom node and port, you just need to specify the endpoint by choosing
-  `custom endpoint` and type in your own endpoint. In this way you can use a single instance of Apps
-  UI to connect to various nodes.
+- 要连接到自定义节点和端口，你只需选择 `custom endpoint`  并输入自己的节点 URL。 通过这个方式，单个Apps UI 就可以连接到各个不同的节点。
 
   ![Custom Endpoint](assets/tutorials/private-network/private-network-custom-endpoint.png)
 
-You should now see something like this.
+现在，你可以看到类似如下的界面
 
 ![No blocks in polkadot-js-apps](assets/tutorials/private-network/private-network-no-blocks.png)
 
-> **Notes**
->
-> If you do not want to run your hosted version of Polkadot-JS Apps UI while connecting to Substrate
-> node you have deployed remotely, you can configure ssh local port forwarding to forward local
-> request to the `ws-port` listened by the remote host. This is beyond the scope of this tutorial
-> but is referenced at the bottom.
+> **注意**
+> 如果在连接到已远程部署的Substrate节点时不想运行托管版本的Polkadot-JS Apps UI，则可以配置ssh本地端口转发以将本地请求转发到远程主机监听的 `ws-port` 端口。 这超出了本教程的范围，但是可以参考本节最后给出的参考应用。
 
-## Bob Joins
 
-Now that Alice's node is up and running, Bob can join the network by bootstrapping from her node.
-His command will look very similar.
+## Bob 加入
+
+既然Alice的节点已经建立并且正在运行，Bob可以通过从其节点进行引导来加入网络。
+他的命令看起来和Alice的非常相似。
+
 
 ```bash
 ./target/release/node-template purge-chain --base-path /tmp/bob --chain local
@@ -145,7 +137,8 @@ His command will look very similar.
   --bootnodes /ip4/<Alices IP Address>/tcp/<Alices Port>/p2p/<Alices Peer ID>
 ```
 
-Most of these options are already explained above, but there are a few points worth mentioning.
+这些选项中的大多数已经在上面进行了解释，但是有几点值得一提。
+
 
 - Because these two nodes are running on the same physical machine, Bob must specify a different
   `--base-path`, `--port`, `--ws-port`, and `--rpc-port`.
