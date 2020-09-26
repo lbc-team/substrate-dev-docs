@@ -11,7 +11,7 @@
 | docs/tutorials/create-your-first-sustrate-chain  | Tiny熊   |          |         |  Tiny熊  |          |  181   |       |
 | docs/tutorials/build-a-dap/                      | Tiny熊  |2020/7/21 | 2020/8/7  |  Tiny熊    |  2020/8/7  |  201   |   50   |
 | docs/tutorials/*                                  | Tiny熊  |2020/8/7 |        |            |          |     |         |
-
+| docs/knowledgebase/learn-substrate/extrinsics.md             | Johnathan |2020/9/25 | 2020/9/26 |  Tiny熊    |     |  68   |   10   |
 
 
 
@@ -22,3 +22,6 @@ cat filename | grep -v ^$ | wc -l
 ```
 
 每行一个学分奖励。
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
