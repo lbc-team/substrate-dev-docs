@@ -1,91 +1,58 @@
 ---
-title: Extrinsics
+title: 外部调用
 ---
+一个外部调用是一些区块中包含的来自区块链外部的信息。
+外部调用主要分为三类: 固有信息，签名交易和无签名交易。
 
-An extrinsic is a piece of information that comes from outside the chain and is included in a block.
-Extrinsics fall into three categories: inherents, signed transactions, and unsigned transactions.
+请注意，[events](../runtime/events) 不是外部调用。 链针对链本身的一些信息发出的事件，例如质押奖励是事件，而不是外部调用，这是因为奖励是由链内在的逻辑判断触发的。
 
-Note that [events](../runtime/events) are not extrinsics. The chain emits events for pieces of
-information that are intrinsic to the chain itself. For example, staking rewards are events, not
-extrinsics, because the reward is triggered by circumstances intrinsic to the chain's logic.
 
-## Block Structure
+## 区块结构
 
-A block in Substrate is composed of a header and an array of extrinsics. The header contains a  
-block height, parent hash, extrinsics root, state root, and digest. This section will only focus on
-the extrinsics root.
+Substrate中的区块由区块头和一组外部调用组成。 区块头包含块高度，父哈希，外部根，状态根和摘要。 本节仅关注外部根。
 
-Extrinsics are bundled together into a block as a series to be executed as each is defined in the
-runtime. The extrinsics root is a cryptographic digest of this series. This serves two purposes.
-First, it prevents any alterations to the series of extrinsics after the header has been built and
-distributed. Second, it provides a means of allowing light clients to succinctly verify that any
-given extrinsic did indeed exist in a block given only knowledge of the header.
+所有的外部调用会被打包进一个区块，从而形成一个外部序列并依次被runtime执行。其中外部根是该序列的摘要，它主要有两个目的：
+首先，它可以防止在区块头已构建并被分发后，对外部序列进行任何更改；其次，它允许轻节点仅通过区块头，就可以简洁地验证任何给定的外部调用是否存在于一个块中。
 
 - [Block Reference](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.Block.html)
 
-## Inherents
+## 固有信息 (Inherents)
 
-Inherents are pieces of information that are not signed and only inserted into a block by the block
-author. They are not gossiped on the network or stored in the transaction queue. There is nothing
-technically preventing a Substrate chain that gossips inherents, but there would be no fee-based
-spam prevention mechanism.
+固有信息是只能由出块者创建并插入到区块中的未签名的信息，它们不会被散布在网络中或存储在交易队列中。 从技术上讲，基于Substrate的链可以传播任意固有信息，并且也不会有基于交易费用的垃圾消息检测机制。
 
-Inherents represent data that, in an opinionated fashion, describes one of a number of valid pieces
-of information. They are assumed to be "true" simply because a sufficiently large number of
-validators have agreed on them being reasonable.
+固有信息以一种主观的方式描述一些有效信息，这些信息之所被认为是“真实的”，仅仅是因为有最够多的验证人都认为它是合理的。
 
-For example, the author of the block may insert a timestamp inherent into the block. There is no way
-to prove that a timestamp is true the way the desire to send funds is proved with a signature.
-Rather, validators accept or reject the block based on how reasonable the other validators find the
-timestamp, which may mean it is within some acceptable range of their own system clocks.
+例如，出块者可以将固有的时间戳插入块中， 没有办法像交易那样通过签名验证，来证明时间戳是正确的。验证者则是根据其他验证者是否认可时间戳(也就是说，该时间戳在验证者自己的系统时钟的某个可接受范围内)来接受或拒绝该块。
+
 
 - [Inherents Reference](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_inherents/index.html)
 
-## Signed Transactions
+## 签名交易
 
-Signed transactions contain a signature of the account that issued the transaction and stands to pay
-a fee to have the transaction included on chain. Because the value of including signed transactions
-on-chain can be recognized prior to execution, they can be gossiped on the network between nodes
-with a low risk of spam.
+签名交易包含发出交易帐户的签名，并且需要支付交易费才能被打包上链。由于在交易执行前就可以知道交易费，所以在网络节点中传播此类垃圾交易的风险很小。
 
-Signed transactions fit the concept of a transaction in Ethereum or Bitcoin.
+Substrate 中的签名交易与以太坊或比特币是一样的。
 
-## Unsigned Transactions
 
-Some cases call for unsigned transactions. Use unsigned transactions with care, as their validation
-logic can be difficult.
+## 无签名交易
 
-Since the transaction is not signed, there is nobody to pay a fee. Because of this, the transaction
-queue lacks economic logic to prevent spam. Unsigned transactions also lack a nonce, making replay
-protection difficult. A few transactions warrant using the unsigned variant, but they will require
-some form of spam prevention based on a custom implementation of
-[signed extension](#signed-extension), which can exist on unsigned transactions.
+有些情况下需要使用无签名交易，但是因为它的验证难度很大，所以要谨慎使用无签名交易。
 
-An example of unsigned transactions in Substrate is the [I'm Online](../runtime/frame#im-online)
-heartbeat transaction sent by authorities. The transaction includes a signature from a Session key,
-which does not control funds and therefore cannot pay a fee. The transaction pool controls spam by
-checking if a heartbeat has already been submitted in the session.
+由于不需要签名，因此没人会支付交易费，这使得交易队列无法用有效的经济手段，来防止滥用无签名交易。 再者，无签名交易中缺失nonce字段来声明交易执行顺序，从而难以防止“重放攻击”。 少数交易能安全地以无签名的形式执行，但是它们需要通过预先自定义[signed extension](#signed-extension)来防止垃圾交易，这里signed extension可以用于无签名交易。
 
-## Signed Extension
+Substrate 中一个无签名交易的例子，就是由验证节点定时发送的 [I'm Online](../runtime/frame#im-online)心跳交易。 该笔交易虽然包含了一个会话密钥签名，但会话密钥并不能控制资金，因此也就无法支付交易费用。 交易池通过检查验证人在某个session内是否提交过心跳交易，来防止垃圾信息(如果提交过会拒绝新的心跳交易)。
 
-`SignedExtension` is a trait by which a transaction can be extended with additional data or logic.
-Signed extensions are used anywhere you want some information about a transaction prior to
-execution. This is heavily used in the transaction queue.
+## 签名拓展(Signed Extension)
 
-The runtime can use some of this data, for example the `Call` that will be dispatched, to calculate
-transaction fees. Signed extensions also include an `AdditionalSigned` type that can hold any
-encodable data, and therefore allow you to perform any custom logic prior to including or
-dispatching a transaction. The transaction queue regularly calls functions from `SignedExtension` to
-validate transactions prior to block construction to avoid including transactions that will fail in
-blocks.
+`签名扩展` 是Substrate的一个特性 ，通过它可以使用额外的数据或逻辑来扩展交易。 使用签名扩展可以实现在交易执行之前获取某笔特定交易信息。 因此，交易队列中大量使用"签名扩展"。
 
-Despite the name, `SignedExtension` can also be used to verify unsigned transactions. The
-`*_unsigned` set of methods can be implemented to encapsulate validation, spam, and replay
-protection logic that is needed by the transaction pool.
+Runtime中会使用“签名扩展”提供的一些数据，比如调用`Call`函数的数据计算交易费用。 签名扩展还包含一个名为`AdditionalSigned`的字段，该字段可存放任意可编码数据，因而允许用户在打包或者发送交易之前，执行自定义逻辑。交易队列还会定期调用 `SignedExtension` 中的函数来验证即将被打包的交易， 以避免将可能失败的交易打包进区块中。
 
-- [Signed Extension Reference](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.SignedExtension.html)
+尽管带 `签名拓展` 包含“签名”两字，但其实它也可以用于验证无签名交易。 我们可通过实现 `*_unsigned` 的一系列方法，来封装交易池所需的信息核验、防垃圾信息和重放保护等逻辑。
 
-## Further Reading
+- [签名扩展相关参考](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.SignedExtension.html)
+
+## 进一步阅读
 
 - [Reference Documentation](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.Extrinsic.html)
 - [Runtime Execution](../runtime/execution)
