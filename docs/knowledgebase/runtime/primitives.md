@@ -1,75 +1,59 @@
 ---
-title: Runtime Primitives
+title: Runtime 基本类型
 ---
 
-The Substrate runtime is composed with a set of primitive types that are expected by the rest of the
-Substrate framework.
+Substrate runtime由Substrate框架中runtime之外的部分需要的一组基本类型组成。
 
-## Core Primitives
+## 核心基本类型
 
-The Substrate framework makes minimal assumptions about what your runtime must provide to the other
-layers of Substrate. They are mandatory to define and must fulfill a particular interface in order
-to work within the Substrate framework.
+Substrate框架对runtime必须提供给Substrate的其他层的内容做了最小的限定。 它们是必须被定义的，并且必须实现特定的接口才能在Substrate框架内运行。
 
-They are:
+他们是:
 
-- `Hash`: A type which encodes a cryptographic digest of some data. Typically just a 256-bit
-  quantity.
+- `Hash`: 一种编码某些数据的加密摘要的类型，通常只有256位。
 
-- `DigestItem`: A type which must be able to encode one of a number of "hard-wired" alternatives
-  relevant to consensus and change-tracking as well as any number of "soft-coded" variants, relevant
-  to specific modules within the runtime.
+- `DigestItem`: 一种能编码“硬连线”的替代方案，硬连线包括共识、变更跟踪以及runtime中与任意“软编码”变量相关的特定模块。
 
-- `Digest`: A series of DigestItems. This encodes all information that is relevant for a
-  light-client to have on hand within the block.
+- `Digest`: 一系列摘要函数类型，负责对与轻客户端相关的所有信息进行编码。
 
-- `Extrinsic`: A type to represent a single piece of data external to the blockchain that is
-  recognized by the blockchain. This typically involves one or more signatures, and some sort of
-  encoded instruction (e.g. for transferring ownership of funds or calling into a smart contract).
+- `Extrinsic`: 表示可被区块链识别的单个外部数据类型。 通常包含一个或多个签名，以及某种编码指令（例如，用于转移资金所有权或调用智能合约）。
 
-- `Header`: A type which is representative (cryptographically or otherwise) of all information
-  relevant to a block. It includes the parent hash, the storage root and the extrinsics trie root,
-  the digest and a block number.
+- `Header`: 代表（以密码或其他方式）所有与区块相关信息的类型。 它包括父哈希，存储根和外部树根，摘要和块高。
 
-- `Block`: Essentially just a combination of `Header` and a series of `Extrinsic`s, together with a
-  specification of the hashing algorithm to be used.
+- `Block`: 其实是“区块头”和一系列“外部”的组合，以及要使用的哈希算法。
 
-- `BlockNumber`: A type which encodes the total number of ancestors any valid block has. Typically a
-  32-bit quantity.
+- `BlockNumber`: 一种编码任何有效块具有的祖先总数的类型，通常为32位。
 
-## FRAME Primitives
+## FRAME 基本类型
 
-There are an additional set of primitives that are assumed about a runtime built with the Substrate
-FRAME:
+使用Substrate FRAME构建的runtime，还假定了其他一组基本类型。
 
-- `Call`: The dispatch type that can be called via an extrinsic.
+- `Call`: 可以通过外部调用的调用类型。
 
-- `Origin`: Represents where a call came from. For example, a signed message (a transaction), an
-  unsigned message (an inherent extrinsic), and a call from the runtime itself (a root call).
+- `Origin`: 表示调用来自何处，比如来自签名消息（一笔交易），未签名消息（固有外部消息）或runtime本身的调用（根调用)。
 
-- `Index`: An account index (aka nonce) type. This stores the number of previous transactions
-  associated with a sender account.
+- `Index`: 帐户索引（也称为随机数）类型, 它存储与发送方帐户关联的先前交易数。
 
-- `Hashing`: The hashing system (algorithm) being used in the runtime (e.g. Blake2).
+- `Hashing`: runtime使用的哈希系统（算法）(例如Blake2)。
 
-- `AccountId`: The type used to identify user accounts in the runtime.
+- `AccountId`: runtime中帐户类型。
 
-- `Event`: The type used for events emitted by the runtime.
+- `Event`: runtime中发出的事件类型。
 
-- `Version`: A type which represents the version of the runtime.
+- `Version`: runtime版本号类型.
 
-## Next Steps
+## 下一步
 
-### Learn More
+### 进一步阅读
 
 - Learn about the [Substrate FRAME](frame).
 
-### Examples
+### 示例
 
 - See how these generic types are implemented
   [in the Substrate node](https://github.com/paritytech/substrate/blob/master/bin/node/runtime/src/lib.rs).
 
-### References
+### 参考
 
 - View the
   [primitive types defined in `node-primitives`](https://substrate.dev/rustdocs/v2.0.0-rc4/node_primitives/index.html).
