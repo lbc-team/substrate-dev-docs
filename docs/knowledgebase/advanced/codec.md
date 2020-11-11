@@ -89,8 +89,8 @@ One or zero values of a particular type. Encoded as:
 As an exception, in the case that the type is a boolean, then it is always one byte:
 
 - `0x00` if it is `None` ("empty" or "null").
-- `0x01` if it is the `false` value.
-- `0x02` if it is the `true` value.
+- `0x01` if it is the `true` value.
+- `0x02` if it is the `false` value.
 
 ### Results
 
@@ -190,7 +190,7 @@ that is written in Rust and maintained by Parity Technologies.
 
 - Rust: [`paritytech/parity-scale-codec`](https://github.com/paritytech/parity-scale-codec)
 - Python: [`polkascan/py-scale-codec`](https://github.com/polkascan/py-scale-codec)
-- Golang: [`ChainSafe/gossamer`](https://github.com/ChainSafe/gossamer)
+- Golang: [`itering/scale.go`](https://github.com/itering/scale.go)
 - C++: [`soramitsu/scale`](https://github.com/soramitsu/kagome/tree/master/core/scale)
 - JavaScript: [`polkadot-js/api`](https://github.com/polkadot-js/api)
 - AssemblyScript: [`LimeChain/as-scale-codec`](https://github.com/LimeChain/as-scale-codec)
@@ -201,7 +201,7 @@ that is written in Rust and maintained by Parity Technologies.
 ## References
 
 - Visit the reference docs for the
-  [`parity-scale-codec`](https://substrate.dev/rustdocs/v2.0.0-rc4/parity_scale_codec/index.html).
+  [`parity-scale-codec`](https://substrate.dev/rustdocs/v2.0.0/parity_scale_codec/index.html).
 
 - Visit the auxiliary encoding section of the
   [Polkadot runtime environment specification](https://github.com/w3f/polkadot-spec/).

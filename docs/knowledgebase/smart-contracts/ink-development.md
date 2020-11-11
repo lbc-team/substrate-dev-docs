@@ -49,15 +49,6 @@ a contract instance. `memory` is temporary and only lasts until the contract exe
 while `storage` is persistent and lasts over many contract executions. The contract `storage` is
 built on top of the runtime storage, and access is considered to be slow.
 
-#### Example
-
-While a `storage::Vec<T>` stores all of its elements in different cells in the contract storage, a
-`storage::Value<memory::Vec<T>>` would store all elements (and a length info) in a single cell.
-Smart contract developers can use this to optimize for certain use cases. For example, using a
-`storage::Value<memory::Vec<T>>` would probably be more efficient for storing a small amount of
-elements in the `memory::Vec<T>`. In general, we recommend using the more general `storage::Vec` for
-storing information on the contract instance.
-
 ### How do I run tests?
 
 When building a smart contract with ink!, you can define a set of tests.
@@ -95,11 +86,12 @@ Join the growing community of ink! smart contract developers:
 ### Examples
 
 - Follow a
-  [tutorial to add this Contracts pallet to your Substrate runtime](https://substrate.dev/docs/en/tutorials/add-a-pallet-to-your-runtime/).
+  [tutorial to add this Contracts pallet to your Substrate runtime](../../tutorials/add-contracts-pallet/).
 
 ### References
 
 - Visit the
   [ink! repository for additional docs and to look at the source](https://github.com/paritytech/ink).
-- Visit the reference docs for the [ink! abi](https://paritytech.github.io/ink/ink_abi/).
-- Visit the reference docs for the [ink! core](https://paritytech.github.io/ink/ink_core/).
+- Visit the [ink! developer homepage](https://paritytech.github.io/ink/)
+- Visit the reference docs for the [ink! metadata](https://paritytech.github.io/ink/ink_metadata/).
+- Visit the reference docs for the [core ink! language](https://paritytech.github.io/ink/ink_lang/).

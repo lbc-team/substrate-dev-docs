@@ -71,70 +71,37 @@ function Seminar(props) {
 
 			<section className='switchable switchable--switch intro'>
 				<div className='container'>
+
 					<div className='row justify-content-between'>
 						<div className='col-md-8 col-lg-7 left'>
 							<h2>An open collaborative learning call</h2>
 							<p className='lead'>
 								Substrate Seminar is an open Collaborative Learning call where we learn about Substrate
-								together. We meet every Tuesday at 14:00UTC. Ask for help, show off your project, learn
-								Substrate, and make friends!
+								together. Run by DevHub, we meet every Tuesday at 14:00UTC. Learn, show off a Substrate
+								project, and make friends!
 							</p>
 							<a href='https://calendar.google.com/calendar/b/1?cid=cGFyaXR5LmlvXzJmc2tqN245cm1qcHE1Y2xiOWc3ZWUzZGhvQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20'>Add next call to Google Calendar »</a>
 						</div>
-						<div className='col-md-4 col-lg-5 right'>
-							<div className='feature feature-2 boxed boxed--border box-shadow'>
-								<img className='image-host' src='/img/joshy.jpg' />
-								<div className='feature__body'>
-									<h4>Seminar Host</h4>
-									<p>
-										<strong>Joshy Orndorff</strong>
-										<br />Developer Advocate at<br />Parity Technologies
-									</p>
-								</div>
-							</div>
-						</div>
 					</div>
 					<hr />
+
 					<div className='row pb-0'>
 						<div className='col-md-12'>
 							<h2 style={{ fontSize: '32px' }}>FAQ</h2>
 						</div>
 					</div>
+
 					<div className='row justify-content-between pt-0 faqs'>
 						<div className='col-md-6 first'>
 							<h4 className='mb-2'>What topics are coming up?</h4>
 							<p>
-								On <strong>14 July</strong>, Parity's Dan Forbes will demonstrate and discuss how to write your own Substrate pallet and install it in a runtime. He will also explore the uses and idiosyncrasies of Substrate's runtime storage. This is a beginner-friendly session focused on runtime development. Ricardo Rius will be the host in this seminar.
-							</p>
-							<p>
-								On <strong>21 July</strong>, Parity's Kian Paimani returns to demonstrate testing and debugging live chains locally. This is an intermediate session in which attendees will learn the challenges associated with testing upgrades and migrations on live blockchains, and explore a techinque to overcome those challenges. Addie Wagenknecht will be the host in this seminar.
-							</p>
-							<p>
-								On <strong>28 July</strong>, Parity's Ricardo Rius (also being the host), Jimmy Chu, and Steve Degosserie join us to present a Substrate Enterprise demo. This intermediate presentation will show several features of Substrate that enterprise users may find valuable. It may even include a demonstration of running a Substrate node on Android.
-							</p>
-							<h4 className='mb-2'>How do I join the call?</h4>
-							<p>
-								We are trying the crowdcast platform for seminar. Specifically we meet in{' '}
-								<a href='https://www.crowdcast.io/e/substrate-seminar'>https://www.crowdcast.io/e/substrate-seminar</a>.
+								On <strong>10 Nov</strong>, Jesse Abramowitz will share all things Feeless Transaction Pallet.
+								This presentation will be particularly relevant for anyone working on fee systems. Shawn Tabrizi will be our host.
 							</p>
 						</div>
 
 						<div className='col-md-6 second'>
-						{/*
-							<h4 className='mb-2'>How should I prepare for the call?</h4>
-							<p>
-								There are no specific preparation steps. You may find it useful to read the links for{' '}
-								<a href="https://github.com/akropolisio/polkahub-monorepo">PolkaHub</a>{' '}
-								and{' '}
-								<a href="https://totemaccounting.com/">Totem Live Accounting</a>
-								{' '}or complete one of our{' '}
-								<a href='https://substrate.dev/en/tutorials'>
-									Introductory Tutorials
-								</a>{' '}.
-							</p>
-							*/}
-
-							<h4 className='mt-4 mb-2'>Can I ask my own questions?</h4>
+							<h4 className='mb-2'>Can I ask my own questions?</h4>
 							<p>
 								Yes! The second half of every Seminar is for open Q & A like office hours. You can ask questions or even bring your code that doesn't compile. Participants will be invited on-screen to share their work and their questions. You may also join us between Seminars on <a href='https://matrix.to/#/!oClBfIbtucPfGKlNpk:matrix.parity.io'>Riot</a>.
 							</p>
@@ -152,12 +119,12 @@ function Seminar(props) {
 								<ul>
 									<li>
 										<a href='https://www.crowdcast.io/e/substrate-seminar/'>
-											June 23 2020 and later
+											23 June 2020 and later
 										</a>{' '} are on Crowdcast.
 									</li>
 									<li>
 										<a href='https://www.youtube.com/watch?v=XoL1Ur_6Lxk&list=PLp0_ueXY_enXRfoaW7sTudeQH10yDvFOS'>
-											19 November 2019 - June 23 2020
+											19 November 2019 - 23 June 2020
 										</a>{' '} are on the Substrate Seminar YouTube playlist.
 									</li>
 									<li>

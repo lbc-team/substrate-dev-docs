@@ -177,14 +177,14 @@ influence your decision on the kinds of situations you may want to use these dif
 ### Examples
 
 - Follow a
-  [tutorial to add a runtime module to your Substrate runtime](../../tutorials/add-a-pallet-to-your-runtime/).
+  [tutorial to add the Contracts pallet to your FRAME runtime](../../tutorials/add-contracts-pallet/).
 - Learn how to
   [start developing with the Contracts pallet and ink!](ink-development).
 
 ### References
 
 - Visit the reference docs for the
-  [Contracts pallet](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/index.html).
+  [Contracts pallet](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/index.html).
 - Visit the reference docs for the
-  [EVM pallet](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_evm/index.html).
+  [EVM pallet](https://substrate.dev/rustdocs/v2.0.0/pallet_evm/index.html).
 - Take a look at the [repository for ink!](https://github.com/paritytech/ink).

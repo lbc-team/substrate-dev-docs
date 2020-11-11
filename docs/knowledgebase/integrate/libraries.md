@@ -19,10 +19,17 @@ library for offline generation of Substrate transactions.
 [The Go Substrate RPC Client](https://github.com/centrifuge/go-substrate-rpc-client/), AKA GSRPC, is
 maintained by [Centrifuge](https://centrifuge.io/).
 
-## C
+## C#
 
 [Polkadot API DotNet](https://github.com/usetech-llc/polkadot_api_dotnet) is a Substrate RPC client
 library for .Net programmers. It is maintained by [Usetech](https://usetech.com/blockchain/).
+
+Substrate community member Cedric Decoster
+([@darkfriend77 on GitHub](https://github.com/darkfriend77)) maintains the
+[SubstrateNetApi](https://github.com/darkfriend77/SubstrateNetApi) and a
+[starter template project](https://github.com/darkfriend77/Unity3DExample) for Unity3D. The library
+is also available via the [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) package
+manager.
 
 ## C++
 
@@ -36,3 +43,10 @@ library specifically designed for submitting extrinsics to Substrate blockchains
 [the Substrate API Client](https://github.com/scs/substrate-api-client) is another Substrate client
 library for Rust that is maintained by Supercomputing Systems; its API is more general-purpose than
 `substrate-subxt`.
+
+## Python
+
+[py-substrate-interface](https://github.com/polkascan/py-substrate-interface) is a Python
+library for interacting with the Substrate RPC. It supports a wide range of capabilities and
+powers the [Polkascan multi-chain block explorer](https://polkascan.io/). This library is
+maintained by [Polkascan Foundation](https://polkascan.org/).
