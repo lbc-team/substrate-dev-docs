@@ -5,7 +5,7 @@ title: 定制前端
 到这里，你应该已经运行了一个全新的具有自定义功能的区块链。
 
 
-现在我们将定制一个自定义的react组件，你可以将其添加到`substrate-front-end-template`中。用于与自定义节点进行交互。
+现在我们将定制一个自定义的React组件，你可以使用它与你的节点进行交互。
 
 
 ## 探索前端模板
@@ -14,6 +14,9 @@ title: 定制前端
 
 
 ```bash
+# Install dependencies if this is the first time you run front-end template 
+yarn install
+# Start the template
 yarn start
 ```
 
@@ -29,7 +32,7 @@ yarn start
 
 ## 添加自定义 React 组件
 
-在 `substrate-front-end-template` 项目中, 编辑`/src/`下的 `TemplateModule.js`：
+在 前端模板项目中, 编辑`/src/`下的 `TemplateModule.js`：
 
 
 ```
@@ -50,9 +53,16 @@ substrate-front-end-template
 删除该文件的内容，改用下面的组件。
 
 
-<div style="max-height: 20em; overflow: auto; margin-bottom: 1em;">
+<div class="overflow-code">
+  <style>
+    .overflow-code + pre {
+      max-height: 20em;
+      overflow-y: scroll;
+    }
+  </style>
+</div>
 
-```js
+```javascript
 // React and Semantic UI elements.
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Grid, Message } from 'semantic-ui-react';
@@ -133,7 +143,7 @@ export function Main (props) {
             type='file'
             id='file'
             label='Your File'
-            onChange={(e) => handleFileChosen(e.target.files[0])}
+            onChange={ e => handleFileChosen(e.target.files[0]) }
           />
           {/* 如果文件可被声明显示 */}
           <Message success header='File Digest Unclaimed' content={digest} />
@@ -216,19 +226,23 @@ export default function TemplateModule (props) {
 
 我们的存证案例就完成了。
 
-你已经亲眼看到了开发一个全新的pallet并用Substrate启动一个自定义区块链是很简单的。 
-此外，我们还展示了使用Substrate生态系统提供的前端工具快速创建响应式前端应用，以便用户与区块链进行交互。
+你已经亲眼看到了用Substrate和 FRAME开发一个全新的pallet并启动一个自定义区块链是很简单的事情。 
+此外，我们还展示了使用Substrate 生态系统提供的前端工具快速创建响应式前端应用，以便用户与区块链进行交互。
 
 
 本教程里省略一些有关开发的特定细节，以使教程简洁而令人满意。 但是，我们希望你继续学习！
 
 
 更多关于创建直接的pallet，可以阅读[Substrate Recipes](https://substrate.dev/recipes).
+完成[添加一个Pallet](../add-a-pallet/) 教程学习如何扩展节点模板，使用 Substrate的一些[核心的 FRAME pallets](../../knowledgebase/runtime/frame) 链能力。
 
 
-我们也应该告诉你，你在Substrate框架上最终的成功将受限于你的Rust编程的能力。 [Rust Book](https://doc.rust-lang.org/book/)是初级和中级Rust开发人员的重要学习资源。
+Substrate 使用 Rust 编写，他有很强大的社区和丰富的资源，了解它[如何强大](https://stackoverflow.blog/2020/01/20/what-is-rust-and-why-is-it-so-popular/).
+[Rust Book](https://doc.rust-lang.org/book/)是初级和中级Rust开发人员的重要学习资源，[Rustlings](https://github.com/rust-lang/rustlings) 是有趣的课程。
 
-如果你在本教程中遇到任何问题或想提供反馈，请随时[创建GitHub Issue](https://github.com/substrate-developer-hub/tutorials/issues/new)或在[Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)联系我们。
+Rust编程的能力会影响你在Substrate框架上最终的成功。
+
+如果你在本教程中遇到任何问题或想提供反馈，请随时[在Stack Overflow提问](https://stackoverflow.com/questions/tagged/substrate)或在[Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)联系我们。
 
 
 我们迫不及待想看看你接下来的建造！

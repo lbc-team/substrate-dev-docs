@@ -23,19 +23,18 @@ const Button = require('../../../../react-bootstrap/Button')
 const Row = require('../../../../react-bootstrap/Row')
 const Col = require('../../../../react-bootstrap/Col')
 const Image = require('../../../../react-bootstrap/Image')
+const Alert = require('../../../../react-bootstrap/Alert')
 const translate = require('../../server/translate').translate
 
 class Index extends React.Component {
 	render() {
 		const { config: siteConfig, language = '' } = this.props
-		const { baseUrl, docsUrl } = siteConfig
-		const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`
-		const langPart = `${language ? `${language}/` : ''}`
-		const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`
-		const pageUrl = page => baseUrl + (language ? `${language}/` : '') + page
 
 		return (
 			<section>
+				<div className="announcement">
+					The first Polkadot community conference is coming Dec 3rd!<br/> <a href="https://parity.link/UFsVd">Register Here</a> for Polkadot Decoded.
+				</div>
 				<HomeSplash
 					id='home-hero'
 					siteConfig={siteConfig}
@@ -83,7 +82,7 @@ class Index extends React.Component {
 								<p>了解如何使用Polkadot-JS打造交互式用户体验。</p>
 								<section className='button-wrap'>
 									<a
-										href='https://github.com/substrate-developer-hub/substrate-front-end-template'
+										href={`docs/` + language + `/knowledgebase/integrate/polkadot-js`}
 										className='with-arrow'
 									>
 										了解更多
@@ -162,6 +161,32 @@ class Index extends React.Component {
 						</div>
 					</section>
 
+
+
+					<section className='bg-light call-outs second'>
+						<div className='container'>
+							<div className='row justify-content-between align-items-center py-5 polkadot-row'>
+								<div className='col-12 col-md-6 pl-md-0 mb-4 mb-md-0 text-center polkadot-graphic-wrap'>
+									<img src='./img/pictures/polkadot-network.svg' className='polkadot-image' />
+									<div
+										className='polkadot-graphic'
+										style={{ backgroundImage: `url(./img/pictures/polkadot-network.svg)` }}
+									/>
+								</div>
+								<div className='col-12 col-md-5'>
+									<h2 className='h1'> 主网发布</h2>
+									<p className='large mb-4'>
+                  Substrate驱动着下一代区块链网络Polkadot，这是一个异构的多链网络。 大多数Polkadot生态的区块链也基于Substrate构建。Polkadot网络在2020年5 月发布上线了。
+									</p>
+									<a className='action-link' href='https://polkadot.network/technology/'>
+										<span>了解更多关于Polkadot</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</section>
+
+
 					<section className='bg-light call-outs first'>
 						<div className='container'>
 							<div className='row justify-content-between align-items-center py-5'>
@@ -185,36 +210,13 @@ class Index extends React.Component {
 						</div>
 					</section>
 
-					<section className='bg-light call-outs second'>
-						<div className='container'>
-							<div className='row justify-content-between align-items-center py-5 polkadot-row'>
-								<div className='col-12 col-md-6 pl-md-0 mb-4 mb-md-0 text-center polkadot-graphic-wrap'>
-									<img src='./img/pictures/polkadot-network.svg' className='polkadot-image' />
-									<div
-										className='polkadot-graphic'
-										style={{ backgroundImage: `url(./img/pictures/polkadot-network.svg)` }}
-									/>
-								</div>
-								<div className='col-12 col-md-5'>
-									<h2 className='h1'>(即将) 主网发布</h2>
-									<p className='large mb-4'>
-                  Substrate驱动着下一代区块链网络Polkadot，这是一个异构的多链网络。 大多数将与Polkadot相连的“平行链”网络也将基于Substrate构建。
-                  Substrate正在进行安全审计，为2020年发布的Polkadot网络做准备。
-									</p>
-									<a className='action-link' href='https://polkadot.network/technology/'>
-										<span>了解更多关于Polkadot</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</section>
 
 					<section className='bg-white learn'>
 						<div className='container'>
 							<div className='row justify-content-center text-center pt-5'>
 								<div className='col-12 col-md-10'>
-									<h4>学习Substrate</h4>
-									<h2 className='h1'>多种方式学习Substrate.</h2>
+									<h4>保持探索</h4>
+									<h2 className='h1'>有多种方式学习Substrate.</h2>
 								</div>
 							</div>
 						</div>
@@ -229,7 +231,7 @@ class Index extends React.Component {
 											<div className='py-5 py-md-0'>
 												<h2>Substrate Seminar</h2>
 												<p className='mb-3'>
-                        Substrate Seminar是一个开放式线上协作学习会议，我们可以在此一起学习有关Substrate的知识。
+                        一个开放式线上协作学习会议，和其他的开发者一起学习有关Substrate。
 												</p>
 												<a
 													className='btn primary-color'
@@ -246,14 +248,14 @@ class Index extends React.Component {
 									<div className='row justify-content-center'>
 										<div className='col-12 col-lg-8'>
 											<div className='py-5 py-md-0'>
-												<h2>Substrate Playground</h2>
+												<h2>Substrate Recipes</h2>
 												<p className='mb-3'>
-                        Playground是一个基于浏览器的线上IDE（类似VSCode），具有完整的终端支持，可以在此环境中开始substrate runtime开发。
+                        收集了很多解决常见问题的代码
 												</p>
 												<a
 													className='btn primary-color'
-													href='https://playground.substrate.dev'>
-													启动 Playground
+													href='https://substrate.dev/recipes'>
+													浏览 Recipes
 												</a>
 											</div>
 										</div>
@@ -272,7 +274,7 @@ class Index extends React.Component {
 									</div>
 									<div className='col-12 col-md-8'>
 										<p className='lead mb-4'>
-                    开始使用文档或在Riot聊天中提问技术问题，结识与你有共同兴趣的人或关注正在发生的事情
+                    开始使用文档或在技术聊天室中提问
 										</p>
 										<div className='d-flex justify-content-center'>
 											<div className='px-1'>
@@ -285,8 +287,8 @@ class Index extends React.Component {
 											<div className='px-1'>
 												<a
 													className='btn btn-lg btn-outline-primary'
-													href='https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org'>
-													咨询问题
+													href='https://app.element.io/#/room/!HzySYSaIhtyWrwiwEV:matrix.org'>
+													Ask Questions
 												</a>
 											</div>
 										</div>

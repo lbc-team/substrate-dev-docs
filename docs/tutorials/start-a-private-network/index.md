@@ -7,7 +7,7 @@ title: "启动一个私有网络"
 
 ## 安装 Node Template
 
-你应该已经在电脑上编译了[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template) 的 `v2.0.0-rc4` 版本，因为它是上一个教程的[创建第一个 Substrate 链](../../tutorials/create-your-first-substrate-chain/) 的内容，如果还没有完成的话，请先完成。
+你应该已经在电脑上编译了[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template) 的 `v2.0.0` 版本，因为它是上一个教程的[创建第一个 Substrate 链](../../tutorials/create-your-first-substrate-chain/) 的内容，如果还没有完成的话，请先完成。
 
 
 > 有经验的开发人员会想跳过该教程，那你参考 readme 指引可以安装节点模板

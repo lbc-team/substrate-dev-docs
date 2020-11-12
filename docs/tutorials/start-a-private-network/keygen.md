@@ -10,12 +10,12 @@ sure to record all of the output from this section as you will need it later.
 
 ## Option 1: Subkey
 
-Subkey is a tool the generates keys specifically designed to be used with Substrate.
+Subkey is a tool that generates keys specifically designed to be used with Substrate.
 
 Begin by compiling and installing the utility. This may take up to 15 minutes or so.
 
 ```bash
-cargo install --force subkey --git https://github.com/paritytech/substrate --tag v2.0.0-rc4
+cargo install --force subkey --git https://github.com/paritytech/substrate --version 2.0.0
 ```
 
 We will need to generate at least **2** keys from each type. Every node will need to have its own
@@ -25,36 +25,34 @@ Generate a mnemonic and see the `sr25519` key and address associated with it. Th
 by Aura for block production.
 
 ```bash
-$ subkey --sr25519 generate
+$ subkey generate --scheme sr25519
 
 Secret phrase `infant salmon buzz patrol maple subject turtle cute legend song vital leisure` is account:
-  Network ID/version: substrate
-  Secret seed:        0xa2b0200f9666b743402289ca4f7e79c9a4a52ce129365578521b0b75396bd242
-  Public key (hex):   0x0a11c9bcc81f8bd314e80bc51cbfacf30eaeb57e863196a79cccdc8bf4750d21
-  Account ID:         0x0a11c9bcc81f8bd314e80bc51cbfacf30eaeb57e863196a79cccdc8bf4750d21
-  SS58 Address:       5CHucvTwrPg8L2tjneVoemApqXcUaEdUDsCEPyE7aDwrtR8D
-
+  Secret seed:      0xa2b0200f9666b743402289ca4f7e79c9a4a52ce129365578521b0b75396bd242
+  Public key (hex): 0x0a11c9bcc81f8bd314e80bc51cbfacf30eaeb57e863196a79cccdc8bf4750d21
+  Account ID:       0x0a11c9bcc81f8bd314e80bc51cbfacf30eaeb57e863196a79cccdc8bf4750d21
+  SS58 Address:     5CHucvTwrPg8L2tjneVoemApqXcUaEdUDsCEPyE7aDwrtR8D
 ```
 
 Now see the `ed25519` key and address associated with the same mnemonic. This key will be used by
 GRANDPA for block finalization.
 
 ```bash
-$ subkey --ed25519 inspect "infant salmon buzz patrol maple subject turtle cute legend song vital leisure"
+$ subkey inspect --scheme ed25519 "infant salmon buzz patrol maple subject turtle cute legend song vital leisure"
 
 Secret phrase `infant salmon buzz patrol maple subject turtle cute legend song vital leisure` is account:
-  Network ID/version: substrate
-  Secret seed:        0xa2b0200f9666b743402289ca4f7e79c9a4a52ce129365578521b0b75396bd242
-  Public key (hex):   0x1a0e2bf1e0195a1f5396c5fd209a620a48fe90f6f336d89c89405a0183a857a3
-  Account ID:         0x1a0e2bf1e0195a1f5396c5fd209a620a48fe90f6f336d89c89405a0183a857a3
-  SS58 Address:       5CesK3uTmn4NGfD3oyGBd1jrp4EfRyYdtqL3ERe9SXv8jUHb
-
+  Secret seed:      0xa2b0200f9666b743402289ca4f7e79c9a4a52ce129365578521b0b75396bd242
+  Public key (hex): 0x1a0e2bf1e0195a1f5396c5fd209a620a48fe90f6f336d89c89405a0183a857a3
+  Account ID:       0x1a0e2bf1e0195a1f5396c5fd209a620a48fe90f6f336d89c89405a0183a857a3
+  SS58 Address:     5CesK3uTmn4NGfD3oyGBd1jrp4EfRyYdtqL3ERe9SXv8jUHb
 ```
+
+> [Learn more about Subkey](../../knowledgebase/integrate/subkey) in the Integrate section.
 
 ## Option 2: Polkadot-JS Apps
 
 The same UI that we used to see blocks being produced can also be used to generate keys. This option
-is convenient if you do not want to install subkey. It can be used for production keys, but the
+is convenient if you do not want to install Subkey. It can be used for production keys, but the
 system should not be connected to the internet when generating such keys.
 
 > A system that generates production keys should not be connected to the internet regardless of what
@@ -68,7 +66,7 @@ Generate an `sr25519` key which will be used by Aura for block production. Take 
 menmonic phrase, and the SS58 address which can be copied by clicking on the identicon in the top
 left.
 
-Then generate an `ed25519` key which will be used by GRANDPA for for block finalization. Again, note
+Then generate an `ed25519` key which will be used by GRANDPA for block finalization. Again, note
 the menmonic phrase and ss58 address.
 
 ## Option 3: Use Pre-Generated Keys

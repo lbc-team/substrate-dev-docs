@@ -3,36 +3,36 @@ title: 定制 Pallet
 ---
 
 
-Substrate 运行时（Runtime）由 [FRAME pallet](https://learnblockchain.cn/docs/substrate/docs/knowledgebase/runtime/frame/) 组成。 你可以将这些 pallet 视为一个个（实现好的）区块链功能的独立逻辑（模块）！ Substrate 已经提供了许多预先构建的pallet，可以让我们在构建基于 FRAME 的 Runtime 时使用。
+Substrate开发者节点模板，用作本教程的起点，它有一个基于FRAME的[运行时](https://substrate.dev/docs/en/knowledgebase/runtime/)。
+[FRAME](https://substrate.dev/docs/en/knowledgebase/runtime/frame)是一个代码库，它允许你可以通过编写称为“托盘(pallet)”的模块来构建Substrate运行时。 你可以想像这些托盘作为定义你的区块链可以做什么的独立逻辑！ Substrate已经提供了许多预先构建的托盘，可以用于基于FRAME的运行时中。
 
 
 
-![Runtime 组成](assets/tutorials/build-a-dapp/runtime.png)
 
-举例来说，FRAME 包含的 [Balances](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_balances/) pallet，它可以用来管理你的区块链上的所有账户下基础货币的余额，如果你想在链上加入智能合约功能，仅需要简单的引入
-[Contracts](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/) pallet 。
+![Runtime 组成](assets/tutorials/build-a-dapp/frame-runtime.png)
 
-
-
-甚至可以通过添加诸如 [Democracy](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_democracy/), [Elections](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_elections/), 和 [Collective](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_collective/) 之类的 pallet，将链上治理的内容添加到你的区块链中 
+举例来说，FRAME 包含的 [Balances](https://substrate.dev/rustdocs/v2.0.0/pallet_balances/) pallet，它可以用来管理你的区块链上的所有账户下基础货币的余额，如果你想在链上加入智能合约功能，仅需要简单的引入
+[Contracts](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/) pallet 。
 
 
 
-本教程的目的是学会如何创建自己的Substrate pallet 以及包含在自定义区块链中！ `substrate-node-template` 带有一个模板pallet ，我们将在其之上构建自定义逻辑。
+甚至可以通过添加诸如 [Democracy](https://substrate.dev/rustdocs/v2.0.0/pallet_democracy/), [Elections](https://substrate.dev/rustdocs/v2.0.0/pallet_elections/), 和 [Collective](https://substrate.dev/rustdocs/v2.0.0/pallet_collective/) 之类的 pallet，将链上治理的内容添加到你的区块链中 
+
+
+
+本教程的目的是学会如何创建自己的v2.0.0-rc4 pallet 以及包含在自定义区块链中！Substrate开发者节点模板带有一个模板pallet ，你可以使用它作为起点构建自定义运行时逻辑。
 
 
 
 ## 文件结构
 
-现在，我们将修改`substrate-node-template`以引入存证 pallet 的基本功能。
 
-
-在你常用的文本编辑器里打开 `substrate-node-template` 。然后打开文件`pallets/template/src/lib.rs`
+在你常用的文本编辑器里打开节点模板 。然后打开文件`pallets/template/src/lib.rs`
 
 ```
 substrate-node-template
 |
-+-- runtime
++-- node
 |
 +-- pallets
 |   |
@@ -48,9 +48,9 @@ substrate-node-template
 |           |
 |           +-- tests.rs
 |
-+-- scripts
++-- runtime
 |
-+-- node
++-- scripts
 |
 +-- ...
 ```
@@ -63,15 +63,15 @@ substrate-node-template
 
 ## 构建全新的Pallet
 
-从较高的层次上（代码框架）看，Substrate pallet可以分为六个部分：
+从较高的层次上（代码框架）看，Frame pallet可以分为六个部分：
 
 ```rust
 // 1. 引入包
 use frame_support::{decl_module, decl_storage, decl_event, decl_error, dispatch};
-use frame_system::{self as system, ensure_signed};
+use frame_system::ensure_signed;
 
 // 2. Pallet 配置
-pub trait Trait: system::Trait { /* --snip-- */ }
+pub trait Trait: frame_system::Trait { /* --snip-- */ }
 
 // 3. 定义 Pallet 存储项
 decl_storage! { /* --snip-- */ }
@@ -98,7 +98,7 @@ decl_module! { /* --snip-- */ }
 
 ### 导入及依赖
 
-由于导入非常无聊，因此你可以首先以下内容将其复制到空的`lib.rs`文件头部：
+由于导入非常无聊，因此你可以将以下内容将其复制到空的`lib.rs`文件头部：
 
 ```rust
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -106,7 +106,7 @@ decl_module! { /* --snip-- */ }
 use frame_support::{
 	decl_module, decl_storage, decl_event, decl_error, ensure, StorageMap
 };
-use frame_system::{self as system, ensure_signed};
+use frame_system::ensure_signed;
 use sp_std::vec::Vec;
 ```
 
@@ -119,14 +119,14 @@ use sp_std::vec::Vec;
 **添加** 以下代码块到 `pallets/template/Cargo.toml` 文件.
 
 ```toml
-[dependencies.sp-std]
-git = 'https://github.com/paritytech/substrate.git'
-default-features = false
-tag = 'v2.0.0-rc4'
-version = '2.0.0-rc4'
+[dependencies]
+#--snip--
+sp-std = { default-features = false, version = '2.0.0' }
 ```
 
-然后， **修改** 已有的 `[features]` 块，修改完是这样子，最后一行是新加的
+然后， **修改** 已有的 `[features]` 块，修改完是这样子，最后一行是新加的.
+在下一个教程[添加 Pallet](../add-a-pallet) 教程中，您将学到更多为什么需要这样做的信息。
+
 
 ```toml
 [features]
@@ -139,49 +139,51 @@ std = [
 ]
 ```
 
-### 配置 Pallet 
+### 配置 
 
-每个pallet都要配置 trait 。 目前，我们唯一要为 pallet 配置的是：pallet 会触发一些事件。
+每个Pallet都有一个称为`Trait`的组件，用于配置。 该组件是[Rust "trait"](https://doc.rust-lang.org/book/ch10-02-traits.html)； Rust的trait类似于C++，Java和Go等语言的接口。
+目前，我们将为Pallet配置唯一事情要做的是触发一些事件。 `Trait` 接口是另一个主题，将在下一个教程[添加Pallet](../add-a-pallet) 教程中更深入地介绍。
 
 
 
 ```rust
 /// pallet 的 trait 配置.
-pub trait Trait: system::Trait {
+pub trait Trait: frame_system::Trait {
     /// 事件类型
-    type Event: From<Event<Self>> + Into<<Self as system::Trait>::Event>;
+    type Event: From<Event<Self>> + Into<<Self as frame_system::Trait>::Event>;
 }
 ```
 
-### 定义 Pallet 事件
+### 定义事件
 
-在配置好 pallet 可发出事件类型后，让我们继续定义需要哪些事件：
+在配置好 pallet 可发出事件类型后，让我们继续，定义需要哪些事件：
 
-> 译者注：区块链通过事件把区块链上（某时刻）发生的事情通知到外部。
 
 ```rust
-// pallet 的事件.
+// pallet 使用事件来通知链上发生的重要变化
+// 事件文档应以一个数组结尾，该数组提供参数的描述性名称。
+// https://substrate.dev/docs/en/knowledgebase/runtime/events
 decl_event! {
-    pub enum Event<T> where AccountId = <T as system::Trait>::AccountId {
-        /// 在声明存证后触发该事件。 
+    pub enum Event<T> where AccountId = <T as frame_system::Trait>::AccountId {
+        /// 在声明存证后触发该事件 [who, clain]
         ClaimCreated(AccountId, Vec<u8>),
-        /// 在撤销存证后触发该事件。
+        /// 在撤销存证后触发该事件 [who, clain]
         ClaimRevoked(AccountId, Vec<u8>),
     }
 }
 ```
 
-我们的 pallet 只会有两个事件： 
+我们的 pallet 只会有两个情况下触发事件： 
 
 1. 当新存证添加到区块链时触发事件。
 2. 当存证撤销时触发事件。
 
 
 事件可以包含一些附加数据（通过事件的参数），在当前存证案例下，每个事件还包含显示触发事件的人（`AccountId`）和正在存储或删除的证明数据（如Vec <u8>）。
+请注意，约定是在事件文档末尾包含一个数组，该数组具有这些参数的描述性名称。
 
 
-
-### 定义 Pallet 错误
+### 定义错误
 
 我们先前定义的事件用来指示什么时够对 pallet 的调用成功了。
 
@@ -189,7 +191,7 @@ decl_event! {
 
 
 ```rust
-//  pallet 错误.
+//  pallet 错误，用于告知用户什么事情出错了
 decl_error! {
 	pub enum Error for Module<T: Trait> {
 		/// 存证已经被声明了
@@ -205,7 +207,7 @@ decl_error! {
 当用户尝试声明新的存证时，可能会出现第一个错误。因为用户不能声明已经声明的存证。 尝试撤销存证时，可能会发生后两种情况。
 
 
-### 定义 Pallet 存储项
+### 定义存储
 
 要添加一个新的存证到区块链上时，就要将其存储到 pallet 的存储里面。
 我们这里创建一个[hash map](https://en.wikipedia.org/wiki/Hash_table)来存储存证及对应值。
@@ -213,7 +215,8 @@ decl_error! {
 
 
 ```rust
-// pallet 存储项
+// pallet 运行时存储项
+// https://substrate.dev/docs/en/knowledgebase/runtime/storage
 decl_storage! {
     trait Store for Module<T: Trait> as TemplateModule {
         /// 存储的存储项
@@ -226,9 +229,9 @@ decl_storage! {
 如果证明有所有者和区块号，那么我们知道它已被声明！ 否则，就可以去声明它。
 
 
-### 定义可调用 Pallet 函数
+### 定义可调度函数
 
-正如我们的pallet事件和错误所暗示的那样，在Substrate pallet中需要有两个可以被用户调用的“可调度函数（dispatchable functions）”：
+正如我们的pallet事件和错误所暗示的那样，在FRAME pallet中需要有两个可以被用户调用的“可调度函数（dispatchable functions）”：
 
 
 1. `create_claim()`: 用户声明存证
@@ -238,29 +241,30 @@ decl_storage! {
 
 
 ```rust
-// pallet可调度函数
+// 可调度函数允许用户与托盘交互并触发状态更改。
+// 这些函数具体化为“extrinsics”，通常与交易(transactions)相比较。
+// 可调度函数必须带有权重，并且必须返回DispatchResult。
 decl_module! {
     /// module 声明
     pub struct Module<T: Trait> for enum Call where origin: T::Origin {
-        // 初始化错误
-        // 在节点的metadata中，包含关于错误的信息
-        // 仅仅在pallet中需要使用到错误才需要
+        // 如果pallet使用了错误，则必须将其初始化。
         type Error = Error<T>;
 
-        // 默认的用来分发事件的函数
+        // 如果pallet使用了事件, 需要初始化
         fn deposit_event() = default;
 
         /// 声明存证函数
         #[weight = 10_000]
         fn create_claim(origin, proof: Vec<u8>) {
-            // 验证交易签名及记录函数的调用者
+            // 验证extrinsics 签名及记录函数的调用者
+            // 如果extrinsics未签名，则此函数将返回错误。
             let sender = ensure_signed(origin)?;
 
             // 检查存证没有被声明，否则提示错误
             ensure!(!Proofs::<T>::contains_key(&proof), Error::<T>::ProofAlreadyClaimed);
 
-            // 调用 `system` pallet 获得当前区块号
-            let current_block = <system::Module<T>>::block_number();
+            // 调用 `frame_system` pallet 获得当前区块号
+            let current_block = <frame_system::Module<T>>::block_number();
 
             // 保存调用者(sender) 和 当前区块号
             Proofs::<T>::insert(&proof, (&sender, current_block));
@@ -272,7 +276,8 @@ decl_module! {
         /// 撤销存证函数
         #[weight = 10_000]
         fn revoke_claim(origin, proof: Vec<u8>) {
-            // 确定谁在调用函数
+            // 验证extrinsics 签名及记录函数的调用者
+            // 如果extrinsics未签名，则此函数将返回错误。
             let sender = ensure_signed(origin)?;
 
             // 检查存证是否声明过
@@ -294,7 +299,7 @@ decl_module! {
 }
 ```
 
-> 在此处看到的函数没有明确声明返回类型。实际上他们都会返回 [`DispatchResult`](https://substrate.dev/rustdocs/v2.0.0-rc4/frame_support/dispatch/type.DispatchResult.html).
+> 在此处看到的函数没有明确声明返回类型。实际上他们都会返回 [`DispatchResult`](https://substrate.dev/rustdocs/v2.0.0/frame_support/dispatch/type.DispatchResult.html).
 > 返回类型是通过 `decl_module!` 宏添加的。
 
 ## 编译 Pallet
@@ -304,19 +309,9 @@ decl_module! {
 
 
 ```bash
-cargo build --release
+cargo run -- --dev --tmp
 ```
 
-编译完之后，现在可以启动节点：
-
-```bash
-# purge-chain 用来清除之前运行的老数据
-# 在提示中输入 `y`
-./target/release/node-template purge-chain --dev
-
-# 在“开发”模式下重新运行节点
-./target/release/node-template --dev
-```
 
 现在是时候与我们的存证pallet进行交互了！
 

@@ -25,17 +25,18 @@
       "knowledgebase/runtime/origin",
       "knowledgebase/runtime/execution",
       "knowledgebase/runtime/events",
+      "knowledgebase/runtime/errors",
       "knowledgebase/runtime/fees",
       "knowledgebase/runtime/off-chain-workers",
       "knowledgebase/runtime/debugging",
       "knowledgebase/runtime/tests",
-      "knowledgebase/runtime/randomness"
+      "knowledgebase/runtime/randomness",
+      "knowledgebase/runtime/upgrades"
     ],
     "智能合约": [
-      "knowledgebase/smart-contracts/index",
       "knowledgebase/smart-contracts/overview",
+      "knowledgebase/smart-contracts/index",
       "knowledgebase/smart-contracts/ink-fundamentals",
-      "knowledgebase/smart-contracts/env-types",
       "knowledgebase/smart-contracts/ink-development",
       "knowledgebase/smart-contracts/evm-pallet",
       "knowledgebase/smart-contracts/faq"
@@ -68,6 +69,21 @@
       "tutorials/create-your-first-substrate-chain/interact"
     ]
   },
+  "add-a-pallet": {
+    "Add a Pallet to Your Runtime": [
+      "tutorials/add-a-pallet/index",
+      "tutorials/add-a-pallet/import-a-pallet",
+      "tutorials/add-a-pallet/configure-a-pallet",
+      "tutorials/add-a-pallet/use-a-pallet"
+    ]
+  },
+  "upgrade-a-chain": {
+    "Perform a Forkless Upgrade": [
+      "tutorials/upgrade-a-chain/index",
+      "tutorials/upgrade-a-chain/sudo-upgrade",
+      "tutorials/upgrade-a-chain/scheduled-upgrade"
+    ]
+  },
   "build-a-dapp": {
     "基于Subsutrate构建一个存证DApp": [
       "tutorials/build-a-dapp/index",
@@ -75,9 +91,6 @@
       "tutorials/build-a-dapp/pallet",
       "tutorials/build-a-dapp/front-end"
     ]
-  },
-  "add-a-pallet": {
-    "Add a Pallet to Your Runtime": []
   },
   "start-a-private-network": {
     "Start a Private Network": [
@@ -91,7 +104,17 @@
   "pallet-in-crate": {
     "Write a Pallet in its Own Crate": []
   },
+  "add-contracts-pallet": {
+    "Add the Contracts Pallet": []
+  },
   "visualize-node-metrics": {
     "Visualize Node Metrics": []
+  },
+  "build-permission-network": {
+    "Build a permissioned network": [
+      "tutorials/build-permission-network/index",
+      "tutorials/build-permission-network/add-node-authorization-pallet",
+      "tutorials/build-permission-network/launch-network"
+    ]
   }
 }

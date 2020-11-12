@@ -14,7 +14,7 @@ Substrate中的区块由区块头和一组外部调用组成。 区块头包含�
 所有的外部调用会被打包进一个区块，从而形成一个外部序列并依次被runtime执行。其中外部根是该序列的摘要，它主要有两个目的：
 首先，它可以防止在区块头已构建并被分发后，对外部序列进行任何更改；其次，它允许轻节点仅通过区块头，就可以简洁地验证任何给定的外部调用是否存在于一个块中。
 
-- [Block Reference](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.Block.html)
+- [Block 参考手册](https://substrate.dev/rustdocs/v2.0.0/sp_runtime/traits/trait.Block.html)
 
 ## 固有信息 (Inherents)
 
@@ -25,7 +25,7 @@ Substrate中的区块由区块头和一组外部调用组成。 区块头包含�
 例如，出块者可以将固有的时间戳插入块中， 没有办法像交易那样通过签名验证，来证明时间戳是正确的。验证者则是根据其他验证者是否认可时间戳(也就是说，该时间戳在验证者自己的系统时钟的某个可接受范围内)来接受或拒绝该块。
 
 
-- [Inherents Reference](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_inherents/index.html)
+- [Inherents 参考手册](https://substrate.dev/rustdocs/v2.0.0/sp_inherents/index.html)
 
 ## 签名交易
 
@@ -50,11 +50,11 @@ Runtime中会使用“签名扩展”提供的一些数据，比如调用`Call`�
 
 尽管带 `签名拓展` 包含“签名”两字，但其实它也可以用于验证无签名交易。 我们可通过实现 `*_unsigned` 的一系列方法，来封装交易池所需的信息核验、防垃圾信息和重放保护等逻辑。
 
-- [签名扩展相关参考](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.SignedExtension.html)
+- [签名扩展相关参考](https://substrate.dev/rustdocs/v2.0.0/sp_runtime/traits/trait.SignedExtension.html)
 
 ## 进一步阅读
 
-- [Reference Documentation](https://substrate.dev/rustdocs/v2.0.0-rc4/sp_runtime/traits/trait.Extrinsic.html)
+- [参考手册文档](https://substrate.dev/rustdocs/v2.0.0/sp_runtime/traits/trait.Extrinsic.html)
 - [Runtime Execution](../runtime/execution)
 - [Transaction Fees](../runtime/fees)
 - [Transaction Pool](../learn-substrate/tx-pool)

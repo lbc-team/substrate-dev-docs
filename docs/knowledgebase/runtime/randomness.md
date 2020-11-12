@@ -73,11 +73,10 @@ _all_ pallet's that consume its randomness.
 
 - https://en.wikipedia.org/wiki/Random_number_generation
 - https://en.wikipedia.org/wiki/Applications_of_randomness
--
 
 ### Examples
 
-- Explore the [Recipe about Randomness](https://substrate.dev/recipes/3-entrees/randomness.html).
+- Explore the [Recipe about Randomness](https://substrate.dev/recipes/randomness.html).
 
 ### References
 

@@ -4,11 +4,11 @@ title: "添加一个 Pallet"
 
 [Substrate node template(节点模板)](https://github.com/substrate-developer-hub/substrate-node-template) 提供了一个最小的可工作的运行时，你可以使用它来快速开始构建自己的自定义区块链。 但是，为保持精炼，它并不包括[FRAME](../../knowledgebase/runtime/frame)中的大多数 Pallet 。
 
-本教程将向你展示如何将[合约 pallet](https://substrate.dev/rustdocs/v2.0.0-rc4) 添加到运行时（runtime）中，以允许你的区块链支持Wasm智能合约，但是请注意，为了正确使用，每个pallet所需的特定配置设置会略有不同。
+本教程将向你展示如何将[合约 pallet](https://substrate.dev/rustdocs/v2.0.0) 添加到运行时（runtime）中，以允许你的区块链支持Wasm智能合约，但是请注意，为了正确使用，每个pallet所需的特定配置设置会略有不同。
 
 ## 安装节点模板(Node Template) 
 
-如果你完成了前面的[创建第一条 Substrate 区块链](../create-your-first-substrate-chain/)，你应该已经编译好了 [Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)  `v2.0.0-rc4` 版本，如果还没有，需要先完成前面的教程。
+如果你完成了前面的[创建第一条 Substrate 区块链](../create-your-first-substrate-chain/)，你应该已经编译好了 [Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)  `v2.0.0` 版本，如果还没有，需要先完成前面的教程。
 
 
 > 有经验的开发人员会想跳过该教程，那你参考 readme 指引可以安装节点模板
@@ -37,7 +37,7 @@ substrate-node-template
 |
 +-- scripts
 |
-+-- node
++-- node            <-- 在这个目录下修改
 |
 +-- ...
 ```
@@ -50,17 +50,14 @@ substrate-node-template
 
 
 
-打开 `substrate-node-template/runtime/Cargo.toml` 后，你会看到运行时所有的依赖列表，例如：它依赖[Balances pallet](https://substrate.dev/rustdocs/v2.0.0-rc4):
+打开 `substrate-node-template/runtime/Cargo.toml` 后，你会看到运行时所有的依赖列表，例如：它依赖[Balances pallet](https://substrate.dev/rustdocs/v2.0.0):
 
 **`runtime/Cargo.toml`**
 
 ```TOML
-[dependencies.balances]
-default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-package = 'pallet-balances'
-tag = 'v2.0.0-rc4'
-version = '2.0.0-rc4'
+[dependencies]
+#--snip--
+pallet-balances = { default-features = false, version = '2.0.0' }
 ```
 
 ### 包特性（Crate Features）
@@ -76,13 +73,13 @@ version = '2.0.0-rc4'
 [features]
 default = ['std']
 std = [
-    'codec/std',
-    'client/std',
-    'sp-std/std',
-    'sp-io/std',
-    'balances/std',
-    'frame-support/std',
-    #--snip--
+	'codec/std',
+	'frame-executive/std',
+	'frame-support/std',
+	'frame-system/std',
+	'frame-system-rpc-runtime-api/std',
+	'pallet-balances/std',
+	#--snip--
 ]
 ```
 
@@ -130,19 +127,10 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 **`runtime/Cargo.toml`**
 
 ```TOML
-[dependencies.contracts]
-git = 'https://github.com/paritytech/substrate.git'
-default-features = false
-package = 'pallet-contracts'
-tag = 'v2.0.0-rc4'
-version = '2.0.0-rc4'
-
-[dependencies.contracts-primitives]
-git = 'https://github.com/paritytech/substrate.git'
-default-features = false
-package = 'pallet-contracts-primitives'
-tag = 'v2.0.0-rc4'
-version = '2.0.0-rc4'
+[dependencies]
+#--snip--
+pallet-contracts = { version = '2.0.0', default_features = false }
+pallet-contracts-primitives = { version = '2.0.0', default_features = false }
 ```
 
 与其他 pallets 一样，合约 pallet 具有 `std` 特性。 当运行时使用其自己的 `std` 特性构建时，我们应该构建其 `std` 特性。 将以下两行添加到运行时的`std` 特性中。
@@ -152,32 +140,13 @@ version = '2.0.0-rc4'
 
 ```TOML
 [features]
-default = ["std"]
+default = ['std']
 std = [
     #--省略--
     'contracts/std',
     'contracts-primitives/std',
     #--省略--
 ]
-```
-
-如果你忘记设置特性，则在构建native二进制文件时会出现类似以下错误：
-
-
-```rust
-error[E0425]: cannot find function `memory_teardown` in module `sandbox`
-  --> ~/.cargo/git/checkouts/substrate-7e08433d4c370a21/83a6f1a/primitives/sandbox/src/../without_std.rs:53:12
-   |
-53 |         sandbox::memory_teardown(self.memory_idx);
-   |                  ^^^^^^^^^^^^^^^ not found in `sandbox`
-
-error[E0425]: cannot find function `memory_new` in module `sandbox`
-  --> ~/.cargo/git/checkouts/substrate-7e08433d4c370a21/83a6f1a/primitives/sandbox/src/../without_std.rs:72:18
-   |
-72 |         match sandbox::memory_new(initial, maximum) {
-   |
-
-...
 ```
 
 现在是时候检查一下是否可以正确编译所有内容：
@@ -190,24 +159,13 @@ cargo check
 ## 添加合约 Pallet
 
 现在，我们已经成功导入了合约 Pallet 包（crate），我们需要将其添加到运行时中。
-不同的 Pallet 将要求你 `use` 不同的类型。 对于合约Pallet，我们将使用`Schedule`类型。 在运行时开头处，将此行添加到其他`pub use`语句附近。
-
-
-
-**`runtime/src/lib.rs`**
-
-```rust
-/*** 添加此行 ***/
-/// 导入合约 Schedule 类型
-pub use contracts::Schedule as ContractsSchedule;
-```
 
 ### 实现合约 Trait
 
 每个 pallet 都称为`Trait` 的配置 trait，必须在运行时中实现。
 
 
-要弄清楚我们需要为该 pallet 具体实现什么，你可以看一下FRAME [`contracts::Trait` 文档](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/trait.Trait.html) 。
+要弄清楚我们需要为该 pallet 具体实现什么，你可以看一下FRAME [`contracts::Trait` 文档](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/trait.Trait.html) 。
 
 对于我们的运行时，实现将如下所示：
 
@@ -240,34 +198,34 @@ parameter_types! {
 	pub const SurchargeReward: Balance = 150 * MILLICENTS;
 }
 
-impl contracts::Trait for Runtime {
+impl pallet_contracts::Trait for Runtime {
 	type Time = Timestamp;
 	type Randomness = RandomnessCollectiveFlip;
 	type Currency = Balances;
 	type Event = Event;
-	type DetermineContractAddress = contracts::SimpleAddressDeterminer<Runtime>;
-	type TrieIdGenerator = contracts::TrieIdFromParentCounter<Runtime>;
+	type DetermineContractAddress = pallet_contracts::SimpleAddressDeterminer<Runtime>;
+	type TrieIdGenerator = pallet_contracts::TrieIdFromParentCounter<Runtime>;
 	type RentPayment = ();
-	type SignedClaimHandicap = contracts::DefaultSignedClaimHandicap;
+	type SignedClaimHandicap = pallet_contracts::DefaultSignedClaimHandicap;
 	type TombstoneDeposit = TombstoneDeposit;
-	type StorageSizeOffset = contracts::DefaultStorageSizeOffset;
+	type StorageSizeOffset = pallet_contracts::DefaultStorageSizeOffset;
 	type RentByteFee = RentByteFee;
 	type RentDepositOffset = RentDepositOffset;
 	type SurchargeReward = SurchargeReward;
-	type MaxDepth = contracts::DefaultMaxDepth;
-	type MaxValueSize = contracts::DefaultMaxValueSize;
-	type WeightPrice = transaction_payment::Module<Self>;
+	type MaxDepth = pallet_contracts::DefaultMaxDepth;
+	type MaxValueSize = pallet_contracts::DefaultMaxValueSize;
+	type WeightPrice = pallet_transaction_payment::Module<Self>;
 }
 /*** 结束添加代码块 ***/
 ```
 
-我们将使用 `type DetermineContractAddress` 作为实例探索一下细节，你可以从文档[ `DetermineContractAddress` 文档](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/trait.Trait.html#associatedtype.DetermineContractAddress)
-查看到它需要 trait `ContractAddressFor`。 Contracts pallet 本身用`contract::SimpleAddressDeterminator`的这个trait实现了一个类型，因此我们可以使用该实现来满足我们的 `contracts::Trait`。 在这一点上，如果有什么不明白，或是想深入理解，我真的建议你探索[Contracts pallet](https://github.com/paritytech/substrate/blob/v2.0.0-rc4/frame/contracts/src/lib.rs)源码。
+我们将使用 `type DetermineContractAddress` 作为实例探索一下细节，你可以从文档[ `DetermineContractAddress` 文档](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/trait.Trait.html#associatedtype.DetermineContractAddress)
+查看到它需要 trait `ContractAddressFor`。 Contracts pallet 本身用`contract::SimpleAddressDeterminator`的这个trait实现了一个类型，因此我们可以使用该实现来满足我们的 `contracts::Trait`。 在这一点上，如果有什么不明白，或是想深入理解，我真的建议你探索[Contracts pallet](https://github.com/paritytech/substrate/blob/v2.0.0/frame/contracts/src/lib.rs)源码。
 
 
 ### 添加合约到 `construct_runtime!` 宏
 
-下一步，我们需要把pallet添加到 `construct_runtime!` 宏。 为此，我们需要确定 pallet 公开的类型，以便我们可以告之运行时类型的存在。 可能的类型的完整列表可以在[`construct_runtime！`宏文档](https://substrate.dev/rustdocs/v2.0.0-rc4/frame_support/macro.construct_runtime.html)中找到。
+下一步，我们需要把pallet添加到 `construct_runtime!` 宏。 为此，我们需要确定 pallet 公开的类型，以便我们可以告之运行时类型的存在。 可能的类型的完整列表可以在[`construct_runtime！`宏文档](https://substrate.dev/rustdocs/v2.0.0/frame_support/macro.construct_runtime.html)中找到。
 
 如果我们仔细查看Contracts pallet，我们知道它具有：
 
@@ -308,7 +266,7 @@ construct_runtime!(
 cargo check -p node-template-runtime
 ```
 
-### 公开合约 API
+### 导出合约 API
 
 某些pallet（包括Contract pallet）公开了自定义运行时API和RPC节点。 对于Contract pallet来说，这使得可以从链外读取合约状态。
 
@@ -322,19 +280,16 @@ cargo check -p node-template-runtime
 **`runtime/Cargo.toml`**
 
 ```TOML
-[dependencies.contracts-rpc-runtime-api]
-git = 'https://github.com/paritytech/substrate.git'
-default-features = false
-package = 'pallet-contracts-rpc-runtime-api'
-version = '0.8.0-rc4'
-tag = 'v2.0.0-rc4'
+[dependencies]
+#--snip--
+pallet-contracts-rpc-runtime-api = { version = '0.8.0', default-features = false }
 ```
 
 **`runtime/Cargo.toml`**
 
 ```TOML
 [features]
-default = ["std"]
+default = ['std']
 std = [
     #--忽略--
     'contracts-rpc-runtime-api/std',
@@ -372,12 +327,13 @@ impl_runtime_apis! {
 			gas_limit: u64,
 			input_data: Vec<u8>,
 		) -> ContractExecResult {
-			let exec_result =
+			let (exec_result, gas_consumed) =
 				Contracts::bare_call(origin, dest.into(), value, gas_limit, input_data);
 			match exec_result {
 				Ok(v) => ContractExecResult::Success {
-					status: v.status,
+					flags: v.flags.bits(),
 					data: v.data,
+					gas_consumed: gas_consumed,
 				},
 				Err(_) => ContractExecResult::Error,
 			}
@@ -386,13 +342,13 @@ impl_runtime_apis! {
 		fn get_storage(
 			address: AccountId,
 			key: [u8; 32],
-		) -> contracts_primitives::GetStorageResult {
+		) -> pallet_contracts_primitives::GetStorageResult {
 			Contracts::get_storage(address, key)
 		}
 
 		fn rent_projection(
 			address: AccountId,
-		) -> contracts_primitives::RentProjectionResult<BlockNumber> {
+		) -> pallet_contracts_primitives::RentProjectionResult<BlockNumber> {
 			Contracts::rent_projection(address)
 		}
 	}
@@ -421,52 +377,56 @@ cargo check -p node-template-runtime
 
 ```toml
 [dependencies]
+jsonrpc-core = '15.0.0'
+structopt = '0.3.8'
 #--snip--
-jsonrpc-core = '14.0.5'
-
-[dependencies.pallet-contracts-rpc]
-git = 'https://github.com/paritytech/substrate.git'
-version = '0.8.0-rc4'
-tag = 'v2.0.0-rc4'
-
-[dependencies.sc-rpc]
-git = 'https://github.com/paritytech/substrate.git'
-tag = 'v2.0.0-rc4'
+# *** Add this 2 lines ***
+pallet-contracts = '2.0.0'
+pallet-contracts-rpc = '0.8.0'
 ```
 
-**`node/src/service.rs`**
-
-```rust
-macro_rules! new_full_start {
-	($config:expr) => {{
-        /*** 添加这行 ***/
-        use jsonrpc_core::IoHandler;
-```
 
 Substrate 提供了一个RPC与我们的节点进行交互。 但是，默认情况下，它不包含对合约Pallet的访问。 要与该Pallet交互，我们必须扩展现有的RPC并添加合约Pallet及其API。
 
 
-```rust
-            /* --忽略-- */
-                Ok(import_queue)
-            })? // <- 移除分号
-            /*** 添加这个代码块 ***/
-            .with_rpc_extensions(|builder| -> Result<IoHandler<sc_rpc::Metadata>, _> {
-                let handler = pallet_contracts_rpc::Contracts::new(builder.client().clone());
-                let delegate = pallet_contracts_rpc::ContractsApi::to_delegate(handler);
+**`node/src/rpc.rs`**
 
-                let mut io = IoHandler::default();
-                io.extend_with(delegate);
-                Ok(io)
-            })?;
-            /*** 结束添加的代码块 ***/
-        (builder, import_setup, inherent_data_providers)
-    }}
+```
+use node_template_runtime::{opaque::Block, AccountId, Balance, Index, BlockNumber};
+use pallet_contracts_rpc::{Contracts, ContractsApi};
 ```
 
-### 创始配置
+```rust
+/// Instantiate all full RPC extensions.
+pub fn create_full<C, P>(
+    deps: FullDeps<C, P>,
+) -> jsonrpc_core::IoHandler<sc_rpc::Metadata> where
+    /* --snip-- */
+    C: Send + Sync + 'static,
+    C::Api: substrate_frame_rpc_system::AccountNonceApi<Block, AccountId, Index>,
+    /*** Add This Line ***/
+    C::Api: pallet_contracts_rpc::ContractsRuntimeApi<Block, AccountId, Balance, BlockNumber>,
+    /* --snip-- */
+{
+    /* --snip-- */
 
-不是所有的 pallet 有创始配置，但如果你的需要，你需要通过文档了解它，例如[`pallet_contracts::GenesisConfig` 文档](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/struct.GenesisConfig.html) 
+    // Extend this RPC with a custom API by using the following syntax.
+    // `YourRpcStruct` should have a reference to a client, which is needed
+    // to call into the runtime.
+    // `io.extend_with(YourRpcTrait::to_delegate(YourRpcStruct::new(ReferenceToClient, ...)));`
+
+    /*** Add This Block ***/
+    io.extend_with(
+        ContractsApi::to_delegate(Contracts::new(client.clone()))
+    );
+    /*** End Added Block ***/
+    io
+}
+```
+
+### 创始块配置
+
+不是所有的 pallet 有创始配置，但如果你的需要，你需要通过文档了解它，例如[`pallet_contracts::GenesisConfig` 文档](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/struct.GenesisConfig.html) 
 描述了你需要为合约pallet定义的所有字段。
 
 
@@ -476,7 +436,7 @@ Substrate 提供了一个RPC与我们的节点进行交互。 但是，默认情
 **`node/src/chain_spec.rs`**
 
 ```rust
-use node_template_runtime::{ContractsConfig, ContractsSchedule};
+use node_template_runtime::ContractsConfig;
 ```
 
 然后在 `testnet_genesis` 函数中，我们需要将合约配置添加到返回的GenesisConfig对象如下：
@@ -485,22 +445,25 @@ use node_template_runtime::{ContractsConfig, ContractsSchedule};
 
 
 ```rust
-fn testnet_genesis(initial_authorities: Vec<(AuraId, GrandpaId)>,
+/// Configure initial storage state for FRAME modules.
+fn testnet_genesis(
+    wasm_binary: &[u8],
+    initial_authorities: Vec<(AuraId, GrandpaId)>,
     root_key: AccountId,
     endowed_accounts: Vec<AccountId>,
-    _enable_println: bool) -> GenesisConfig {
-
+    enable_println: bool, // Update this line
+) -> GenesisConfig {
     GenesisConfig {
         /* --snip-- */
 
-        /*** 添加这个代码块 ***/
-        contracts: Some(ContractsConfig {
-            current_schedule: ContractsSchedule {
+        /*** Add This Block ***/
+        pallet_contracts: Some(ContractsConfig {
+            current_schedule: pallet_contracts::Schedule {
                     enable_println,
                     ..Default::default()
             },
         }),
-        /***  结束添加的代码块 ***/
+        /*** End Added Block ***/
     }
 }
 ```
@@ -518,14 +481,14 @@ cargo build --release
 
 
 ```bash
-./target/release/node-template purge-chain --dev
-./target/release/node-template --dev
+# Run a temporary node in development mode
+./target/release/node-template --dev --tmp
 ```
 
 ## 添加其他的 FRAME pallets
 
 
-在本教程中，我们专门介绍了如何导入合约pallet，但是，如教程开头所述，每个pallet都会有所不同。 不用担心，你始终可以参考[演示的Substrate节点运行时](https://github.com/paritytech/substrate/blob/v2.0.0-rc4/bin/node/runtime/)，该运行时几乎包括FRAME中的每个pallet。
+在本教程中，我们专门介绍了如何导入合约pallet，但是，如教程开头所述，每个pallet都会有所不同。 不用担心，你始终可以参考[演示的Substrate节点运行时](https://github.com/paritytech/substrate/blob/v2.0.0/bin/node/runtime/)，该运行时几乎包括FRAME中的每个pallet。
 
 
 在 Substrate 节点运行时的 `Cargo.toml` 文件，你将看到一个有关如何导入每个不同pallet的示例，在`lib.rs`文件中，你将找到如何将每个pallet添加到运行时。 你基本上可以将这里所做的复制代码到你自己的运行时。
@@ -540,6 +503,6 @@ cargo build --release
 
 - 理解 [Chain Spec](../../knowledgebase/integrate/chain-spec) 文件去定制化创世配置。
 
-### 引用
+### 参考手册
 
-- [FRAME `Contracts` Pallet API](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/index.html)
+- [FRAME `Contracts` Pallet API](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/index.html)

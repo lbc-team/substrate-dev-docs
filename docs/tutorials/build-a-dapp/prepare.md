@@ -4,6 +4,7 @@ title: 构建 DApp 的准备
 
 ## 安装 Node Template
 
+<<<<<<< HEAD
 
 
 在[创建第一个 Substrate 区块链](../create-your-first-substrate-chain) 里，你应该已经完成了[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)的` v2.0.0-rc4`版本的编译。
@@ -33,6 +34,26 @@ git clone -b v2.0.0-rc4 https://github.com/substrate-developer-hub/substrate-fro
 cd substrate-front-end-template
 yarn install
 ```
+=======
+You should already have version `v2.0.0` of the
+[Substrate Developer Hub Node Template](https://github.com/substrate-developer-hub/substrate-node-template)
+compiled on your computer from when you completed the
+[Create Your First Substrate Chain Tutorial](../create-your-first-substrate-chain). If you do not,
+please complete that tutorial.
+
+> Experienced developers who truly prefer to skip that tutorial may install the Node Template
+> according to
+> [the instructions in its readme](https://github.com/substrate-developer-hub/substrate-node-template#local-development).
+
+## Install the Front-End Template
+
+The Create Your First Substrate Chain Tutorial used the front-end template, so there is no
+additional set-up required if you have already completed that tutorial.
+
+> Refer directly to the
+> [front-end setup instructions](../create-your-first-substrate-chain/setup#install-the-front-end-template)
+> for the Create Your First Chain Tutorial if necessary.
+>>>>>>> source
 
 ## 关于存在性证明（存证）
 
@@ -52,6 +73,11 @@ yarn install
 在之后证明他们就是该文件的所有者。
 
 
+<<<<<<< HEAD
+=======
+The dApp we will build is a Proof of Existence (PoE) service. From
+[Wikipedia](https://en.wikipedia.org/wiki/Proof_of_Existence):
+>>>>>>> source
 
 我们的存在性证明pallet，将公开两个可调用的函数：
 
@@ -60,8 +86,19 @@ yarn install
 
 
 
+<<<<<<< HEAD
 我们只需要存储被声明的证明信息以及声明人。
+=======
+## Interface and Design
+
+Our PoE API will expose two callable functions:
+>>>>>>> source
 
 
+<<<<<<< HEAD
+=======
+In order to implement this, we will only need to store information about the proofs that have been
+claimed, and who made those claims.
+>>>>>>> source
 
 听起来很简单？ 太好了，让我们开始编码。

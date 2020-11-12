@@ -2,27 +2,27 @@
 title: Creating Your Private Network
 ---
 
-With you custom chain spec created and distributed to all participants, you're ready to launch your
+With your custom chain spec created and distributed to all participants, you're ready to launch your
 own custom chain. In this section it is no longer required to use a single physical machine or a
 single binary.
 
 ## First Participant Starts a Bootnode
 
 You've completed all the necessary prep work and you're now ready to launch your chain. This process
-is very similar to when you launched a chain earlier as Alice and Bob. It's important to start with
+is very similar to when you launched a chain earlier, as Alice and Bob. It's important to start with
 a clean base path, so if you plan to use the same path that you've used previously, please delete
 all contents from that directory.
 
-The first participant can launch her node with
+The first participant can launch her node with:
 
 ```bash
 ./target/release/node-template \
   --base-path /tmp/node01 \
-  --chain=./customSpecRaw.json \
+  --chain ./customSpecRaw.json \
   --port 30333 \
   --ws-port 9944 \
   --rpc-port 9933 \
-  --telemetry-url 'ws://telemetry.polkadot.io:1024 0' \
+  --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
   --validator \
   --rpc-methods=Unsafe \
   --name MyNode01
@@ -37,37 +37,40 @@ Here are some differences from when we launched as Alice.
   the telemetry UI.
 - The optional `--rpc-methods=Unsafe` flag has been added. As the name indicates, this flag is not
   safe to use in a production setting, but it allows this tutorial to stay focused on the topic at
-  hand. In production, you should use a
-  [JSON-RPC proxy](../../knowledgebase/getting-started/glossary#json-rpc-proxy-crate), but that topic is out of the
-  scope of this tutorial.
+  hand.
 
 You should see the console outputs something as follows:
 
 ```bash
-2020-06-26 11:41:24 Substrate Node
-2020-06-26 11:41:24 ✌️  version 2.0.0-rc4-29f29b9-x86_64-linux-gnu
-2020-06-26 11:41:24 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020
-2020-06-26 11:41:24 📋 Chain specification: Local Testnet
-2020-06-26 11:41:24 🏷  Node name: MyNode01
-2020-06-26 11:41:24 👤 Role: AUTHORITY
-2020-06-26 11:41:24 💾 Database: RocksDb at /tmp/node01/chains/local_testnet/db
-2020-06-26 11:41:24 ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)
-2020-06-26 11:41:24 🔨 Initializing Genesis block/state (state: 0x321d…1e25, header-hash: 0x3579…2dd2)
-2020-06-26 11:41:24 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
-2020-06-26 11:41:24 ⏱  Loaded block-time = 6000 milliseconds from genesis on first-launch
-2020-06-26 11:41:24 📦 Highest known block at #0
-2020-06-26 11:41:24 Using default protocol ID "sup" because none is configured in the chain specs
-2020-06-26 11:41:24 🏷  Local node identity is: 12D3KooWNjdj9N1nkau1wVbo4E3T3CSNTsvFEBiBTPB7VTPabREL (legacy representation: QmemnA8JEW4yKsQJBcWS9LLAgwpQ1bUqczB6s1PugE2FbU)
-2020-06-26 11:41:24 〽️ Prometheus server started at 127.0.0.1:9615
-2020-06-26 11:41:29 💤 Idle (0 peers), best: #0 (0x3579…2dd2), finalized #0 (0x3579…2dd2), ⬇ 0 ⬆ 0
-2020-06-26 11:41:34 💤 Idle (0 peers), best: #0 (0x3579…2dd2), finalized #0 (0x3579…2dd2), ⬇ 0 ⬆ 0
+Sep 24 13:28:56.804  INFO Substrate Node    
+Sep 24 13:28:56.804  INFO ✌️  version 2.0.0-24da767-x86_64-linux-gnu    
+Sep 24 13:28:56.804  INFO ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020    
+Sep 24 13:28:56.804  INFO 📋 Chain specification: Local Testnet    
+Sep 24 13:28:56.804  INFO 🏷  Node name: MyNode01    
+Sep 24 13:28:56.804  INFO 👤 Role: AUTHORITY    
+Sep 24 13:28:56.804  INFO 💾 Database: RocksDb at /tmp/node01/chains/local_testnet/db    
+Sep 24 13:28:56.804  INFO ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)    
+Sep 24 13:28:57.188  INFO 🔨 Initializing Genesis block/state (state: 0xe3cb…c5ca, header-hash: 0x0ded…9b9d)    
+Sep 24 13:28:57.191  INFO 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
+Sep 24 13:28:57.380  INFO ⏱  Loaded block-time = 6000 milliseconds from genesis on first-launch    
+Sep 24 13:28:57.381  WARN Using default protocol ID "sup" because none is configured in the chain specs    
+Sep 24 13:28:57.382  INFO 🏷  Local node identity is: 12D3KooWQa2M77x2hFviVAFLHt9pMUYQVC93fdiVMKDbL3XvYSzj (legacy representation: 12D3KooWQa2M77x2hFviVAFLHt9pMUYQVC93fdiVMKDbL3XvYSzj)    
+Sep 24 13:28:57.402  INFO 📦 Highest known block at #0    
+Sep 24 13:28:57.403  INFO 〽️ Prometheus server started at 127.0.0.1:9615    
+Sep 24 13:28:57.434  INFO Listening for new connections on 127.0.0.1:9944.    
+Sep 24 13:29:02.436  INFO 💤 Idle (0 peers), best: #0 (0x0ded…9b9d), finalized #0 (0x0ded…9b9d), ⬇ 0 ⬆ 0    
+Sep 24 13:29:07.437  INFO 💤 Idle (0 peers), best: #0 (0x0ded…9b9d), finalized #0 (0x0ded…9b9d), ⬇ 0 ⬆ 0
 ```
 
 ## Add Keys to Keystore
 
 Once your node is running, you will again notice that no blocks are being produced. At this point,
 you need to add your keys into the keystore. Remember you will need to complete these steps for each
-node in your network.
+node in your network. You will add two types of keys for each node: Aura and GRANDPA keys. Aura keys
+are necessary for
+[block _production_](https://substrate.dev/docs/en/knowledgebase/getting-started/glossary#author-aka-block-author-block-producer);
+GRANDPA keys are necessary for
+[block _finalization_](https://substrate.dev/docs/en/knowledgebase/getting-started/glossary#finality).
 
 ### Option 1: Use the Polkadot-JS Apps UI
 
@@ -85,10 +88,13 @@ publicKey: <your raw sr25519 key> (eg. 0x9effc1668ca381c242885516ec9fa2b19c67b66
 > If you generated your keys with the Apps UI you will not know your raw public key. In this case
 > you may use your SS58 address (`5FfBQ3kwXrbdyoqLPvcXRp7ikWydXawpNs2Ceu3WwFdhZ8W4`) instead.
 
-You've now successfully inserted your **aura** key. You can repeat those steps to insert your
-**grandpa** key (the **ed25519** key)
+You've now successfully inserted your
+[**Aura**](https://substrate.dev/docs/en/knowledgebase/getting-started/glossary#aura-aka-authority-round)
+key. You can repeat those steps to insert your
+[**GRANDPA**](https://substrate.dev/docs/en/knowledgebase/getting-started/glossary#grandpa) key (the
+**ed25519** key)
 
-![Inserting a Grandpa key using Apps](assets/tutorials/private-network/private-network-apps-insert-key.png)
+![Inserting a GRANDPA key using Apps](assets/tutorials/private-network/private-network-apps-insert-key.png)
 
 ```
 keytype: gran
@@ -104,9 +110,9 @@ publicKey: <your raw ed25519 key> (eg. 0xb48004c6e1625282313b07d1c9950935e86894a
 
 ### Option 2: Use `curl`
 
-You can also insert a key into the keystore by using [`curl`](https://curl.haxx.se/) from the command
-line. This approach may be preferable in a production setting, where you may be using a cloud-based
-virtual private server.
+You can also insert a key into the keystore by using [`curl`](https://curl.haxx.se/) from the
+command line. This approach may be preferable in a production setting, where you may be using a
+cloud-based virtual private server.
 
 Because security is of the utmost concern in a production environment, it is important to take every
 precaution possible. In this case, that means taking care that you do not leave any traces of your
@@ -139,11 +145,10 @@ If you enter the command and parameters correctly, the node will return a JSON r
 
 Make sure you delete the file that contains the keys when you are done.
 
-
 ## Subsequent Participants Join
 
 Subsequent validators can now join the network. This can be done by specifying the `--bootnodes`
-paramter as Bob did previously.
+parameter as Bob did previously.
 
 ```bash
 ./target/release/node-template \
@@ -152,7 +157,7 @@ paramter as Bob did previously.
   --port 30334 \
   --ws-port 9945 \
   --rpc-port 9934 \
-  --telemetry-url 'ws://telemetry.polkadot.io:1024 0' \
+  --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
   --validator \
   --rpc-methods=Unsafe \
   --name MyNode02 \
@@ -165,30 +170,30 @@ As before, we specify another `base-path`, give it another `name`, and also spec
 Once the second node is up, you should see them authoring:
 
 ```
-2020-06-26 11:59:15 Substrate Node
-2020-06-26 11:59:15 ✌️  version 2.0.0-rc4-29f29b9-x86_64-linux-gnu
-2020-06-26 11:59:15 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020
-2020-06-26 11:59:15 📋 Chain specification: Local Testnet
-2020-06-26 11:59:15 🏷  Node name: MyNode02
-2020-06-26 11:59:15 👤 Role: AUTHORITY
-2020-06-26 11:59:15 💾 Database: RocksDb at /tmp/node02/chains/local_testnet/db
-2020-06-26 11:59:15 ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)
-2020-06-26 11:59:16 🔨 Initializing Genesis block/state (state: 0x321d…1e25, header-hash: 0x3579…2dd2)
-2020-06-26 11:59:16 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
-2020-06-26 11:59:16 ⏱  Loaded block-time = 6000 milliseconds from genesis on first-launch
-2020-06-26 11:59:16 📦 Highest known block at #0
-2020-06-26 11:59:16 Using default protocol ID "sup" because none is configured in the chain specs
-2020-06-26 11:59:16 🏷  Local node identity is: 12D3KooWP1rFTPCK5y8M5kojZPGUDQSaAHu1ZhMD5rQjjhH3WK8G (legacy representation: QmfB1GxdWQsgXgmubM5u5Vqdn6raR2f9yNhvDg2rtT3bhs)
-2020-06-26 11:59:16 Received message on non-registered protocol: [70, 82, 78, 75]
-2020-06-26 11:59:16 🔍 Discovered new external address for our node: /ip4/127.0.0.1/tcp/30334/p2p/12D3KooWP1rFTPCK5y8M5kojZPGUDQSaAHu1ZhMD5rQjjhH3WK8G
-2020-06-26 11:59:16 🔍 Discovered new external address for our node: /ip4/192.168.0.113/tcp/30334/p2p/12D3KooWP1rFTPCK5y8M5kojZPGUDQSaAHu1ZhMD5rQjjhH3WK8G
-2020-06-26 11:59:21 💤 Idle (1 peers), best: #0 (0x3579…2dd2), finalized #0 (0x3579…2dd2), ⬇ 1.0kiB/s ⬆ 1.0kiB/s
-2020-06-26 11:59:24 ✨ Imported #1 (0x7390…360a)
-2020-06-26 11:59:26 💤 Idle (1 peers), best: #1 (0x7390…360a), finalized #0 (0x3579…2dd2), ⬇ 0.2kiB/s ⬆ 0.1kiB/s
+Sep 24 13:32:29.909  INFO Substrate Node    
+Sep 24 13:32:29.909  INFO ✌️  version 2.0.0-24da767-x86_64-linux-gnu    
+Sep 24 13:32:29.909  INFO ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020    
+Sep 24 13:32:29.909  INFO 📋 Chain specification: Local Testnet    
+Sep 24 13:32:29.909  INFO 🏷  Node name: MyNode02    
+Sep 24 13:32:29.909  INFO 👤 Role: AUTHORITY    
+Sep 24 13:32:29.909  INFO 💾 Database: RocksDb at /tmp/node02/chains/local_testnet/db    
+Sep 24 13:32:29.909  INFO ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)    
+Sep 24 13:32:30.342  INFO 🔨 Initializing Genesis block/state (state: 0xe3cb…c5ca, header-hash: 0x0ded…9b9d)    
+Sep 24 13:32:30.346  INFO 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.    
+Sep 24 13:32:30.552  INFO ⏱  Loaded block-time = 6000 milliseconds from genesis on first-launch    
+Sep 24 13:32:30.553  WARN Using default protocol ID "sup" because none is configured in the chain specs    
+Sep 24 13:32:30.554  INFO 🏷  Local node identity is: 12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn (legacy representation: 12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn)    
+Sep 24 13:32:30.577  INFO 📦 Highest known block at #0    
+Sep 24 13:32:30.611  INFO Listening for new connections on 127.0.0.1:9945.    
+Sep 24 13:32:31.126  INFO 🔍 Discovered new external address for our node: /ip4/127.0.0.1/tcp/30334/p2p/12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn    
+Sep 24 13:32:31.175  INFO 🔍 Discovered new external address for our node: /ip4/192.168.0.117/tcp/30334/p2p/12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn    
+Sep 24 13:32:35.614  INFO 💤 Idle (1 peers), best: #0 (0x0ded…9b9d), finalized #0 (0x0ded…9b9d), ⬇ 1.1kiB/s ⬆ 1.1kiB/s    
+Sep 24 13:32:36.844  INFO ✨ Imported #1 (0xad75…d784)    
+Sep 24 13:32:40.615  INFO 💤 Idle (1 peers), best: #1 (0xad75…d784), finalized #0 (0x0ded…9b9d), ⬇ 0.2kiB/s ⬆ 0.1kiB/s
 ```
 
 The final lines shows that your node has peered with another (**`1 peers`**), and they have produced
-a block (**`best: #1 (0x7390…360a)`**).
+a block (**`best: #1 (0xad75…d784)`**).
 
 Now you're ready to add keys to its keystore by following the process (in the previous section) just
 like you did for the first node.
@@ -196,34 +201,37 @@ like you did for the first node.
 > If you're inserting keys with the UI, you must connect the UI to the second node's WebSocket
 > endpoint before inserting the second node's keys.
 
+> A node will not be able to produce blocks if it has not added its Aura key.
+
+> Block finalization can only happen if more than two-thirds of the validators have added their
+> GRANDPA keys to their keystores. Since this network was configured with two validators (in the
+> chain spec), block finalization can occur after the second node has added its keys (i.e. 50% < 66%
+> < 100%).
+
 > Reminder: All validators must be using identical chain specifications in order to peer. You should
 > see the same genesis block and state root hashes.
 
 You will notice that even after you add the keys for the second node no block finalization has
-happened (**`finalized #0 (0x3579…2dd2)`**). Substrate nodes require a restart after inserting a
-grandpa key. Kill your nodes and restart them with the same commands you used previously. Now blocks
+happened (**`finalized #0 (0x0ded…9b9d)`**). Substrate nodes require a restart after inserting a
+GRANDPA key. Kill your nodes and restart them with the same commands you used previously. Now blocks
 should be finalized.
 
 ```
-2020-06-26 12:02:15 Substrate Node
-2020-06-26 12:02:15 ✌️  version 2.0.0-rc4-29f29b9-x86_64-linux-gnu
-2020-06-26 12:02:15 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020
-2020-06-26 12:02:15 📋 Chain specification: Local Testnet
-2020-06-26 12:02:15 🏷  Node name: MyNode02
-2020-06-26 12:02:15 👤 Role: AUTHORITY
-2020-06-26 12:02:15 💾 Database: RocksDb at /tmp/node02/chains/local_testnet/db
-2020-06-26 12:02:15 ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)
-2020-06-26 12:02:15 📦 Highest known block at #16
-2020-06-26 12:02:15 Using default protocol ID "sup" because none is configured in the chain specs
-2020-06-26 12:02:15 🏷  Local node identity is: 12D3KooWP1rFTPCK5y8M5kojZPGUDQSaAHu1ZhMD5rQjjhH3WK8G (legacy representation: QmfB1GxdWQsgXgmubM5u5Vqdn6raR2f9yNhvDg2rtT3bhs)
-2020-06-26 12:02:15 Received message on non-registered protocol: [70, 82, 78, 75]
-2020-06-26 12:02:16 🔍 Discovered new external address for our node: /ip4/192.168.0.113/tcp/30334/p2p/12D3KooWP1rFTPCK5y8M5kojZPGUDQSaAHu1ZhMD5rQjjhH3WK8G
-2020-06-26 12:02:18 🙌 Starting consensus session on top of parent 0x03e6207c6c8ea179ec0fc14cf6d186e9d2de0db8dff535047a44b8cf011182ec
-2020-06-26 12:02:18 Timeout fired waiting for transaction pool at block #16. Proceeding with production.
-2020-06-26 12:02:18 🎁 Prepared block for proposing at 17 [hash: 0x60ea2aa720187cf9fabd39496f3799434d0589f961bd497ee0b58a262c65df80; parent_hash: 0x03e6…82ec; extrinsics (1): [0x46e1…e098]]
-2020-06-26 12:02:18 🔖 Pre-sealed block for proposal at 17. Hash now 0x9acb23301b81f017289e0657a768170a9bcd2aa37418fec8036fadb97f54ce8d, previously 0x60ea2aa720187cf9fabd39496f3799434d0589f961bd497ee0b58a262c65df80.
-2020-06-26 12:02:18 ✨ Imported #17 (0x9acb…ce8d)
-2020-06-26 12:02:20 💤 Idle (1 peers), best: #17 (0x9acb…ce8d), finalized #15 (0x806e…c94a), ⬇ 1.8kiB/s ⬆ 2.0kiB/s
+Sep 24 13:37:33.863  INFO Substrate Node    
+Sep 24 13:37:33.864  INFO ✌️  version 2.0.0-24da767-x86_64-linux-gnu    
+Sep 24 13:37:33.864  INFO ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020    
+Sep 24 13:37:33.864  INFO 📋 Chain specification: Local Testnet    
+Sep 24 13:37:33.864  INFO 🏷  Node name: MyNode02    
+Sep 24 13:37:33.864  INFO 👤 Role: AUTHORITY    
+Sep 24 13:37:33.864  INFO 💾 Database: RocksDb at /tmp/node02/chains/local_testnet/db    
+Sep 24 13:37:33.864  INFO ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)    
+Sep 24 13:37:33.918  WARN Using default protocol ID "sup" because none is configured in the chain specs    
+Sep 24 13:37:33.918  INFO 🏷  Local node identity is: 12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn (legacy representation: 12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn)    
+Sep 24 13:37:33.942  INFO 📦 Highest known block at #23    
+Sep 24 13:37:33.973  INFO Listening for new connections on 127.0.0.1:9945.    
+Sep 24 13:37:34.486  INFO 🔍 Discovered new external address for our node: /ip4/127.0.0.1/tcp/30334/p2p/12D3KooWBHwymjRsTipVZbGqiZV2rtxJiwTjLzPKZ7rYMsa9poUn    
+Sep 24 13:37:36.593  INFO ✨ Imported #24 (0xa7e8…7596)    
+Sep 24 13:37:38.976  INFO 💤 Idle (1 peers), best: #24 (0xa7e8…7596), finalized #22 (0x753e…ddb0), ⬇ 1.5kiB/s ⬆ 1.5kiB/s
 ```
 
 ## You're Finished
@@ -238,5 +246,5 @@ Details in https://github.com/substrate-developer-hub/tutorials/issues/16-->
 
 ### Learn More
 
-That big Wasm blob we encountered in the chain spec was was necessary to enable forkless upgrades.
+That big Wasm blob we encountered in the chain spec was necessary to enable forkless upgrades.
 Learn more about how the [executor](../../knowledgebase/advanced/executor) uses on-chain Wasm.

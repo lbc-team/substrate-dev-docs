@@ -3,7 +3,7 @@ title: 概述
 ---
 
 
-在本教程中，将学习通过Substrate 区块链开发框架创建自定义[存在性证明(POE)](https://en.wikipedia.org/wiki/Proof_of_Existence) dApp
+在本教程中，将学习通过Substrate 区块链开发框架和 [FRAME](../../knowledgebase/runtime/frame) 运行时库创建自定义[存在性证明(POE)](https://en.wikipedia.org/wiki/Proof_of_Existence) dApp
 
 
 
@@ -14,10 +14,10 @@ title: 概述
 但是我们期望：
 
 - 你熟悉软件开发，编写代码和运行代码。
-- 你已完成教程： [创建的第一个Substrate链](../create-your-first-substrate-chain)。
+- 你已完成教程： [创建的第一个Substrate链](../../tutorials/create-your-first-substrate-chain)。
 - 你愿意了解区块链开发的前沿知识。
 
-如果你在本教程中遇到问题，**我们可以为你提供帮助！，**可以[创建新Issue](https://github.com/substrate-developer-hub/tutorials/issues/new)或在[Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)中联系我们。
+如果你在本教程中遇到问题，**我们可以为你提供帮助！，**可以[在Stack Overflow提问](https://stackoverflow.com/questions/tagged/substrate)或在[Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)中联系我们。
 
 
 

@@ -1,6 +1,6 @@
 /**
  * Copyright 2019 Parity Technologies
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -120,7 +120,7 @@ class Footer extends React.Component {
               知识库
             </a>
             <a href="https://substrate.dev/recipes/">菜谱</a>
-            <a href="https://substrate.dev/rustdocs">接口文档</a>
+            <a href="https://substrate.dev/rustdocs">API 手册</a>
           </div>
           <div>
             <h5>社区</h5>
@@ -156,6 +156,18 @@ class Footer extends React.Component {
             </a>
             <a href="https://github.com/substrate-developer-hub/">
               Developer Hub GitHub
+            </a>
+            <a href="https://www.parity.io/privacy/">Privacy Policy</a>
+            <a href="/terms">Terms of Use</a>
+            <a href="#" id="cookie-settings">
+              Cookie Settings
+              {/* Script for cookie settings pop-up. */}
+              <script dangerouslySetInnerHTML={{ __html: `
+                var cookieSettings = document.getElementById('cookie-settings');
+                cookieSettings.onclick = function() {
+                  return klaro.show();
+                };
+              ` }}></script>
             </a>
           </div>
         </section>

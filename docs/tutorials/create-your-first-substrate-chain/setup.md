@@ -13,7 +13,7 @@ title:  搭建开发环境
 
 > 环境搭建可能是本教程中最难的部分，请不要因此灰心。
 >
-> 译者注：我之前有过一篇专门的文章介绍在[国内环境下安装Substrate开发环境]( https://learnblockchain.cn/article/1069)， 可千万查看。
+> 译者注：我之前有过一篇专门的文章介绍在[国内环境下安装Substrate开发环境](https://learnblockchain.cn/article/1069)， 可前往查看。
 
 ### Substrate 开发
 
@@ -23,7 +23,7 @@ title:  搭建开发环境
 curl https://getsubstrate.io -sSf | bash -s -- --fast
 ```
 
-> 如果在运行此脚本之前没有安装Rust，请确保在继续操作之前按脚本输出最后一行给出的命令重启终端。
+> 如果在运行此脚本之前没有安装Rust，请确保在继续操作之前重启终端。
 
 <details>
 <summary>了解脚本做了什么。</summary>
@@ -49,12 +49,12 @@ curl https://getsubstrate.io -sSf | bash -s -- --fast
 
 ## 编译 Substrate
 
-安装好必备组件后，就可以为我们的项目搭建框架了。 Substrate节点模板(Substrate Node Template)是在Substrate上开发的良好起点。
+安装好必备组件后，就可以使用 Git 去克隆Substrate开发者节点模板，它是在Substrate上开发的良好起点。
 
-1. 克隆 Substrate Node Template (版本 `v2.0.0-rc4`).
+1. 克隆 Substrate Node Template (版本 `v2.0.0`).
 
    ```bash
-   	git clone -b v2.0.0-rc4 --depth 1 https://github.com/substrate-developer-hub/substrate-node-template
+   	git clone -b v2.0.0 --depth 1 https://github.com/substrate-developer-hub/substrate-node-template
    ```
 
 2. 初始化你的WebAssembly构建环境
@@ -72,21 +72,35 @@ curl https://getsubstrate.io -sSf | bash -s -- --fast
    rustup target add wasm32-unknown-unknown --toolchain nightly
    ```
 
-3. 为你的工作创建一个分支并编译Substrate节点程序
+3. 编译节点模板
 
    ```bash
    cd substrate-node-template/
-   git checkout -b my-first-substrate-chain
    cargo build --release
    ```
 
 根据你的电脑硬件性能，最终编译可能最多需要25分钟。 因此，不要等待，直接进入下一步。
 
 
-## 前端依赖
+## 安装 Front-End 模板
+
+本教程使用ReactJS前端模板来允许你与应该在上一步中开始编译的基于Substrate的区块链节点进行交互。 你可以使用同样的前端模板在将来为自己的项目创建UI。
 
 
-为了与你的节点进行交互，需要运行[Substrate Developer Hub 前端模板](https://github.com/substrate-developer-hub/substrate-front-end-template)的本地实例，需要在计算机上安装好[Node.js](https://nodejs.org/)。 
+要使用前端模板，需要[Yarn](https://yarnpkg.com)，它本身需要[Node.js](https://nodejs.org/)。 如果你没有这些工具，则可以按照以下说明进行安装：
 
-可以使用节点编译的时间安装这些依赖项。 
+
+- [安装 Node.js](https://nodejs.org/en/download/)
+- [安装 Yarn](https://yarnpkg.com/lang/en/docs/install/)
+
+现在，你可以使用这些命令来设置前端模板。
+
+
+```bash
+git clone -b v2.0.0 --depth 1 https://github.com/substrate-developer-hub/substrate-front-end-template
+
+#  安装依赖
+cd substrate-front-end-template
+yarn install
+```
 

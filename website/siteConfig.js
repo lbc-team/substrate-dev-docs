@@ -54,7 +54,7 @@ const siteConfig = {
 		{ page: 'tutorials', label: '教程' },
 		{ doc: 'index', label: '知识库' },
 		{ href: 'https://substrate.dev/recipes/', label: '菜谱' },
-		{ href: 'https://substrate.dev/rustdocs/', label: '接口文档' },
+		{ href: 'https://substrate.dev/rustdocs/', label: '接口手册' },
     { search: true },
 	],
 
@@ -88,10 +88,6 @@ const siteConfig = {
 		'/js/code-block-buttons.js',
 		'/js/load.js',
 		'/js/redirect-next.js',
-		{
-			src: '/js/ui.js',
-			defer: true
-		},
 		{
 			src: '/js/config.js',
 			defer: true

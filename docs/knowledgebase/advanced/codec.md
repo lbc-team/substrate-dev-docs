@@ -81,10 +81,8 @@ Substrate使用了 [`parity-scale-codec`](https://github.com/paritytech/parity-s
 一个例外，倘若是boolean类型（泛型参数），则永远是一个字节：
 
 - `0x00` 如果是 `None` ("empty" 或 "null")。
-- `0x01` 如果是 `false` 值。
-- `0x02` 如果是 `true` 值。
-
-### Result 枚举
+- `0x01` 如果是 `true` 值。
+- `0x02` 如果是 `false` 值。
 
 Results 是常用的枚举，指示某些操作是成功还是失败，编码为：
 
@@ -177,7 +175,7 @@ Parity的SCALE编解码器有多个语言的实现，包括由Rust编写并由Pa
 
 - Rust: [`paritytech/parity-scale-codec`](https://github.com/paritytech/parity-scale-codec)
 - Python: [`polkascan/py-scale-codec`](https://github.com/polkascan/py-scale-codec)
-- Golang: [`ChainSafe/gossamer`](https://github.com/ChainSafe/gossamer)
+- Golang: [`itering/scale.go`](https://github.com/itering/scale.go)
 - C++: [`soramitsu/scale`](https://github.com/soramitsu/kagome/tree/master/core/scale)
 - JavaScript: [`polkadot-js/api`](https://github.com/polkadot-js/api)
 - AssemblyScript: [`LimeChain/as-scale-codec`](https://github.com/LimeChain/as-scale-codec)
@@ -187,7 +185,7 @@ Parity的SCALE编解码器有多个语言的实现，包括由Rust编写并由Pa
 
 ## 参考
 
-- 访问[`parity-scale-codec`](https://substrate.dev/rustdocs/v2.0.0-rc4/parity_scale_codec/index.html)参考文档.
+- 访问[`parity-scale-codec`](https://substrate.dev/rustdocs/v2.0.0/parity_scale_codec/index.html)参考文档.
 
 - 访问[Polkadot runtime 环境规范](https://github.com/w3f/polkadot-spec/)的辅助编码部分
 

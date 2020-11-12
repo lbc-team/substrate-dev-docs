@@ -2,7 +2,7 @@
 title: Contracts Pallet
 ---
 
-The [Contracts pallet](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/index.html) provides
+The [Contracts pallet](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/index.html) provides
 the ability for the runtime to deploy and execute [WebAssembly (Wasm)](https://webassembly.org/)
 smart contracts.
 
@@ -35,12 +35,6 @@ This means that multiple contract instances, with different constructor argument
 initialized using the same Wasm code, reducing the amount of storage space needed by the Contracts
 module on your blockchain.
 
-### Runtime Environment Types
-
-For writing contracts and interacting with the runtime, a set of types are available (e.g.
-`AccountId`, `Balance`, `Hash`, `Moment`). These types can be user defined for custom runtimes, or
-the supplied defaults can be used.
-
 ### Contract Calls
 
 Calls to contracts can alter the storage of the contract, create new contracts, and call other
@@ -65,7 +59,7 @@ reverted, and the gas fee is **not** returned to the user. If the contract execu
 remaining gas, it is returned to the user at the end of the transaction.
 
 The Contracts module determines the gas price, which is a conversion between the Substrate
-`Currency` and a single unit of gas. Thus, to execute a transaction, a user must have a free balance
+**weight system** and a single unit of gas. Thus, to execute a transaction, a user must have a free balance
 of at least `gas price` \* `gas limit` which can be spent.
 
 ### Storage Rent
@@ -113,11 +107,11 @@ or upgradeable contracts on a Substrate based blockchain.
 ### Examples
 
 - Follow a
-  [tutorial to add this Contracts pallet to your Substrate runtime](https://substrate.dev/docs/en/tutorials/add-a-pallet-to-your-runtime/).
+  [tutorial to add this Contracts pallet to your Substrate runtime](../../tutorials/add-contracts-pallet/).
 
 ### References
 
 - Visit the reference docs for the
-  [Contracts module](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_contracts/index.html).
+  [Contracts module](https://substrate.dev/rustdocs/v2.0.0/pallet_contracts/index.html).
 - Take a look at the [repository for `wasmi`](https://github.com/paritytech/wasmi).
 - Take a look at the [repository for ink!](https://github.com/paritytech/ink).

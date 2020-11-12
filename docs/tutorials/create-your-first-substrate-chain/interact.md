@@ -4,60 +4,51 @@ title: 与节点交互
 
 现在，Substrate模板节点应该已完成编译，让我们向你展示一切是如何工作的。
 
-
-
 ## 启动节点
 
 运行以下命令以启动节点：
 
 
-
 ```bash
-# purge-chain 用来清除之前 dev 模式运行的老数据（如果有）
-# 根据提示输入 y 
-./target/release/node-template purge-chain --dev
-
-# 在“开发”模式下启动实际的节点
-./target/release/node-template --dev
+# 在开发模式下运行临时节点
+./target/release/node-template --dev --tmp
 ```
 
 如果你的节点运行成功，你应该看到类似以下内容的信息：
 
 ```
-$ ./target/release/node-template --dev
-
-2020-06-26 10:10:00 Running in --dev mode, RPC CORS has been disabled.
-2020-06-26 10:10:00 Substrate Node
-2020-06-26 10:10:00 ✌️  version 2.0.0-rc4-a704d36-x86_64-linux-gnu
-2020-06-26 10:10:00 ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020
-2020-06-26 10:10:00 📋 Chain specification: Development
-2020-06-26 10:10:00 🏷  Node name: bright-selection-0878
-2020-06-26 10:10:00 👤 Role: AUTHORITY
-2020-06-26 10:10:00 💾 Database: RocksDb at /home/dan/.local/share/node-template/chains/dev/db
-2020-06-26 10:10:00 ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)
-2020-06-26 10:10:00 🔨 Initializing Genesis block/state (state: 0xc478…295b, header-hash: 0x15b6…47b5)
-2020-06-26 10:10:00 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
-2020-06-26 10:10:00 ⏱  Loaded block-time = 6000 milliseconds from genesis on first-launch
-2020-06-26 10:10:00 📦 Highest known block at #0
-2020-06-26 10:10:00 Using default protocol ID "sup" because none is configured in the chain specs
-2020-06-26 10:10:00 🏷  Local node identity is: 12D3KooWMaPpCv7hp7wArmG6cAuyz8HXqD88zKNvVQ34CoCJsXmX (legacy representation: QmfHEbdmVZHCBwKJFvczRt5owAzEbtF7Ao7oPQLvBq645c)
-2020-06-26 10:10:00 〽️ Prometheus server started at 127.0.0.1:9615
-2020-06-26 10:10:05 💤 Idle (0 peers), best: #0 (0x15b6…47b5), finalized #0 (0x15b6…47b5), ⬇ 0 ⬆ 0
-2020-06-26 10:10:06 🙌 Starting consensus session on top of parent 0x15b647de5cf3ec3b4e15159edf28345346fc29d3c646c509e6b8337b6c9b47b5
-2020-06-26 10:10:06 🎁 Prepared block for proposing at 1 [hash: 0xf9b9cd1226bcbce4ef3f8802f9af1746d0243c471600bf2bec38e1c436ac9cd8; parent_hash: 0x15b6…47b5; extrinsics (1): [0xe7b0…f430]]
-2020-06-26 10:10:06 🔖 Pre-sealed block for proposal at 1. Hash now 0x9a3af41c7e2d693c24245926d85dac96e09a1bef56d2faf254bc06d6b7d1192f, previously 0xf9b9cd1226bcbce4ef3f8802f9af1746d0243c471600bf2bec38e1c436ac9cd8.
-2020-06-26 10:10:06 ✨ Imported #1 (0x9a3a…192f)
-2020-06-26 10:10:10 💤 Idle (0 peers), best: #1 (0x9a3a…192f), finalized #0 (0x15b6…47b5), ⬇ 0 ⬆ 0
-2020-06-26 10:10:12 🙌 Starting consensus session on top of parent 0x9a3af41c7e2d693c24245926d85dac96e09a1bef56d2faf254bc06d6b7d1192f
-2020-06-26 10:10:12 🎁 Prepared block for proposing at 2 [hash: 0xac145cc0decaa0a574fd9e821a4d762e87491cff113659820f51af0f307870df; parent_hash: 0x9a3a…192f; extrinsics (1): [0x297c…9092]]
-2020-06-26 10:10:12 🔖 Pre-sealed block for proposal at 2. Hash now 0x618c767c01a4e2fff92c04f8b581da5652595330a479e927bf1ee68c1295d0d7, previously 0xac145cc0decaa0a574fd9e821a4d762e87491cff113659820f51af0f307870df.
-2020-06-26 10:10:12 ✨ Imported #2 (0x618c…d0d7)
-2020-06-26 10:10:15 💤 Idle (0 peers), best: #2 (0x618c…d0d7), finalized #0 (0x15b6…47b5), ⬇ 0 ⬆ 0
-2020-06-26 10:10:18 🙌 Starting consensus session on top of parent 0x618c767c01a4e2fff92c04f8b581da5652595330a479e927bf1ee68c1295d0d7
-2020-06-26 10:10:18 🎁 Prepared block for proposing at 3 [hash: 0x5b21914d18523cbba295002b913e352ee7abb4e3cf670c202a701b83aa35b435; parent_hash: 0x618c…d0d7; extrinsics (1): [0x4c52…ea51]]
-2020-06-26 10:10:18 🔖 Pre-sealed block for proposal at 3. Hash now 0xf6471c2e33e6d456d1ae2bd3feeb7de813dddecb8927d5b0c753cb38f2225c2d, previously 0x5b21914d18523cbba295002b913e352ee7abb4e3cf670c202a701b83aa35b435.
-2020-06-26 10:10:18 ✨ Imported #3 (0xf647…5c2d)
-2020-06-26 10:10:20 💤 Idle (0 peers), best: #3 (0xf647…5c2d), finalized #1 (0x9a3a…192f), ⬇ 0 ⬆ 0
+Sep 23 15:23:21.759  WARN Running in --dev mode, RPC CORS has been disabled.
+Sep 23 15:23:21.759  INFO Substrate Node
+Sep 23 15:23:21.759  INFO ✌️  version 2.0.0-24da767-x86_64-linux-gnu
+Sep 23 15:23:21.759  INFO ❤️  by Substrate DevHub <https://github.com/substrate-developer-hub>, 2017-2020
+Sep 23 15:23:21.759  INFO 📋 Chain specification: Development
+Sep 23 15:23:21.759  INFO 🏷  Node name: unbiased-dress-7993
+Sep 23 15:23:21.759  INFO 👤 Role: AUTHORITY
+Sep 23 15:23:21.759  INFO 💾 Database: RocksDb at /tmp/substrate9CaTUC/chains/dev/db
+Sep 23 15:23:21.759  INFO ⛓  Native runtime: node-template-1 (node-template-1.tx1.au1)
+Sep 23 15:23:22.549  INFO 🔨 Initializing Genesis block/state (state: 0x0971…6ec2, header-hash: 0x22e7…7290)
+Sep 23 15:23:22.552  INFO 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
+Sep 23 15:23:22.708  INFO ⏱  Loaded block-time = 6000 milliseconds from genesis on first-launch
+Sep 23 15:23:22.709  WARN Using default protocol ID "sup" because none is configured in the chain specs
+Sep 23 15:23:22.709  INFO 🏷  Local node identity is: 12D3KooWB4SfTtXEEYbPHEdZPndkq1oTxExwx6ku1esPq3Pq9nwF (legacy representation: 12D3KooWB4SfTtXEEYbPHEdZPndkq1oTxExwx6ku1esPq3Pq9nwF)
+Sep 23 15:23:22.935  INFO 📦 Highest known block at #0
+Sep 23 15:23:22.937  INFO 〽️ Prometheus server started at 127.0.0.1:9615
+Sep 23 15:23:22.940  INFO Listening for new connections on 127.0.0.1:9944.
+Sep 23 15:23:24.178  INFO 🙌 Starting consensus session on top of parent 0x22e7a22d9745b5af63c11626498c08726e45b40b95abcd2092117b3337ff7290
+Sep 23 15:23:24.281  INFO 🎁 Prepared block for proposing at 1 [hash: 0x515b6280f0d4536ee225a93f4ea56071b86d3bca8020487b2666060b0b739c41; parent_hash: 0x22e7…7290; extrinsics (1): [0x1783…fefe]]
+Sep 23 15:23:24.384  INFO 🔖 Pre-sealed block for proposal at 1. Hash now 0x2aa4fb6eeba88eead4f2ea975d6827f3bbf5973e6be01077bd9c920a006d0098, previously 0x515b6280f0d4536ee225a93f4ea56071b86d3bca8020487b2666060b0b739c41.
+Sep 23 15:23:24.386  INFO ✨ Imported #1 (0x2aa4…0098)
+Sep 23 15:23:27.942  INFO 💤 Idle (0 peers), best: #1 (0x2aa4…0098), finalized #0 (0x22e7…7290), ⬇ 0 ⬆ 0
+Sep 23 15:23:30.115  INFO 🙌 Starting consensus session on top of parent 0x2aa4fb6eeba88eead4f2ea975d6827f3bbf5973e6be01077bd9c920a006d0098
+Sep 23 15:23:30.122  INFO 🎁 Prepared block for proposing at 2 [hash: 0x1692ea3bed6539b7268b14b35d4be319a32aac79aa709cc71d304722ca7766f4; parent_hash: 0x2aa4…0098; extrinsics (1): [0x0d1a…78da]]
+Sep 23 15:23:30.203  INFO 🔖 Pre-sealed block for proposal at 2. Hash now 0x919fab4399075fb75e24005a4a63448e09174199fc073b4f3cd9d72782c46b8c, previously 0x1692ea3bed6539b7268b14b35d4be319a32aac79aa709cc71d304722ca7766f4.
+Sep 23 15:23:30.205  INFO ✨ Imported #2 (0x919f…6b8c)
+Sep 23 15:23:32.942  INFO 💤 Idle (0 peers), best: #2 (0x919f…6b8c), finalized #0 (0x22e7…7290), ⬇ 0 ⬆ 0
+Sep 23 15:23:36.087  INFO 🙌 Starting consensus session on top of parent 0x919fab4399075fb75e24005a4a63448e09174199fc073b4f3cd9d72782c46b8c
+Sep 23 15:23:36.094  INFO 🎁 Prepared block for proposing at 3 [hash: 0x0df26c2b2559bfb11c6d1be63005b0f4408468de3dfef7957df86b95cfb68473; parent_hash: 0x919f…6b8c; extrinsics (1): [0x1079…1874]]
+Sep 23 15:23:36.178  INFO 🔖 Pre-sealed block for proposal at 3. Hash now 0xb6dca495b5530ca8c97d1d3de8eb71fc945e5b367e219c26164d94e77954b583, previously 0x0df26c2b2559bfb11c6d1be63005b0f4408468de3dfef7957df86b95cfb68473.
+Sep 23 15:23:36.180  INFO ✨ Imported #3 (0xb6dc…b583)
+Sep 23 15:23:37.942  INFO 💤 Idle (0 peers), best: #3 (0xb6dc…b583), finalized #1 (0x2aa4…0098), ⬇ 0 ⬆ 0
 ```
 
 如果`finalized：`之后的数字在增加，则你的区块链正在产生新的区块并且状态达成了共识！
@@ -66,10 +57,15 @@ $ ./target/release/node-template --dev
 
 ## 启动前端
 
-为了与本地节点进行交互，我们将使用[Substrate Developer Hub前端模板](https://github.com/substrate-developer-hub/substrate-front-end-template)，这是一套UI组件，这些组件在设计时考虑了常见的交互场景。
+为了与本地节点进行交互，我们将使用[Substrate 开发者前端模板](https://github.com/substrate-developer-hub/substrate-front-end-template)，这是一套UI组件，这些组件在设计时考虑了常见的交互场景。
 
-要使用前端模板，需要先克隆库代码并[按照指引步骤在本地运行](https://github.com/substrate-developer-hub/substrate-front-end-template#using-the-template)。
+你已经安装了前端模板； 通过在前端模板的根目录中执行以下命令来启动它：
 
+
+```bash
+# 在Front-End 模板根目录运行
+yarn start
+```
 
 
 ## 交互
@@ -112,8 +108,9 @@ $ ./target/release/node-template --dev
 
 ![Pallet Interactor & Events](assets/tutorials/first-chain/interactor-events.png)
 
- 是Runtime 的可调用函数；如果你已经熟悉区块链概念，可以将其视作为交易。 Pallet Interactor 允许你提交 [无签名(unsigned)](../../knowledgebase/learn-substrate/extrinsics#unsigned-transactions) 或 [具签名(signed)](../../knowledgebase/learn-substrate/extrinsics#signed-transactions) d的交易并且提供了一个按钮通过[超级权限（sudo）](https://substrate.dev/rustdocs/v2.0.0-rc4/pallet_sudo/enum.Call.html#variant.sudo)来触发交易。
+ [Extrinsics](../../knowledgebase/learn-substrate/extrinsics) 是Runtime 的可调用函数；如果你已经熟悉区块链概念，可以将其视作为交易。 Pallet Interactor 允许你提交 [无签名(unsigned)](../../knowledgebase/learn-substrate/extrinsics#unsigned-transactions) 或 [具签名(signed)](../../knowledgebase/learn-substrate/extrinsics#signed-transactions) d的交易并且提供了一个按钮通过[超级权限（sudo）](https://substrate.dev/rustdocs/v2.0.0/pallet_sudo/enum.Call.html#variant.sudo)来触发交易。
 
+在第三个教程[添加 Pallet](../add-a-pallet)教程中，你将学习有关使用 "SUDO"按钮调用特权 extrinsics 的更多信息。
 
 
 你可以选择Query(查询)来读取[Runtime存储中保存的值](../../knowledgebase/runtime/storage)。 RPC和Constant选项则是与Runtime交互提供的其他机制。
@@ -134,9 +131,11 @@ $ ./target/release/node-template --dev
 
 下一步，你也许想：
 
+- 通过[添加 Pallet](../add-a-pallet) 教程扩展节点模板的功能特性
+- 了解无需分叉的升级，可以参考 [升级链](../upgrade-a-chain) 教程.
 - 启用更多的节点搭建去中心化网络，可参考 [启动一个私有网络](../start-a-private-network/) 教程.
 - 添加自定义的功能，可参考 [构建一个 DApp](../build-a-dapp/) 教程.
 
 
 
-如果你在本教程中遇到任何问题或想提供反馈，请随时[提交GitHub issue](https://github.com/substrate-developer-hub/tutorials/issues/new)或在 [Riot](https://riot.im/app/#/room/!HzySYSaIhtyWrwiwEV:matrix.org)上联系我们。
+如果你在本教程中遇到任何问题或想提供反馈，请随时可以来[Stack Overflow提问](https://stackoverflow.com/questions/tagged/substrate) 
