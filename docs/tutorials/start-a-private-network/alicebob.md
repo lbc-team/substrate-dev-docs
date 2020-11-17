@@ -109,7 +109,7 @@ Sep 24 12:53:42.734  INFO 💤 Idle (0 peers), best: #0 (0x2533…1d36), finaliz
 
   ![Custom Endpoint](assets/tutorials/private-network/private-network-custom-endpoint.png)
 
-现在，你可以看到类似如下的界面
+现在，你可以从**Network** 和 **Explorer** 看到类似如下的界面
 
 ![No blocks in polkadot-js-apps](assets/tutorials/private-network/private-network-no-blocks.png)
 

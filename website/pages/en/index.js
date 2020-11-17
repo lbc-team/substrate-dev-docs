@@ -40,7 +40,7 @@ class Index extends React.Component {
 					siteConfig={siteConfig}
 					language={language}
 					title="Substrate 开发者中心"
-					tagline={<translate>让你专注于愿景的区块链框架</translate>}
+					tagline="为创新者准备的区块链框架"
 					description={
 						<translate> Substrate是一个模块化的区块链框架，你可以为应用程序或企业选择适合自己的组件。</translate>
 					}
@@ -114,7 +114,7 @@ class Index extends React.Component {
 									<div className='col-12 col-md-8'>
 										<h4>Substrate是什么</h4>
 										<h2 className='display-4 h1'>构建区块链所需的一切。</h2>
-										<p className='lead mb-4'>
+										<p className='big'>
                       Substrate 集成了 p2p网络，共识算法和密码库。
 										</p>
 									</div>
@@ -251,6 +251,7 @@ class Index extends React.Component {
 												<h2>Substrate Recipes</h2>
 												<p className='mb-3'>
                         收集了很多解决常见问题的代码
+
 												</p>
 												<a
 													className='btn primary-color'
